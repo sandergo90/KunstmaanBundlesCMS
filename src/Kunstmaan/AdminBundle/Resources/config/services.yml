@@ -13,6 +13,10 @@ parameters:
     kunstmaan_admin.password_check.listener.class: 'Kunstmaan\AdminBundle\EventListener\PasswordCheckListener'
     kunstmaan_admin.firewall.provider_key: 'main'
     kunstmaan_admin.domain_configuration.class: 'Kunstmaan\AdminBundle\Helper\DomainConfiguration'
+    kunstmaan_admin.deadlink_finder.class: Kunstmaan\AdminBundle\Helper\UrlChecker\DeadLinkFinder
+    kunstmaan_admin.url_checker.class: Kunstmaan\AdminBundle\Helper\UrlChecker\UrlChecker
+    kunstmaan_admin.url_checker.timeout: 5
+    kunstmaan_admin.url_extractor.class: Kunstmaan\AdminBundle\Helper\UrlChecker\PagePartUrlExtractor
 
 services:
     kunstmaan_admin.menubuilder:
@@ -224,3 +228,11 @@ services:
             - '%kunstmaan_admin.google_signin.client_id%'
         tags:
             - { name: twig.extension }
+
+    kunstmaan_admin.url_checker:
+        class: Kunstmaan\AdminBundle\Helper\UrlChecker\UrlChecker
+
+    kunstmaan_admin.deadlink_finder:
+        class: Kunstmaan\AdminBundle\Helper\UrlChecker\DeadLinkFinder
+        arguments:
+            - "@kunstmaan_admin.url_checker"
