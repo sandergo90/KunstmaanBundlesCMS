@@ -1,0 +1,6 @@
+# Settings
+settings:
+    health:
+        title: Site health
+        url: Url
+        correct: Correct

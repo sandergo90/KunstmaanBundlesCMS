@@ -228,11 +228,3 @@ services:
             - '%kunstmaan_admin.google_signin.client_id%'
         tags:
             - { name: twig.extension }
-
-    kunstmaan_admin.url_checker:
-        class: Kunstmaan\AdminBundle\Helper\UrlChecker\UrlChecker
-
-    kunstmaan_admin.deadlink_finder:
-        class: Kunstmaan\AdminBundle\Helper\UrlChecker\DeadLinkFinder
-        arguments:
-            - "@kunstmaan_admin.url_checker"

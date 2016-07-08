@@ -1,6 +1,6 @@
 <?php
 
-namespace Kunstmaan\AdminBundle\Helper\UrlChecker;
+namespace Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces;
 
 interface UrlCheckerInterface
 {

@@ -1,7 +1,8 @@
 <?php
 
-namespace Kunstmaan\AdminBundle\Helper\UrlChecker;
+namespace Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces;
 
+use Kunstmaan\HealthBundle\Model\Link;
 
 interface LinkSourceInterface
 {

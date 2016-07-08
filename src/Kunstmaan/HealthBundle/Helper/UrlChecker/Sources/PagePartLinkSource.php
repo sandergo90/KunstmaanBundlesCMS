@@ -1,13 +1,18 @@
 <?php
 
-namespace Kunstmaan\AdminBundle\Helper\UrlChecker;
+namespace Kunstmaan\HealthBundle\Helper\UrlChecker\Sources;
 
 use Doctrine\Bundle\DoctrineBundle\Mapping\DisconnectedMetadataFactory;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
+use Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors\PagePartUrlExtractor;
+use Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces\LinkSourceInterface;
+use Kunstmaan\HealthBundle\Model\Link;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 use Kunstmaan\NodeBundle\Form\Type\URLChooserType;
+use Kunstmaan\PagePartBundle\Entity\PagePartRef;
+use Kunstmaan\PagePartBundle\Helper\PagePartInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
@@ -18,25 +23,25 @@ class PagePartLinkSource implements LinkSourceInterface
     /** @var PagePartUrlExtractor */
     protected $urlExtractor;
 
+    /** @var EntityManagerInterface $em */
+    protected $em;
+
     /** @var ManagerRegistry */
     protected $registry;
 
     /** @var KernelInterface */
     protected $kernel;
 
-    /** @var EntityManager $em */
-    protected $em;
-
     /** @var FormFactory */
     protected $formFactory;
 
-    public function __construct(PagePartUrlExtractor $urlExtractor, EntityManager $em, ManagerRegistry $registry, KernelInterface $kernel, FormFactory $formFactory)
+    public function __construct(PagePartUrlExtractor $urlExtractor, EntityManagerInterface $em, ManagerRegistry $registry, KernelInterface $kernel, FormFactory $formFactory)
     {
+        $this->urlExtractor = $urlExtractor;
         $this->em = $em;
         $this->registry = $registry;
         $this->kernel = $kernel;
         $this->formFactory = $formFactory;
-        $this->urlExtractor = $urlExtractor;
     }
 
     public function getLinks()
@@ -85,20 +90,22 @@ class PagePartLinkSource implements LinkSourceInterface
                 )
             );
 
-            $types = [];
-            foreach ($pagepartrefs as $pagepartref) {
-                $types[$pagepartref->getPagePartEntityname()][] = $pagepartref->getPagePartId();
-            }
-
-            // Fetch all the pageparts (only one query per pagepart type)
             $pageParts = [];
-            foreach ($types as $classname => $ids) {
-                $result = $this->em->getRepository($classname)->findBy(array('id' => $ids));
-                $pageParts = array_merge($pageParts, $result);
+            foreach ($pagepartrefs as $pagepartref) {
+                $result = $this->em->getRepository($pagepartref->getPagePartEntityname())->findOneBy(array('id' => $pagepartref->getPagePartId()));
+                $pageParts[] = [
+                    'ref' => $pagepartref,
+                    'entity' => $result
+                ];
             }
 
             foreach ($pageParts as $pagePart) {
-                $urls = $this->urlExtractor->extractFields($pagePart, $fields);
+                /** @var PagePartRef $ref */
+                $ref = $pagePart['ref'];
+                /** @var PagePartInterface $entity */
+                $entity = $pagePart['entity'];
+
+                $urls = $this->urlExtractor->extractFields($entity, $fields);
 
                 if ($urls) {
                     try {
@@ -108,16 +115,20 @@ class PagePartLinkSource implements LinkSourceInterface
                             ->join('nt.publicNodeVersion', 'nv')
                             ->where('nv.refId = :refId')
                             ->andWhere('nv.refEntityName = :refName')
-                            ->setParameter('refId', $pagePart->getPageId())
-                            ->setParameter('refName', $pagePart->getPageEntityname())
+                            ->andWhere('n.deleted = 0')
+                            ->setParameter('refId', $ref->getPageId())
+                            ->setParameter('refName', $ref->getPageEntityname())
                             ->getQuery()
                             ->getOneOrNullResult();
 
-                        foreach ($urls as $url) {
-                            $links[] = new Link($url, array('entity' => $nodeTranslation->getId()));
+                        if ($nodeTranslation) {
+                            foreach ($urls as $url) {
+                                $links[] = new Link($url, 'KunstmaanNodeBundle_nodes_edit', array('id' => $nodeTranslation->getNode()->getId()));
+                            }
                         }
 
-                    } catch (NonUniqueResultException $e) {}
+                    } catch (NonUniqueResultException $e) {
+                    }
                 }
             }
         }

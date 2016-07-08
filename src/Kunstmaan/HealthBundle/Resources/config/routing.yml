@@ -1,0 +1,5 @@
+kunstmaanhealthbundle_default:
+    path:      /admin/settings/health
+    defaults:
+        _controller: kunstmaan_health.controller.health:indexAction
+

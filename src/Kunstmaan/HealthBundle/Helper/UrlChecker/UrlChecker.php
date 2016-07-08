@@ -1,6 +1,8 @@
 <?php
 
-namespace Kunstmaan\AdminBundle\Helper\UrlChecker;
+namespace Kunstmaan\HealthBundle\Helper\UrlChecker;
+
+use Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces\UrlCheckerInterface;
 
 class UrlChecker implements UrlCheckerInterface
 {

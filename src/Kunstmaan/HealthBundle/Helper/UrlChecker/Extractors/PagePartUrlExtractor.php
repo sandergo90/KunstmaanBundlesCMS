@@ -1,7 +1,8 @@
 <?php
 
-namespace Kunstmaan\AdminBundle\Helper\UrlChecker;
+namespace Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors;
 
+use Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces\UrlExtractorInterface;
 use Kunstmaan\PagePartBundle\Helper\PagePartInterface;
 
 class PagePartUrlExtractor implements UrlExtractorInterface
@@ -18,7 +19,9 @@ class PagePartUrlExtractor implements UrlExtractorInterface
             $getter = 'get' . ucfirst($field);
             $url = $pagePart->$getter();
 
-            $urls[] = $url;
+            if ($url) {
+                $urls[] = $url;
+            }
         }
 
         return $urls;

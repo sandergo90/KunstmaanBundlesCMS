@@ -1,0 +1,67 @@
+parameters:
+    kunstmaan_health.cache_provider.class: Doctrine\Common\Cache\FilesystemCache
+    kunstmaan_health.cache_provider.dir: '%kernel.cache_dir%/url-checks'
+    kunstmaan_health.deadlink_finder.class: Kunstmaan\HealthBundle\Helper\UrlChecker\DeadLinkFinder
+    kunstmaan_health.url_checker.class: Kunstmaan\HealthBundle\Helper\UrlChecker\UrlChecker
+    kunstmaan_health.url_checker.timeout: 5
+    kunstmaan_health.url_checker.cache.class: Kunstmaan\HealthBundle\Helper\UrlChecker\CacheUrlChecker
+    kunstmaan_health.url_checker.cache_timeout: 3600
+    kunstmaan_health.url_extractor.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors\PagePartUrlExtractor
+    kunstmaan_health.link_source.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Sources\PagePartLinkSource
+    kunstmaan_health.controller.config.class: Kunstmaan\HealthBundle\Controller\HealthController
+    kunstmaan_health.menu.adaptor.class: Kunstmaan\HealthBundle\Helper\Menu\ConfigMenuAdaptor
+
+services:
+    kunstmaan_health.url_checker.real:
+        class: "%kunstmaan_health.url_checker.class%"
+        arguments:
+            - "%kunstmaan_health.url_checker.timeout%"
+
+    kunstmaan_health.url_checker:
+        alias: kunstmaan_health.url_checker.real
+
+    kunstmaan_health.url_checker.cache:
+        class: "%kunstmaan_health.url_checker.cache.class%"
+        arguments:
+            - "@kunstmaan_health.url_checker.real"
+            - "@kunstmaan_health.cache_provider"
+
+    kunstmaan_health.cache_provider:
+        class: "%kunstmaan_health.cache_provider.class%"
+        arguments:
+            - "%kunstmaan_health.cache_provider.dir%"
+
+    kunstmaan_health.deadlink_finder:
+        class: "%kunstmaan_health.deadlink_finder.class%"
+        arguments:
+            - "@kunstmaan_health.url_checker"
+
+    kunstmaan_health.link_source.pagepart:
+        class: "%kunstmaan_health.link_source.pagepart.class%"
+        arguments:
+            - "@kunstmaan_health.url_extractor.pagepart"
+            - "@doctrine.orm.default_entity_manager"
+            - "@doctrine"
+            - "@kernel"
+            - "@form.factory"
+        tags:
+            - { name: kunstmaan_health.link_source }
+
+    kunstmaan_health.controller.health:
+        class: "%kunstmaan_health.controller.config.class%"
+        arguments:
+            - "@router"
+            - "@templating"
+            - "@security.authorization_checker"
+            - "@doctrine.orm.entity_manager"
+            - "@kunstmaan_health.deadlink_finder"
+
+    kunstmaan_health.menu.adaptor:
+        class: "%kunstmaan_health.menu.adaptor.class%"
+        arguments:
+            - "@security.authorization_checker"
+        tags:
+            -  { name: "kunstmaan_admin.menu.adaptor" }
+
+    kunstmaan_health.url_extractor.pagepart:
+        class: "%kunstmaan_health.url_extractor.pagepart.class%"

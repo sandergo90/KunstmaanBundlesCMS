@@ -1,8 +1,9 @@
 <?php
 
-namespace Kunstmaan\AdminBundle\Helper\UrlChecker;
+namespace Kunstmaan\HealthBundle\Helper\UrlChecker;
 
 use Doctrine\Common\Cache\Cache;
+use Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces\UrlCheckerInterface;
 
 class CacheUrlChecker implements UrlCheckerInterface
 {
