@@ -1,5 +1,9 @@
-kunstmaanhealthbundle_default:
-    path:      /admin/settings/health
-    defaults:
-        _controller: kunstmaan_health.controller.health:indexAction
+kunstmaan_health:
+    resource: '@KunstmaanHealthBundle/Controller/HealthController.php'
+    type:     annotation
+    prefix:   /admin/settings/health
 
+kunstmaan_health_urlchecker:
+    resource: '@KunstmaanHealthBundle/Controller/UrlCheckerController.php'
+    type:     annotation
+    prefix:   /admin/settings/health/widget/urlchecker

@@ -2,19 +2,11 @@
 
 namespace Kunstmaan\HealthBundle\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Kunstmaan\HealthBundle\Helper\UrlChecker\DeadLinkFinder;
-use Pagerfanta\Adapter\ArrayAdapter;
-use Pagerfanta\Pagerfanta;
+use Kunstmaan\HealthBundle\Manager\WidgetManager;
+use Kunstmaan\HealthBundle\Widget\HealthWidget;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Cmf\Component\Routing\ChainRouter;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Templating\EngineInterface;
-
 
 /**
  * Class HealthController
@@ -24,72 +16,31 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class HealthController
 {
-    /**
-     * @var ChainRouter
-     */
-    private $router;
 
-    /**
-     * @var EngineInterface
-     */
-    private $templating;
+    /** @var WidgetManager */
+    private $widgetManager;
 
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
-    /**
-     * @var EntityManagerInterface $em
-     */
-    private $em;
-
-    /**
-     * @var DeadLinkFinder $deadLinkFinder
-     */
-    private $deadLinkFinder;
-
-    /**
-     * @param ChainRouter $router
-     * @param EngineInterface $templating
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(ChainRouter $router, EngineInterface $templating, AuthorizationCheckerInterface $authorizationChecker, EntityManagerInterface $em, DeadLinkFinder $deadLinkFinder)
+    public function __construct(WidgetManager $widgetManager)
     {
-        $this->router = $router;
-        $this->templating = $templating;
-        $this->authorizationChecker = $authorizationChecker;
-        $this->em = $em;
-        $this->deadLinkFinder = $deadLinkFinder;
+        $this->widgetManager = $widgetManager;
     }
 
     /**
-     * Generates the health page
+     * The index action will render the main screen the users see when they log in in to the admin
      *
-     * @param Request $request
-     * @return array|RedirectResponse
-     *
+     * @Route("/", name="kunstmaan_health")
      * @Template("@KunstmaanHealth/index.html.twig")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return array
      */
     public function indexAction(Request $request)
     {
-        if (false === $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
+        /** @var HealthWidget[] $widgets */
+        $widgets = $this->widgetManager->getWidgets();
 
-        $links = $this->deadLinkFinder->run();
-
-        $adapter = new ArrayAdapter($links);
-        $pagerfanta = new Pagerfanta($adapter);
-        $pagerfanta->setMaxPerPage(20);
-
-        $pagenumber = $request->get('page');
-        if (!$pagenumber || $pagenumber < 1) {
-            $pagenumber = 1;
-        }
-        $pagerfanta->setCurrentPage($pagenumber);
-
-        return ['pagerfanta' => $pagerfanta];
+        $id = $request->get('id');
+        
+        return ['widgets' => $widgets, 'id' => $id];
     }
 }

@@ -8,8 +8,11 @@ parameters:
     kunstmaan_health.url_checker.cache_timeout: 3600
     kunstmaan_health.url_extractor.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors\PagePartUrlExtractor
     kunstmaan_health.link_source.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Sources\PagePartLinkSource
-    kunstmaan_health.controller.config.class: Kunstmaan\HealthBundle\Controller\HealthController
+    kunstmaan_health.controller.class: Kunstmaan\HealthBundle\Controller\HealthController
+    kunstmaan_health.controller.url_checker.class: Kunstmaan\HealthBundle\Controller\UrlCheckerController
     kunstmaan_health.menu.adaptor.class: Kunstmaan\HealthBundle\Helper\Menu\ConfigMenuAdaptor
+    kunstmaan_health.widget_manager.class: Kunstmaan\HealthBundle\Manager\WidgetManager
+    kunstmaan_health.widget.class: Kunstmaan\HealthBundle\Widget\HealthWidget
 
 services:
     kunstmaan_health.url_checker.real:
@@ -48,7 +51,12 @@ services:
             - { name: kunstmaan_health.link_source }
 
     kunstmaan_health.controller.health:
-        class: "%kunstmaan_health.controller.config.class%"
+        class: "%kunstmaan_health.controller.class%"
+        arguments:
+            - "@kunstmaan_health.manager.widgets"
+
+    kunstmaan_health.controller.url_checker:
+        class: "%kunstmaan_health.controller.url_checker.class%"
         arguments:
             - "@router"
             - "@templating"
@@ -65,3 +73,12 @@ services:
 
     kunstmaan_health.url_extractor.pagepart:
         class: "%kunstmaan_health.url_extractor.pagepart.class%"
+
+    kunstmaan_health.manager.widgets:
+        class: "%kunstmaan_health.widget_manager.class%"
+
+    kunstmaan_health.widget.url_checker:
+        class: "%kunstmaan_health.widget.class%"
+        arguments: ['Url Checker', '%kunstmaan_health.controller.url_checker.class%']
+        tags:
+            - { name: kunstmaan_health.widget, priority: 1 }

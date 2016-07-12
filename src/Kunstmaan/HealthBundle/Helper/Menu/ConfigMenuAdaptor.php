@@ -42,7 +42,7 @@ class ConfigMenuAdaptor implements MenuAdaptorInterface
             if ($hasAccess) {
                 $menuItem = new MenuItem($menu);
                 $menuItem
-                    ->setRoute('kunstmaanhealthbundle_default')
+                    ->setRoute('kunstmaan_health')
                     ->setLabel('settings.health.title')
                     ->setUniqueId('Health')
                     ->setParent($parent);
