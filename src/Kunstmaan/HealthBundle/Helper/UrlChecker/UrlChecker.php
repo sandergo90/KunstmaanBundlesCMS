@@ -16,10 +16,6 @@ class UrlChecker implements UrlCheckerInterface
 
     public function check($url)
     {
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            return false;
-        }
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeout);

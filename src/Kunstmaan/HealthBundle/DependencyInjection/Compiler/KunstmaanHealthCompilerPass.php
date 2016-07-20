@@ -24,6 +24,9 @@ class KunstmaanHealthCompilerPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('kunstmaan_health.link_source') as $id => $def) {
             $definition->addMethodCall('addLinkSource', array(new Reference($id)));
         }
+        foreach ($container->findTaggedServiceIds('kunstmaan_health.doctrine_link_source') as $id => $def) {
+            $definition->addMethodCall('addLinkSource', array(new Reference($id)));
+        }
 
         // Add health widgets
         if (!$container->hasDefinition('kunstmaan_health.manager.widgets')) {

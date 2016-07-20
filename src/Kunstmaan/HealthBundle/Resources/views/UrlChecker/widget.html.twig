@@ -12,9 +12,11 @@
 {% if nrResults > 0 %}
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
+            <caption>{{ 'settings.health.results' | trans({'%count%': nrResults}) }}</caption>
             <thead>
             <tr>
                 <th>{{ "settings.health.url" | trans }}</th>
+                <th>{{ "settings.health.extra" | trans }}</th>
 
                 <!-- Actions -->
                 <th class="table__actions">
@@ -26,7 +28,10 @@
             {% for link in pagerfanta.currentPageResults %}
                 <tr>
                     <td>
-                        {{ link.url }}
+                        {{ link.url | raw }}
+                    </td>
+                    <td>
+                        {{ link.extra | raw }}
                     </td>
 
                     <!-- Actions -->

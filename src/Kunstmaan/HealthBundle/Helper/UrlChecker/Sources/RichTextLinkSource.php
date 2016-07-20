@@ -3,16 +3,17 @@
 namespace Kunstmaan\HealthBundle\Helper\UrlChecker\Sources;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Kunstmaan\AdminBundle\Form\WysiwygType;
 use Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors\PagePartUrlExtractor;
 use Kunstmaan\HealthBundle\Helper\UrlChecker\Interfaces\LinkSourceInterface;
 use Kunstmaan\HealthBundle\Model\Link;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
-use Kunstmaan\NodeBundle\Form\Type\URLChooserType;
 use Kunstmaan\NodeBundle\Helper\URLHelper;
 use Kunstmaan\PagePartBundle\Entity\PagePartRef;
 use Kunstmaan\PagePartBundle\Helper\PagePartInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class PagePartLinkSource implements LinkSourceInterface
+class RichTextLinkSource implements LinkSourceInterface
 {
     /** @var PagePartCollector */
     protected $collector;
@@ -42,7 +43,7 @@ class PagePartLinkSource implements LinkSourceInterface
         $links = [];
         $nodeTranslations = $this->getNodeTranslationMap();
 
-        foreach ($this->collector->getPageParts(URLChooserType::class) as $pagePart) {
+        foreach ($this->collector->getPageParts([TextareaType::class, WysiwygType::class]) as $pagePart) {
             /** @var PagePartRef $ref */
             $ref = $pagePart['ref'];
             /** @var PagePartInterface $entity */
@@ -52,7 +53,7 @@ class PagePartLinkSource implements LinkSourceInterface
 
             $reflect = new \ReflectionClass($entity);
 
-            $urls = $this->urlExtractor->extractFields($entity, $fields);
+            $urls = $this->urlExtractor->extractTextFields($entity, $fields);
 
             if ($urls) {
                 /** @var NodeTranslation $nodeTranslation |null */

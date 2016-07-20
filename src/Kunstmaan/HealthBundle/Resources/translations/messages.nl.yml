@@ -3,4 +3,6 @@ settings:
     health:
         title: Site gezondheid
         url: Url
+        extra: Extra
         correct: Verbeter
+        results: %count% resultaten

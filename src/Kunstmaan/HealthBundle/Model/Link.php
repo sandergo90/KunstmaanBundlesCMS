@@ -14,11 +14,15 @@ class Link
     /** @var array */
     private $routeParams;
 
-    function __construct($url, $route, $routeParams)
+    /** @var string */
+    private $extra;
+
+    function __construct($url, $route, $routeParams, $extra = null)
     {
         $this->url = $url;
         $this->route = $route;
         $this->routeParams = $routeParams;
+        $this->extra = $extra;
     }
 
     /**
@@ -69,4 +73,19 @@ class Link
         $this->routeParams = $routeParams;
     }
 
+    /**
+     * @return string
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param string $extra
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
+    }
 }

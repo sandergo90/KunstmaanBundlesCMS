@@ -22,6 +22,12 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('caching')->defaultFalse()->info('If set to true, URL checks are cached to prevent accessing the same URL multiple times in short order.')->end()
+                ->arrayNode('bundles')
+                    ->defaultValue(array())
+                    ->normalizeKeys(false)
+                    ->info('The list of bundles to manage in the health zone')
+                    ->prototype('scalar')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

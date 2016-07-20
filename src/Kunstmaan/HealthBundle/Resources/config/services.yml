@@ -6,8 +6,11 @@ parameters:
     kunstmaan_health.url_checker.timeout: 5
     kunstmaan_health.url_checker.cache.class: Kunstmaan\HealthBundle\Helper\UrlChecker\CacheUrlChecker
     kunstmaan_health.url_checker.cache_timeout: 3600
+    kunstmaan_health.url_extractor.default.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors\UrlExtractor
     kunstmaan_health.url_extractor.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Extractors\PagePartUrlExtractor
     kunstmaan_health.link_source.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Sources\PagePartLinkSource
+    kunstmaan_health.link_source.richtext.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Sources\RichTextLinkSource
+    kunstmaan_health.collector.pagepart.class: Kunstmaan\HealthBundle\Helper\UrlChecker\Sources\PagePartCollector
     kunstmaan_health.controller.class: Kunstmaan\HealthBundle\Controller\HealthController
     kunstmaan_health.controller.url_checker.class: Kunstmaan\HealthBundle\Controller\UrlCheckerController
     kunstmaan_health.menu.adaptor.class: Kunstmaan\HealthBundle\Helper\Menu\ConfigMenuAdaptor
@@ -42,13 +45,33 @@ services:
     kunstmaan_health.link_source.pagepart:
         class: "%kunstmaan_health.link_source.pagepart.class%"
         arguments:
+            - "@kunstmaan_health.collector.pagepart"
+            - "@kunstmaan_health.url_extractor.pagepart"
+            - "@kunstmaan_node.helper.url"
+            - "@doctrine.orm.default_entity_manager"
+        tags:
+            - { name: kunstmaan_health.link_source }
+
+    kunstmaan_health.link_source.richtext:
+        class: "%kunstmaan_health.link_source.richtext.class%"
+        arguments:
+            - "@kunstmaan_health.collector.pagepart"
+            - "@kunstmaan_health.url_extractor.pagepart"
+            - "@kunstmaan_node.helper.url"
+            - "@doctrine.orm.default_entity_manager"
+        tags:
+            - { name: kunstmaan_health.link_source }
+
+    kunstmaan_health.collector.pagepart:
+        class: "%kunstmaan_health.collector.pagepart.class%"
+        arguments:
             - "@kunstmaan_health.url_extractor.pagepart"
             - "@doctrine.orm.default_entity_manager"
             - "@doctrine"
             - "@kernel"
             - "@form.factory"
-        tags:
-            - { name: kunstmaan_health.link_source }
+            - "@kunstmaan_node.helper.url"
+            - "%kunstmaan_health%"
 
     kunstmaan_health.controller.health:
         class: "%kunstmaan_health.controller.class%"
@@ -70,6 +93,9 @@ services:
             - "@security.authorization_checker"
         tags:
             -  { name: "kunstmaan_admin.menu.adaptor" }
+
+    kunstmaan_health.url_extractor.default:
+        class: "%kunstmaan_health.url_extractor.default.class%"
 
     kunstmaan_health.url_extractor.pagepart:
         class: "%kunstmaan_health.url_extractor.pagepart.class%"

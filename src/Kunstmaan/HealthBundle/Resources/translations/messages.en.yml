@@ -3,4 +3,6 @@ settings:
     health:
         title: Site health
         url: Url
+        extra: Extra
         correct: Correct
+        results: %count% results

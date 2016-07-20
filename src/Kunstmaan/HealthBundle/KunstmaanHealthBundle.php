@@ -12,7 +12,7 @@ class KunstmaanHealthBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-//        $container->addCompilerPass(new KunstmaanHealthConfigurationPass(), PassConfig::TYPE_BEFORE_REMOVING);
         $container->addCompilerPass(new KunstmaanHealthCompilerPass(), PassConfig::TYPE_BEFORE_REMOVING);
+        $container->addCompilerPass(new KunstmaanHealthConfigurationPass(), PassConfig::TYPE_BEFORE_REMOVING);
     }
 }
