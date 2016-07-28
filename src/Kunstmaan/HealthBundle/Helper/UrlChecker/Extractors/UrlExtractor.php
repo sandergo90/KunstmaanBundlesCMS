@@ -10,25 +10,14 @@ class UrlExtractor implements UrlExtractorInterface
 {
     private $decodeHtml;
 
-    /**
-     * If set, local URLs will also be extracted
-     * @var string
-     */
-    private $baseUrl;
-
-    function __construct($decodeHtml = false, $baseUrl = null)
+    function __construct($decodeHtml = false)
     {
         $this->decodeHtml = $decodeHtml;
-        $this->baseUrl = $baseUrl;
     }
 
     public function extract($str)
     {
         $urls = $this->extractAbsoluteUrls($str);
-
-        if ($this->baseUrl) {
-            $urls = array_merge($urls, $this->extractLocalUrls($str));
-        }
 
         if ($this->decodeHtml) {
             $this->decodeHtmlUrls($urls);
@@ -53,9 +42,8 @@ class UrlExtractor implements UrlExtractorInterface
 
         preg_match_all($pattern, $str, $matches, PREG_PATTERN_ORDER);
 
-        $baseUrl = $this->baseUrl;
-        $urls = array_map(function($path) use ($baseUrl) {
-            return $baseUrl . $path;
+        $urls = array_map(function($path) {
+            return $path;
         }, $matches[1]);
 
         return $urls;
@@ -71,10 +59,5 @@ class UrlExtractor implements UrlExtractorInterface
     public function setDecodeHtml($decodeHtml)
     {
         $this->decodeHtml = (bool) $decodeHtml;
-    }
-
-    public function setBaseUrl($baseUrl)
-    {
-        $this->baseUrl = $baseUrl;
     }
 }
