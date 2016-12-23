@@ -1,0 +1,6 @@
+<form class="js-sir-trevor-form" method="post" action="{{ path('KunstmaanPagePartBundle_sir_trevor') }}">
+        <textarea name="sir-trevor__{{ resource.id }}" class="js-st-instance" data-nodetranslation={{ nodetranslation.id }} data-pagepartid="{{ resource.id }}" data-pagepartclass="{{ get_class(resource) }}" data-pagepartfield="content">
+            {{ data }}
+        </textarea>
+    <button class="js-sir-trevor-submit hidden" type="submit">Save</button>
+</form>

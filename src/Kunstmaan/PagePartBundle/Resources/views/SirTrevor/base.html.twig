@@ -1,0 +1,29 @@
+{% stylesheets
+"@KunstmaanPagePartBundle/Resources/ui/scss/vendors/_sir-trevor.scss"
+output="KunstmaanPagePartBundleAssets/css/style.min.css" filter="scss" %}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+
+
+{% javascripts
+"@KunstmaanPagePartBundle/Resources/ui/js/sir-trevor.js"
+"@KunstmaanPagePartBundle/Resources/ui/js/_sir_trevor.js"
+output="KunstmaanPagePartBundleAssets/js/sir-trevor.js" %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script>
+    SirTrevor.setDefaults({
+        iconUrl: "/bundles/kunstmaanpagepart/default-theme/icons/sir-trevor-icons.svg"
+    });
+    var instances = document.querySelectorAll('.js-st-instance');
+
+    [].forEach.call(instances, function(element) {
+        var editor = new SirTrevor.Editor({
+            el: element,
+            defaultType: 'Text'
+        });
+    });
+
+    kunstmaanPagePartBundle.sirTrevor.init();
+</script>

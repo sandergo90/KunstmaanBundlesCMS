@@ -3,3 +3,8 @@ KunstmaanMediaBundle_pagepartadmin:
     type:     annotation
     prefix:   /admin
 
+KunstmaanMediaBundle_sir_trevor:
+    resource: '@KunstmaanPagePartBundle/Controller/SirTrevorController.php'
+    type:     annotation
+    prefix:   /
+

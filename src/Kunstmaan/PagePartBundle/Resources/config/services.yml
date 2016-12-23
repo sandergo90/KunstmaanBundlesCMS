@@ -58,6 +58,13 @@ services:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: twig.extension }
+
+    kunstmaan_pageparts.sir_trevor.twig.extension:
+        class: Kunstmaan\PagePartBundle\Twig\Extension\SirTrevorTwigExtension
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: twig.extension }
             
     kunstmaan_pagetemplate.twig.extension:
         class: 'Kunstmaan\PagePartBundle\Twig\Extension\PageTemplateTwigExtension'
