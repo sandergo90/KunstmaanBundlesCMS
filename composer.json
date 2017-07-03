@@ -15,6 +15,12 @@
             "homepage": "https://github.com/Kunstmaan/KunstmaanBundlesCMS/graphs/contributors"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:sandergo90/GraphQLBundle.git"
+        }
+    ],
     "require": {
         "php": ">=5.5.0",
         "symfony/symfony": "~3.0",
