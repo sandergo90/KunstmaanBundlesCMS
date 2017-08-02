@@ -8,6 +8,9 @@ use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 use Kunstmaan\NodeBundle\Entity\NodeVersion;
 use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
 
+/**
+ * Class ApiPage.
+ */
 class ApiPage
 {
     /**

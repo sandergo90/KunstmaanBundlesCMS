@@ -15,3 +15,8 @@ services:
             - "@doctrine.orm.default_entity_manager"
         tags:
             - { name: kunstmaan_api.transformer }
+
+    kunstmaan_api.service.schema:
+        class: Kunstmaan\ApiBundle\GraphQL\Schema
+        arguments:
+            - "@doctrine.orm.entity_manager"

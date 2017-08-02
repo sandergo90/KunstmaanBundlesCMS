@@ -1,6 +1,6 @@
 <?php
 
-namespace Kunstmaan\ApiBundle\GraphQL\Query;
+namespace Kunstmaan\ApiBundle\GraphQL;
 
 use Kunstmaan\AdminBundle\GraphQL\Query\User\UsersField;
 use Kunstmaan\NodeBundle\GraphQL\Query\Node\NodesField;
