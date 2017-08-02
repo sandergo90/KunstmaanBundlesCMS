@@ -1,9 +1,7 @@
 {% extends '@KunstmaanNode/Default/layout.html.twig' %}
 {% set form = tabPane.getFormView() %}
 
-
 {% block extrabodyclasses %}{{ parent() }} js-check-if-edited{% if nodeVersionLockCheck %} js-node-version-lock{% endif %}{% endblock %}
-
 
 {% block messages %}
     {% if queuedNodeTranslationAction %}
@@ -109,6 +107,8 @@
         <a href="{{ path(getOverviewRoute(page)) }}" class="btn btn-default" style="margin:20px 0 20px 0;"><i class="fa fa-arrow-left"></i>
             Back to overview
         </a>
+    {% else %}
+        {{ parent() }}
     {%  endif %}
 
 {% endblock %}
