@@ -9,29 +9,27 @@ use Youshido\GraphQL\Config\Schema\SchemaConfig;
 class Schema extends AbstractSchema
 {
     /**
-     * @var EntityManagerInterface
+     * @var MutationType
      */
-    private $em;
+    private $mutation;
 
     /**
      * Schema constructor.
      *
-     * @param EntityManagerInterface $em
+     * @param MutationType $mutation
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(MutationType $mutation)
     {
-        $this->em = $em;
-
+        $this->mutation = $mutation;
         parent::__construct([]);
     }
 
+
     public function build(SchemaConfig $config)
     {
-        dump($this->container->get('doctrine'));
-        die();
         $config
             ->setQuery(new QueryType())
-            ->setMutation(new MutationType($this->container));
+            ->setMutation($this->mutation);
     }
 }
 

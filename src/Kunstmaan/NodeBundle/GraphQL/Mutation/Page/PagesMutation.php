@@ -2,6 +2,7 @@
 
 namespace Kunstmaan\NodeBundle\GraphQL\Mutation\Page;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Kunstmaan\AdminBundle\Entity\User;
 use Kunstmaan\AdminBundle\GraphQL\Type\UserMutationType;
@@ -13,6 +14,9 @@ use Youshido\GraphQL\Config\Field\FieldConfig;
 use Youshido\GraphQL\Execution\ResolveInfo;
 use Youshido\GraphQL\Type\AbstractType;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
+use Youshido\GraphQL\Type\Scalar\IdType;
+use Youshido\GraphQL\Type\Scalar\IntType;
+use Youshido\GraphQL\Type\Scalar\StringType;
 use Youshido\GraphQLBundle\Field\AbstractContainerAwareField;
 
 /**
@@ -20,17 +24,53 @@ use Youshido\GraphQLBundle\Field\AbstractContainerAwareField;
  */
 class PagesMutation extends AbstractContainerAwareField
 {
+    /**
+     * @var string
+     */
+    private $name;
+    /**
+     * @var array
+     */
+    private $fields;
+
+    /**
+     * PagesMutation constructor.
+     *
+     * @param string $name
+     * @param array  $fields
+     */
+    public function __construct($name, $fields)
+    {
+        $this->name = $name;
+        $this->fields = $fields;
+
+        parent::__construct([]);
+    }
+
     public function getName()
     {
-        return 'pages';
+        $shortName = (new \ReflectionClass($this->name))->getShortName();
+        return $shortName;
     }
 
     public function build(FieldConfig $config)
     {
         $config
             ->addArguments([
-                'page' => new UnionPageType()
+                'id' => new IdType()
             ]);
+
+        foreach ($this->fields as $name => $type) {
+            switch ($type) {
+                case Type::BIGINT:
+                    $argumentType = new IntType();
+                    break;
+                default:
+                    $argumentType = new StringType();
+                    break;
+            }
+            $config->addArgument($name, $argumentType);
+        }
     }
 
     public function resolve($value, array $args, ResolveInfo $info)

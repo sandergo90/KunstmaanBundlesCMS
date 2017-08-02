@@ -2,9 +2,9 @@
 
 namespace Kunstmaan\ApiBundle\GraphQL;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Kunstmaan\AdminBundle\GraphQL\Mutation\User\UsersMutation;
 use Kunstmaan\NodeBundle\GraphQL\Mutation\Page\PagesMutation;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Youshido\GraphQL\Config\Object\ObjectTypeConfig;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
 
@@ -14,30 +14,61 @@ use Youshido\GraphQL\Type\Object\AbstractObjectType;
 class MutationType extends AbstractObjectType
 {
     /**
-     * @var ContainerInterface
+     * @var EntityManagerInterface
      */
-    private $container;
+    private $em;
+
+    /**
+     * @var array
+     */
+    private $pages;
 
     /**
      * MutationType constructor.
      *
-     * @param ContainerInterface $container
+     * @param EntityManagerInterface $em
+     * @param array                  $pages
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManagerInterface $em, array $pages)
     {
-        parent::__construct([]);
-        $this->container = $container;
+        parent::__construct();
+
+        $this->em = $em;
+        $this->pages = $pages;
     }
+
 
     /**
      * @param ObjectTypeConfig $config
      */
     public function build($config)
     {
-        die('lol');
         $config->addFields([
             new UsersMutation(),
-            new PagesMutation(),
         ]);
+
+        foreach ($this->pages as $page) {
+            $fields = $this->getFieldTypes($page);
+            $config->addField(new PagesMutation($page, $fields));
+        }
+    }
+
+    /**
+     * @param $page
+     *
+     * @return array
+     */
+    private function getFieldTypes($page)
+    {
+        $fields = [];
+        $fieldNames = $this->em->getClassMetadata($page)->getFieldNames();
+
+        foreach ($fieldNames as $fieldName) {
+            $properties = $this->em->getClassMetadata($page)->getFieldMapping($fieldName);
+
+            $fields[$fieldName] = $properties['type'];
+        }
+
+        return $fields;
     }
 }

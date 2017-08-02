@@ -16,7 +16,10 @@ services:
         tags:
             - { name: kunstmaan_api.transformer }
 
-    kunstmaan_api.service.schema:
-        class: Kunstmaan\ApiBundle\GraphQL\Schema
+    Kunstmaan\ApiBundle\GraphQL\Schema:
+        autowire: true
+
+    Kunstmaan\ApiBundle\GraphQL\MutationType:
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - "@doctrine.orm.default_entity_manager"
+            - "%kunstmaan_node.graphql_pages%"
