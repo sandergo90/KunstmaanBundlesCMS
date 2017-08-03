@@ -2,6 +2,7 @@
 
 namespace Kunstmaan\NodeBundle\GraphQL\Query\Page;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Kunstmaan\AdminBundle\Entity\GraphQLInterface;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
@@ -24,6 +25,51 @@ use Youshido\GraphQLBundle\Field\AbstractContainerAwareField;
  */
 class ApiPagesField extends AbstractContainerAwareField
 {
+    /**
+     * @var ClassMetadata
+     */
+    private $entity;
+
+    /**
+     * @var array
+     */
+    private $fields;
+
+    /**
+     * UpdatePagesMutation constructor.
+     *
+     * @param ClassMetadata $entity
+     * @param array         $fields
+     */
+    public function __construct(ClassMetadata $entity, array $fields)
+    {
+        $this->entity = $entity;
+        $this->fields = $fields;
+
+        parent::__construct();
+    }
+
+    /**
+     * @return ClassMetadata
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    public function getName()
+    {
+        return 'list'.$this->getEntity()->getReflectionClass()->getShortName();
+    }
+
     public function build(FieldConfig $config)
     {
         $config
@@ -31,11 +77,6 @@ class ApiPagesField extends AbstractContainerAwareField
                 'locale' => new StringType(),
                 'nodeId' => new IdType(),
             ]);
-    }
-
-    public function getName()
-    {
-        return 'pages';
     }
 
     public function resolve($value, array $args, ResolveInfo $info)
@@ -69,6 +110,6 @@ class ApiPagesField extends AbstractContainerAwareField
      */
     public function getType()
     {
-        return new ApiPageType();
+        return new ApiPageType($this->fields);
     }
 }

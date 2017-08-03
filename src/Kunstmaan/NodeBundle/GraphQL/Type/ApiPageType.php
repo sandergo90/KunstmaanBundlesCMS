@@ -11,6 +11,23 @@ use Youshido\GraphQL\Type\Scalar\StringType;
  */
 class ApiPageType extends AbstractObjectType
 {
+    /**
+     * @var array
+     */
+    private $fields;
+
+    /**
+     * AbstractPageType constructor.
+     *
+     * @param array $fields
+     */
+    public function __construct(array $fields)
+    {
+        $this->fields = $fields;
+
+        parent::__construct();
+    }
+
     public function build($config)
     {
         $config->addFields([
@@ -18,7 +35,7 @@ class ApiPageType extends AbstractObjectType
             'node' => new NodeType(),
             'nodeTranslation' => new NodeTranslationType(),
             'nodeVersion' => new NodeVersionType(),
-            'page' => new UnionPageType()
+//            'page' => new UnionPageType($this->fields)
         ]);
     }
 }

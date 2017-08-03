@@ -17,9 +17,6 @@ services:
             - { name: kunstmaan_api.transformer }
 
     Kunstmaan\ApiBundle\GraphQL\Schema:
-        autowire: true
-
-    Kunstmaan\ApiBundle\GraphQL\MutationType:
         arguments:
-            - "@doctrine.orm.default_entity_manager"
-            - "%kunstmaan_node.graphql_pages%"
+            - "@doctrine.orm.entity_manager"
+            - "%kunstmaan_api.bundles%"

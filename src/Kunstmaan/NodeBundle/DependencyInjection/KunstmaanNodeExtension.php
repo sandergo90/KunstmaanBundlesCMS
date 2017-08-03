@@ -2,6 +2,7 @@
 
 namespace Kunstmaan\NodeBundle\DependencyInjection;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Kunstmaan\AdminBundle\Entity\GraphQLInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,8 +44,6 @@ class KunstmaanNodeExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('kunstmaan_node.lock_threshold', $config['lock']['threshold']);
         $container->setParameter('kunstmaan_node.lock_enabled', $config['lock']['enabled']);
 
-        $this->setGraphQLTypes($container);
-
         $loader->load('services.yml');
     }
 
@@ -62,44 +61,5 @@ class KunstmaanNodeExtension extends Extension implements PrependExtensionInterf
         $twigConfig['globals']['publish_later_stepping'] = $config['publish_later_stepping'];
         $twigConfig['globals']['unpublish_later_stepping'] = $config['unpublish_later_stepping'];
         $container->prependExtensionConfig('twig', $twigConfig);
-    }
-
-    /**
-     * Set a container parameter with the available graphQL page types
-     *
-     * @param ContainerBuilder $container
-     *
-     * @return array
-     */
-    private function setGraphQLTypes(ContainerBuilder $container)
-    {
-        $bundles = $container->getParameter('kernel.bundles');
-        $types = [];
-        $pages = [];
-
-        foreach ($bundles as $bundle) {
-            $bundleReflection = new \ReflectionClass($bundle);
-            $path = dirname($bundleReflection->getFileName()).'/Entity/Pages';
-
-            if (file_exists($path)) {
-                $finder = new Finder();
-                $finder->files()->in($path);
-
-                /** @var SplFileInfo $file */
-                foreach ($finder as $file) {
-                    $baseName = $file->getBasename('.php');
-                    $path = '\\'.$bundleReflection->getNamespaceName().'\\Entity\\Pages\\'.$baseName;
-                    $object = new $path();
-
-                    if ($object instanceof GraphQLInterface && method_exists($object, 'getGraphQlType')) {
-                        $types[] = $object->getGraphQlType();
-                        $pages[] = get_class($object);
-                    }
-                }
-            }
-        }
-
-        $container->setParameter('kunstmaan_node.graphql_types', $types);
-        $container->setParameter('kunstmaan_node.graphql_pages', $pages);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace Kunstmaan\ApiBundle\GraphQL;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Kunstmaan\AdminBundle\GraphQL\Mutation\User\UsersMutation;
-use Kunstmaan\NodeBundle\GraphQL\Mutation\Page\PagesMutation;
+use Kunstmaan\NodeBundle\GraphQL\Mutation\Page\CreatePagesMutation;
+use Kunstmaan\NodeBundle\GraphQL\Mutation\Page\UpdatePagesMutation;
 use Youshido\GraphQL\Config\Object\ObjectTypeConfig;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
 
@@ -14,27 +15,20 @@ use Youshido\GraphQL\Type\Object\AbstractObjectType;
 class MutationType extends AbstractObjectType
 {
     /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
      * @var array
      */
-    private $pages;
+    private $entities;
 
     /**
      * MutationType constructor.
      *
-     * @param EntityManagerInterface $em
-     * @param array                  $pages
+     * @param array $entities
      */
-    public function __construct(EntityManagerInterface $em, array $pages)
+    public function __construct(array $entities)
     {
         parent::__construct();
 
-        $this->em = $em;
-        $this->pages = $pages;
+        $this->entities = $entities;
     }
 
 
@@ -47,26 +41,26 @@ class MutationType extends AbstractObjectType
             new UsersMutation(),
         ]);
 
-        foreach ($this->pages as $page) {
-            $fields = $this->getFieldTypes($page);
-            $config->addField(new PagesMutation($page, $fields));
+        /** @var ClassMetadata $entity */
+        foreach ($this->entities as $entity) {
+            $fields = $this->getFieldTypes($entity);
+            $config->addField(new CreatePagesMutation($entity, $fields));
+            $config->addField(new UpdatePagesMutation($entity, $fields));
         }
     }
 
     /**
-     * @param $page
+     * @param ClassMetadata $entity
      *
      * @return array
      */
-    private function getFieldTypes($page)
+    private function getFieldTypes(ClassMetadata $entity)
     {
         $fields = [];
-        $fieldNames = $this->em->getClassMetadata($page)->getFieldNames();
 
-        foreach ($fieldNames as $fieldName) {
-            $properties = $this->em->getClassMetadata($page)->getFieldMapping($fieldName);
-
-            $fields[$fieldName] = $properties['type'];
+        foreach ($entity->getFieldNames() as $fieldName) {
+            $properties = $entity->getFieldMapping($fieldName);
+            $fields[$fieldName] = $properties;
         }
 
         return $fields;

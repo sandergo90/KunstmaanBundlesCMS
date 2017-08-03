@@ -4,6 +4,7 @@ namespace Kunstmaan\NodeBundle\GraphQL\Mutation\Page;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Kunstmaan\AdminBundle\Entity\User;
 use Kunstmaan\AdminBundle\GraphQL\Type\UserMutationType;
 use Kunstmaan\AdminBundle\GraphQL\Type\UserType;
@@ -13,6 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Youshido\GraphQL\Config\Field\FieldConfig;
 use Youshido\GraphQL\Execution\ResolveInfo;
 use Youshido\GraphQL\Type\AbstractType;
+use Youshido\GraphQL\Type\NonNullType;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
 use Youshido\GraphQL\Type\Scalar\IdType;
 use Youshido\GraphQL\Type\Scalar\IntType;
@@ -20,37 +22,53 @@ use Youshido\GraphQL\Type\Scalar\StringType;
 use Youshido\GraphQLBundle\Field\AbstractContainerAwareField;
 
 /**
- * Class PagesMutation.
+ * Class UpdatePagesMutation.
  */
-class PagesMutation extends AbstractContainerAwareField
+class UpdatePagesMutation extends AbstractContainerAwareField
 {
     /**
-     * @var string
+     * @var ClassMetadata
      */
-    private $name;
+    private $entity;
+
     /**
      * @var array
      */
     private $fields;
 
     /**
-     * PagesMutation constructor.
+     * UpdatePagesMutation constructor.
      *
-     * @param string $name
-     * @param array  $fields
+     * @param ClassMetadata $entity
+     * @param array         $fields
      */
-    public function __construct($name, $fields)
+    public function __construct(ClassMetadata $entity, array $fields)
     {
-        $this->name = $name;
+        $this->entity = $entity;
         $this->fields = $fields;
 
-        parent::__construct([]);
+        parent::__construct();
+    }
+
+    /**
+     * @return ClassMetadata
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
     }
 
     public function getName()
     {
-        $shortName = (new \ReflectionClass($this->name))->getShortName();
-        return $shortName;
+        return 'update'.$this->entity->getReflectionClass()->getShortName();
     }
 
     public function build(FieldConfig $config)
@@ -60,17 +78,35 @@ class PagesMutation extends AbstractContainerAwareField
                 'id' => new IdType()
             ]);
 
-        foreach ($this->fields as $name => $type) {
-            switch ($type) {
+        foreach ($this->fields as $name => $properties) {
+            switch ($properties['type']) {
                 case Type::BIGINT:
-                    $argumentType = new IntType();
+                    if ($this->fieldIsNullable($properties)) {
+                        $argumentType = new IntType();
+                    } else {
+                        $argumentType = new NonNullType(new IntType());
+                    }
                     break;
                 default:
-                    $argumentType = new StringType();
+                    if ($this->fieldIsNullable($properties)) {
+                        $argumentType = new StringType();
+                    } else {
+                        $argumentType = new NonNullType(new StringType());
+                    }
                     break;
             }
             $config->addArgument($name, $argumentType);
         }
+    }
+
+    /**
+     * @param $properties
+     *
+     * @return bool
+     */
+    private function fieldIsNullable($properties)
+    {
+        return isset($properties['nullable']) && $properties['nullable'] === true;
     }
 
     public function resolve($value, array $args, ResolveInfo $info)
@@ -105,6 +141,6 @@ class PagesMutation extends AbstractContainerAwareField
      */
     public function getType()
     {
-        return new AbstractPageType();
+        return new AbstractPageType($this->fields, $this->getEntity()->getReflectionClass()->getShortName());
     }
 }
