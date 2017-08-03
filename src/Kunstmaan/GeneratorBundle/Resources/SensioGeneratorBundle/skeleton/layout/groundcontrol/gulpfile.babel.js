@@ -1,6 +1,8 @@
 /* eslint-env node */
 
 import gulp from 'gulp';
+import chug from 'gulp-chug';
+
 import {
     eslint,
     stylelint,
@@ -10,6 +12,8 @@ import {
     cssOptimized,
     bundleLocal,
     bundleOptimized,
+    bundleAdminExtraLocal,
+    bundleAdminExtraOptimized,
     hologram,
     server,
     buildOnChange,
@@ -30,6 +34,7 @@ const buildLocal = gulp.series(
     copy,
     cssLocal,
     bundleLocal,
+    bundleAdminExtraLocal,
     hologram
 );
 
@@ -38,6 +43,7 @@ const buildOptimized = gulp.series(
     copy,
     cssOptimized,
     bundleOptimized,
+    bundleAdminExtraOptimized,
     hologram
 );
 
@@ -60,4 +66,17 @@ const startOptimized = gulp.series(
     server
 );
 
-export {test, buildOptimized, testAndBuildOptimized, startLocal, startOptimized};
+const buildCmsAssets = gulp.series(
+    () => {
+        return gulp.src('vendor/kunstmaan/bundles-cms/gulpfile.babel.js', { read: false })
+            .pipe(chug({
+                args: [
+                    '--rootPath',
+                    '../../../../../../../web/assets/'
+                ],
+                tasks: ['buildOptimized']
+            }));
+    }
+);
+
+export {test, buildOptimized, testAndBuildOptimized, startLocal, startOptimized, buildCmsAssets};
