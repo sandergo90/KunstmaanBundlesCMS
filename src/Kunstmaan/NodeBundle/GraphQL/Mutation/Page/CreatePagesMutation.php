@@ -2,18 +2,17 @@
 
 namespace Kunstmaan\NodeBundle\GraphQL\Mutation\Page;
 
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Kunstmaan\ApiBundle\Helper\GraphQLHelper;
+use Kunstmaan\NodeBundle\Entity\HasNodeInterface;
 use Kunstmaan\NodeBundle\GraphQL\Type\AbstractPageType;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Youshido\GraphQL\Config\Field\FieldConfig;
 use Youshido\GraphQL\Execution\ResolveInfo;
 use Youshido\GraphQL\Type\AbstractType;
-use Youshido\GraphQL\Type\NonNullType;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
-use Youshido\GraphQL\Type\Scalar\IntType;
-use Youshido\GraphQL\Type\Scalar\StringType;
 use Youshido\GraphQLBundle\Field\AbstractContainerAwareField;
 
 /**
@@ -27,78 +26,34 @@ class CreatePagesMutation extends AbstractContainerAwareField
     private $entity;
 
     /**
-     * @var array
+     * @var GraphQLHelper
      */
-    private $fields;
+    private $helper;
 
     /**
-     * UpdatePagesMutation constructor.
+     * CreatePagesMutation constructor.
      *
      * @param ClassMetadata $entity
-     * @param array         $fields
+     * @param GraphQLHelper $helper
      */
-    public function __construct(ClassMetadata $entity, array $fields)
+    public function __construct(ClassMetadata $entity, GraphQLHelper $helper)
     {
         $this->entity = $entity;
-        $this->fields = $fields;
+        $this->helper = $helper;
 
         parent::__construct();
     }
 
-    /**
-     * @return ClassMetadata
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
     public function getName()
     {
-        return 'create'.$this->getEntity()->getReflectionClass()->getShortName();
+        return 'create'.$this->entity->getReflectionClass()->getShortName();
     }
 
     public function build(FieldConfig $config)
     {
-        foreach ($this->getFields() as $name => $properties) {
-            if (!isset($properties['id'])) {
-                switch ($properties['type']) {
-                    case Type::BIGINT:
-                        if ($this->fieldIsNullable($properties)) {
-                            $argumentType = new IntType();
-                        } else {
-                            $argumentType = new NonNullType(new IntType());
-                        }
-                        break;
-                    default:
-                        if ($this->fieldIsNullable($properties)) {
-                            $argumentType = new StringType();
-                        } else {
-                            $argumentType = new NonNullType(new StringType());
-                        }
-                        break;
-                }
-                $config->addArgument($name, $argumentType);
-            }
-        }
-    }
+        $arguments = $this->helper->getArguments($this->entity);
 
-    /**
-     * @param $properties
-     *
-     * @return bool
-     */
-    private function fieldIsNullable($properties)
-    {
-        return isset($properties['nullable']) && $properties['nullable'] === true;
+        $config->addArguments($arguments);
     }
 
     public function resolve($value, array $args, ResolveInfo $info)
@@ -106,14 +61,36 @@ class CreatePagesMutation extends AbstractContainerAwareField
         $container = $info->getContainer();
         /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
-        $name = $this->getEntity()->getName();
+        $name = $this->entity->getName();
 
         $entity = new $name();
 
         $accessor = PropertyAccess::createPropertyAccessor();
+        $fields = $this->helper->getFields($this->entity);
 
         foreach ($args as $name => $value) {
-            $accessor->setValue($entity, $name, $value);
+            if ($accessor->isWritable($entity, $name)) {
+                switch ($fields[$name]['type']) {
+                    case ClassMetadataInfo::ONE_TO_MANY:
+                    case ClassMetadataInfo::MANY_TO_MANY:
+                        $targetEntities = [];
+                        foreach ($value as $val) {
+                            $targetEntities[] = $em->getRepository($fields[$name]['targetEntity'])->find($val);
+                        }
+                        $accessor->setValue($entity, $name, $targetEntities);
+                        break;
+                    case ClassMetadataInfo::MANY_TO_ONE:
+                        $targetEntity = $em->getRepository($fields[$name]['targetEntity'])->find($value);
+                        $accessor->setValue($entity, $name, $targetEntity);
+                        break;
+                    default:
+                        $accessor->setValue($entity, $name, $value);
+                        break;
+                }
+            }
+            if ($entity instanceof HasNodeInterface) {
+                $this->helper->createPage($entity);
+            }
         }
 
         $em->persist($entity);
@@ -127,6 +104,10 @@ class CreatePagesMutation extends AbstractContainerAwareField
      */
     public function getType()
     {
-        return new AbstractPageType($this->fields, $this->entity->getReflectionClass()->getShortName());
+        $config = [
+//            'name' => $this->entity->getReflectionClass()->getShortName()
+            'name' => 'test'
+        ];
+        return new AbstractPageType($this->helper->getArguments($this->entity), $config);
     }
 }

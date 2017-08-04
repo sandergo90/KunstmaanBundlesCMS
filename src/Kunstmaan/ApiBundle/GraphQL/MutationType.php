@@ -4,6 +4,7 @@ namespace Kunstmaan\ApiBundle\GraphQL;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Kunstmaan\AdminBundle\GraphQL\Mutation\User\UsersMutation;
+use Kunstmaan\ApiBundle\Helper\GraphQLHelper;
 use Kunstmaan\NodeBundle\GraphQL\Mutation\Page\CreatePagesMutation;
 use Kunstmaan\NodeBundle\GraphQL\Mutation\Page\UpdatePagesMutation;
 use Youshido\GraphQL\Config\Object\ObjectTypeConfig;
@@ -15,20 +16,20 @@ use Youshido\GraphQL\Type\Object\AbstractObjectType;
 class MutationType extends AbstractObjectType
 {
     /**
-     * @var array
+     * @var GraphQLHelper
      */
-    private $entities;
+    private $helper;
 
     /**
      * MutationType constructor.
      *
-     * @param array $entities
+     * @param GraphQLHelper $helper
      */
-    public function __construct(array $entities)
+    public function __construct(GraphQLHelper $helper)
     {
-        parent::__construct();
+        $this->helper = $helper;
 
-        $this->entities = $entities;
+        parent::__construct();
     }
 
 
@@ -41,28 +42,12 @@ class MutationType extends AbstractObjectType
             new UsersMutation(),
         ]);
 
+        $entities = $this->helper->getEntities();
+
         /** @var ClassMetadata $entity */
-        foreach ($this->entities as $entity) {
-            $fields = $this->getFieldTypes($entity);
-            $config->addField(new CreatePagesMutation($entity, $fields));
-            $config->addField(new UpdatePagesMutation($entity, $fields));
+        foreach ($entities as $entity) {
+            $config->addField(new CreatePagesMutation($entity, $this->helper));
+//            $config->addField(new UpdatePagesMutation($entity, $this->helper));
         }
-    }
-
-    /**
-     * @param ClassMetadata $entity
-     *
-     * @return array
-     */
-    private function getFieldTypes(ClassMetadata $entity)
-    {
-        $fields = [];
-
-        foreach ($entity->getFieldNames() as $fieldName) {
-            $properties = $entity->getFieldMapping($fieldName);
-            $fields[$fieldName] = $properties;
-        }
-
-        return $fields;
     }
 }

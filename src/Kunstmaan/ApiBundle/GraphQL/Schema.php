@@ -11,55 +11,34 @@ use Youshido\GraphQL\Config\Schema\SchemaConfig;
 class Schema extends AbstractSchema
 {
     /**
-     * @var EntityManagerInterface
+     * @var QueryType
      */
-    private $em;
+    private $queryType;
 
     /**
-     * @var array
+     * @var MutationType
      */
-    private $bundles;
+    private $mutationType;
 
     /**
      * Schema constructor.
      *
-     * @param EntityManagerInterface $em
-     * @param array                  $bundles
+     * @param QueryType    $queryType
+     * @param MutationType $mutationType
      */
-    public function __construct(EntityManagerInterface $em, array $bundles)
+    public function __construct(QueryType $queryType, MutationType $mutationType)
     {
-        $this->em = $em;
-        $this->bundles = $bundles;
+        $this->queryType = $queryType;
+        $this->mutationType = $mutationType;
 
-        parent::__construct([]);
+        parent::__construct();
     }
-
-
-    /**
-     * @return array
-     */
-    private function getEntities()
-    {
-        $entities = [];
-        $meta = $this->em->getMetadataFactory()->getAllMetadata();
-
-        foreach ($this->bundles as $bundle) {
-            foreach ($meta as $classMetadata) {
-                if (strpos($classMetadata->getName(), $bundle) !== false) {
-                    $entities[] = $classMetadata;
-                }
-            }
-        }
-
-        return $entities;
-    }
-
 
     public function build(SchemaConfig $config)
     {
         $config
-            ->setQuery(new QueryType($this->getEntities()))
-            ->setMutation(new MutationType($this->getEntities()));
+            ->setQuery($this->queryType)
+            ->setMutation($this->mutationType);
     }
 }
 

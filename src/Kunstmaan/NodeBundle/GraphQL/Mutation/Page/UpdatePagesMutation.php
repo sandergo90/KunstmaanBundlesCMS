@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Kunstmaan\AdminBundle\Entity\User;
 use Kunstmaan\AdminBundle\GraphQL\Type\UserMutationType;
 use Kunstmaan\AdminBundle\GraphQL\Type\UserType;
+use Kunstmaan\ApiBundle\Helper\GraphQLHelper;
 use Kunstmaan\NodeBundle\GraphQL\Type\AbstractPageType;
 use Kunstmaan\NodeBundle\GraphQL\Union\UnionPageType;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -16,6 +17,7 @@ use Youshido\GraphQL\Execution\ResolveInfo;
 use Youshido\GraphQL\Type\AbstractType;
 use Youshido\GraphQL\Type\NonNullType;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
+use Youshido\GraphQL\Type\Scalar\BooleanType;
 use Youshido\GraphQL\Type\Scalar\IdType;
 use Youshido\GraphQL\Type\Scalar\IntType;
 use Youshido\GraphQL\Type\Scalar\StringType;
@@ -32,38 +34,22 @@ class UpdatePagesMutation extends AbstractContainerAwareField
     private $entity;
 
     /**
-     * @var array
+     * @var GraphQLHelper
      */
-    private $fields;
+    private $helper;
 
     /**
-     * UpdatePagesMutation constructor.
+     * CreatePagesMutation constructor.
      *
      * @param ClassMetadata $entity
-     * @param array         $fields
+     * @param GraphQLHelper $helper
      */
-    public function __construct(ClassMetadata $entity, array $fields)
+    public function __construct(ClassMetadata $entity, GraphQLHelper $helper)
     {
         $this->entity = $entity;
-        $this->fields = $fields;
+        $this->helper = $helper;
 
         parent::__construct();
-    }
-
-    /**
-     * @return ClassMetadata
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
     }
 
     public function getName()
@@ -75,65 +61,35 @@ class UpdatePagesMutation extends AbstractContainerAwareField
     {
         $config
             ->addArguments([
-                'id' => new IdType()
+                'id' => new NonNullType(new IdType())
             ]);
 
-        foreach ($this->fields as $name => $properties) {
-            switch ($properties['type']) {
-                case Type::BIGINT:
-                    if ($this->fieldIsNullable($properties)) {
-                        $argumentType = new IntType();
-                    } else {
-                        $argumentType = new NonNullType(new IntType());
-                    }
-                    break;
-                default:
-                    if ($this->fieldIsNullable($properties)) {
-                        $argumentType = new StringType();
-                    } else {
-                        $argumentType = new NonNullType(new StringType());
-                    }
-                    break;
-            }
-            $config->addArgument($name, $argumentType);
-        }
-    }
+        $arguments = $this->helper->getArguments($this->entity);
 
-    /**
-     * @param $properties
-     *
-     * @return bool
-     */
-    private function fieldIsNullable($properties)
-    {
-        return isset($properties['nullable']) && $properties['nullable'] === true;
+        $config->addArguments($arguments);
+
     }
 
     public function resolve($value, array $args, ResolveInfo $info)
     {
-//        $container = $info->getContainer();
-//        /** @var EntityManagerInterface $em */
-//        $em = $container->get('doctrine.orm.entity_manager');
-//        $userFields = $args['user'];
-//
-//        $user = $em->getRepository('KunstmaanAdminBundle:User')->findOneBy([
-//            'username' => $userFields['username']
-//        ]);
-//
-//        if (!$user) {
-//            $user = new User();
-//        }
-//
-//        $accessor = PropertyAccess::createPropertyAccessor();
-//
-//        foreach ($userFields as $name => $value) {
-//            $accessor->setValue($user, $name, $value);
-//        }
-//
-//        $em->persist($user);
-//        $em->flush();
-//
-//        return $user;
+        $container = $info->getContainer();
+        /** @var EntityManagerInterface $em */
+        $em = $container->get('doctrine.orm.entity_manager');
+        $name = $this->getEntity()->getName();
+
+        $entity = $em->getRepository($name)->find($args['id']);
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+
+        foreach ($args as $name => $value) {
+            if ($accessor->isWritable($entity, $name)) {
+                $accessor->setValue($entity, $name, $value);
+            }
+        }
+
+        $em->flush();
+
+        return $entity;
     }
 
     /**
@@ -141,6 +97,6 @@ class UpdatePagesMutation extends AbstractContainerAwareField
      */
     public function getType()
     {
-        return new AbstractPageType($this->fields, $this->getEntity()->getReflectionClass()->getShortName());
+        return new AbstractPageType($this->helper->getFieldTypes($this->entity), $this->entity->getReflectionClass()->getShortName());
     }
 }

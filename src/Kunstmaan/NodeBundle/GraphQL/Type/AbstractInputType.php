@@ -4,15 +4,16 @@ namespace Kunstmaan\NodeBundle\GraphQL\Type;
 
 use Doctrine\DBAL\Types\Type;
 use Kunstmaan\NodeBundle\GraphQL\Union\UnionPageType;
+use Youshido\GraphQL\Type\InputObject\AbstractInputObjectType;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
 use Youshido\GraphQL\Type\Scalar\IdType;
 use Youshido\GraphQL\Type\Scalar\IntType;
 use Youshido\GraphQL\Type\Scalar\StringType;
 
 /**
- * Class AbstractPageType.
+ * Class AbstractInputType.
  */
-class AbstractPageType extends AbstractObjectType
+class AbstractInputType extends AbstractInputObjectType
 {
     /**
      * @var array
@@ -20,16 +21,27 @@ class AbstractPageType extends AbstractObjectType
     private $fields;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * AbstractPageType constructor.
      *
-     * @param array $fields
-     * @param array $config
+     * @param array  $fields
+     * @param string $name
      */
-    public function __construct(array $fields, $config)
+    public function __construct(array $fields, $name)
     {
-        parent::__construct($config);
-
         $this->fields = $fields;
+        $this->name = $name;
+
+        parent::__construct();
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function build($config)

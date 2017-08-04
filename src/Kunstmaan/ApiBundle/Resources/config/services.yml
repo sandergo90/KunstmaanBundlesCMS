@@ -18,5 +18,21 @@ services:
 
     Kunstmaan\ApiBundle\GraphQL\Schema:
         arguments:
+            - "@Kunstmaan\\ApiBundle\\GraphQL\\QueryType"
+            - "@Kunstmaan\\ApiBundle\\GraphQL\\MutationType"
+
+    Kunstmaan\ApiBundle\GraphQL\MutationType:
+        arguments:
+            - "@Kunstmaan\\ApiBundle\\Helper\\GraphQLHelper"
+
+    Kunstmaan\ApiBundle\GraphQL\QueryType:
+        arguments:
+            - "@Kunstmaan\\ApiBundle\\Helper\\GraphQLHelper"
+
+    Kunstmaan\ApiBundle\Helper\GraphQLHelper:
+        arguments:
             - "@doctrine.orm.entity_manager"
             - "%kunstmaan_api.bundles%"
+            - "@kunstmaan_node.page_creator_service"
+            - "@request_stack"
+            - "@event_dispatcher"
