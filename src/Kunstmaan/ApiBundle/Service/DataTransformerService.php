@@ -48,6 +48,21 @@ class DataTransformerService
     }
 
     /**
+     * @param array $objects
+     *
+     * @return array
+     */
+    public function transformMultiple(array $objects)
+    {
+        $data = [];
+        foreach ($objects as $object) {
+            $data[] = $this->transform($object);
+        }
+
+        return $data;
+    }
+
+    /**
      * Add transformers
      *
      * @param TransformerInterface $transformer

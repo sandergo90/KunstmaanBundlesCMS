@@ -15,26 +15,17 @@ use Youshido\GraphQL\Type\Scalar\StringType;
 class AbstractPageType extends AbstractObjectType
 {
     /**
-     * @var array
-     */
-    private $fields;
-
-    /**
      * AbstractPageType constructor.
      *
-     * @param array $fields
      * @param array $config
      */
-    public function __construct(array $fields, $config)
+    public function __construct($config = [])
     {
         parent::__construct($config);
-
-        $this->fields = $fields;
     }
 
     public function build($config)
     {
-        $config->addFields($this->fields);
     }
 }
 

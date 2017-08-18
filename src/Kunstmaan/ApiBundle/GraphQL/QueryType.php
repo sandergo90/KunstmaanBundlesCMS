@@ -8,6 +8,7 @@ use Kunstmaan\ApiBundle\Helper\GraphQLHelper;
 use Kunstmaan\NodeBundle\GraphQL\Query\Node\NodesField;
 use Kunstmaan\NodeBundle\GraphQL\Query\NodeTranslation\NodeTranslationsField;
 use Kunstmaan\NodeBundle\GraphQL\Query\Page\ApiPagesField;
+use Kunstmaan\NodeBundle\GraphQL\Query\Page\ListPagePartsType;
 use Youshido\GraphQL\Config\Object\ObjectTypeConfig;
 use Youshido\GraphQL\Type\Object\AbstractObjectType;
 
@@ -48,7 +49,7 @@ class QueryType extends AbstractObjectType
 
         /** @var ClassMetadata $entity */
         foreach ($entities as $entity) {
-            $config->addField(new ApiPagesField($entity, $entities));
+            $config->addField(new ApiPagesField($entity, $this->helper));
         }
     }
 }

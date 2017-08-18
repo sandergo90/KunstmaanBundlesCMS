@@ -8,9 +8,9 @@ use Youshido\GraphQL\Type\Object\AbstractObjectType;
 use Youshido\GraphQL\Type\Scalar\StringType;
 
 /**
- * Class ApiPageType.
+ * Class ApiPagePartType.
  */
-class ApiPageType extends AbstractObjectType
+class ApiPagePartType extends AbstractObjectType
 {
     /**
      * @var string
@@ -27,7 +27,7 @@ class ApiPageType extends AbstractObjectType
     {
         $this->name = $name;
 
-        parent::__construct(['fields' => $this->buildFields($fields), 'name' => 'API'.$this->name]);
+        parent::__construct(['fields' => $this->buildFields($fields), 'name' => 'PagePart'.$this->name]);
     }
 
     /**
@@ -38,16 +38,7 @@ class ApiPageType extends AbstractObjectType
     public function buildFields($fields)
     {
         return [
-            'type' => new StringType(),
-            'node' => new NodeType(),
-            'nodeTranslation' => new NodeTranslationType(),
-            'nodeVersion' => new NodeVersionType(),
-            'page' => new AbstractPageType(['name' => $this->name, 'fields' => $fields]),
-            'pageParts' => [
-                'name' => 'pageParts',
-                'type' => new ListType(new StringType()),
-                'resolve' => ['@kunstmaan_api.helper.pagepart_resolver', 'resolve']
-            ]
+            'context' => new StringType(),
         ];
     }
 

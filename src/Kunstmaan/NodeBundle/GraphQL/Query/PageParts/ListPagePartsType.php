@@ -23,9 +23,9 @@ use Youshido\GraphQL\Type\Scalar\StringType;
 use Youshido\GraphQLBundle\Field\AbstractContainerAwareField;
 
 /**
- * Class ApiPagesField.
+ * Class ListPagePartsType.
  */
-class ApiPagesField extends AbstractContainerAwareField
+class ListPagePartsType extends AbstractContainerAwareField
 {
     /**
      * @var ClassMetadata

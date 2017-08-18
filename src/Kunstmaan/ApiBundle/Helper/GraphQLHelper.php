@@ -11,8 +11,11 @@ use Kunstmaan\NodeBundle\Entity\Node;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 use Kunstmaan\NodeBundle\Event\Events;
 use Kunstmaan\NodeBundle\Event\NodeEvent;
+use Kunstmaan\NodeBundle\GraphQL\Type\AbstractFieldsType;
 use Kunstmaan\NodeBundle\GraphQL\Type\AbstractInputType;
 use Kunstmaan\NodeBundle\Helper\Services\PageCreatorService;
+use Steylaerts\WebsiteBundle\Entity\Pages\ContentPage;
+use Steylaerts\WebsiteBundle\Entity\Pages\HomePage;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -85,13 +88,12 @@ class GraphQLHelper
 
             foreach ($this->bundles as $bundle) {
                 foreach ($meta as $classMetadata) {
-                    if (strpos($classMetadata->getName(), $bundle) !== false) {
+                    if (strpos($classMetadata->getName(), $bundle) !== false && stripos($classMetadata->getName(), 'PagePart') === false) {
                         $this->entities[$classMetadata->getName()] = $classMetadata;
                     }
                 }
             }
         }
-
         return $this->entities;
     }
 
@@ -153,43 +155,49 @@ class GraphQLHelper
                             $arguments[$name] = new NonNullType(new DateTimeType());
                         }
                         break;
-                    case ClassMetadataInfo::ONE_TO_MANY:
-                        if ($this->associationIsNullable($properties)) {
-                            $arguments[$name.'Ids'] = new ListType(new IdType());
-                            // Retrieve fields of target entity.
-                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
-                            $targetArguments = $this->getArguments($targetEntityMetaData);
-                            $arguments[$name] = new ListType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName()));
-                        } else {
-                            $arguments[$name.'Ids'] = new ListType(new NonNullType(new IdType()));
-                            // Retrieve fields of target entity.
-                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
-                            $targetArguments = $this->getArguments($targetEntityMetaData);
-                            $arguments[$name] = new ListType(new NonNullType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName())));
-                        }
-                        break;
+//                    case ClassMetadataInfo::ONE_TO_MANY:
+//                        if ($this->associationIsNullable($properties)) {
+//                            $arguments[$name.'Ids'] = new ListType(new IdType());
+//                            // Retrieve fields of target entity.
+//                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
+//                            $targetArguments = $this->getArguments($targetEntityMetaData);
+//                            $arguments[$name] = new ListType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName()));
+//                        } else {
+//                            $arguments[$name.'Ids'] = new ListType(new NonNullType(new IdType()));
+//                            // Retrieve fields of target entity.
+//                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
+//                            $targetArguments = $this->getArguments($targetEntityMetaData);
+//                            $arguments[$name] = new ListType(new NonNullType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName())));
+//                        }
+//                        break;
                     case ClassMetadataInfo::MANY_TO_ONE:
                         if ($this->associationIsNullable($properties)) {
                             $arguments[$name] = new IdType();
                         } else {
                             $arguments[$name] = new NonNullType(new IdType());
                         }
-                        break;
-                    case ClassMetadataInfo::MANY_TO_MANY:
-                        if ($this->associationIsNullable($properties)) {
-                            $arguments[$name] = new ListType(new IdType());
-                            // Retrieve fields of target entity.
-//                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
-//                            $targetArguments = $this->getArguments($targetEntityMetaData);
-//                            $arguments[$name] = new ListType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName()));
-                        } else {
-                            $arguments[$name] = new ListType(new NonNullType(new IdType()));
-                            // Retrieve fields of target entity.
-//                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
-//                            $targetArguments = $this->getArguments($targetEntityMetaData);
-//                            $arguments[$name] = new ListType(new NonNullType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName())));
+                        // Retrieve fields of target entity.
+                        if ($entity->getName() == HomePage::class) {
+                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
+                            $targetArguments = $this->getArguments($targetEntityMetaData);
+                            $arguments[$name] = new AbstractFieldsType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName());
                         }
                         break;
+//                    case ClassMetadataInfo::MANY_TO_MANY:
+//                        if ($this->associationIsNullable($properties)) {
+//                            $arguments[$name] = new ListType(new IdType());
+//                            // Retrieve fields of target entity.
+////                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
+////                            $targetArguments = $this->getArguments($targetEntityMetaData);
+////                            $arguments[$name] = new ListType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName()));
+//                        } else {
+//                            $arguments[$name] = new ListType(new NonNullType(new IdType()));
+//                            // Retrieve fields of target entity.
+////                            $targetEntityMetaData = $this->entities[$properties['targetEntity']];
+////                            $targetArguments = $this->getArguments($targetEntityMetaData);
+////                            $arguments[$name] = new ListType(new NonNullType(new AbstractInputType($targetArguments, $targetEntityMetaData->getReflectionClass()->getShortName())));
+//                        }
+//                        break;
                     default:
                         if ($this->fieldIsNullable($properties)) {
                             $arguments[$name] = new StringType();
@@ -221,7 +229,7 @@ class GraphQLHelper
      */
     private function associationIsNullable($properties)
     {
-        return isset($properties['joinColumns']) && $properties['joinColumns'][0]['nullable'] === true;
+        return isset($properties['joinColumns']) && (!isset($properties['joinColumns'][0]['nullable']) || $properties['joinColumns'][0]['nullable'] === true);
     }
 
     public function createPage(HasNodeInterface $page)

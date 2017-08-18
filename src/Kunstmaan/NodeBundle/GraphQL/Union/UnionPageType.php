@@ -15,11 +15,39 @@ class UnionPageType extends AbstractUnionType
     /**
      * @var array
      */
+    private $fields;
+
+    /**
+     * @var array
+     */
     private $types = [];
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * UnionPageType constructor.
+     *
+     * @param array  $fields
+     * @param string $name
+     */
+    public function __construct(array $fields, $name)
+    {
+        $this->fields = $fields;
+        $this->name = $name;
+
+        parent::__construct();
+    }
+
 
     public function getTypes()
     {
-        $types = [new AbstractPageType()];
+        $config = [
+            'name' => $this->name,
+        ];
+        $types = [new AbstractPageType($this->fields, $config)];
 
         if (!empty($this->types)) {
             foreach ($this->types as $type) {
@@ -32,14 +60,11 @@ class UnionPageType extends AbstractUnionType
 
     public function resolveType($object, ResolveInfo $resolveInfo = null)
     {
-        $this->types = $resolveInfo->getContainer()->getParameter('kunstmaan_node.graphql_types');
+        $config = [
+            'name' => $this->name,
+        ];
 
-        if ($object instanceof GraphQLInterface && method_exists($object, 'getGraphQlType')) {
-            $class = $object->getGraphQlType();
-            return new $class();
-        }
-
-        return new AbstractPageType();
+        return new AbstractPageType($this->fields, $config);
     }
 }
 

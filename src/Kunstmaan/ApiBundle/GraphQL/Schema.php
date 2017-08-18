@@ -37,8 +37,8 @@ class Schema extends AbstractSchema
     public function build(SchemaConfig $config)
     {
         $config
-            ->setQuery($this->queryType)
-            ->setMutation($this->mutationType);
+            ->setQuery($this->queryType);
+//            ->setMutation($this->mutationType);
     }
 }
 

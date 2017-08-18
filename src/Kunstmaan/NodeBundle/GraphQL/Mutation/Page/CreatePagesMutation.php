@@ -106,8 +106,9 @@ class CreatePagesMutation extends AbstractContainerAwareField
     {
         $config = [
 //            'name' => $this->entity->getReflectionClass()->getShortName()
-            'name' => 'test'
+            'name' => 'Page'
         ];
+
         return new AbstractPageType($this->helper->getArguments($this->entity), $config);
     }
 }

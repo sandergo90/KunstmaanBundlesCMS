@@ -6,6 +6,7 @@ services:
         class: Kunstmaan\ApiBundle\Service\Transformers\PageTransformer
         arguments:
             - "@doctrine.orm.default_entity_manager"
+            - "@kunstmaan_api.service.data_transformer"
         tags:
             - { name: kunstmaan_api.transformer, priority: -250 }
 
@@ -36,3 +37,6 @@ services:
             - "@kunstmaan_node.page_creator_service"
             - "@request_stack"
             - "@event_dispatcher"
+
+    kunstmaan_api.helper.pagepart_resolver:
+        class: Kunstmaan\ApiBundle\Helper\PagePartResolver

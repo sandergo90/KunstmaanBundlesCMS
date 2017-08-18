@@ -11,9 +11,9 @@ use Youshido\GraphQL\Type\Scalar\IntType;
 use Youshido\GraphQL\Type\Scalar\StringType;
 
 /**
- * Class AbstractInputType.
+ * Class AbstractFieldsType.
  */
-class AbstractInputType extends AbstractInputObjectType
+class AbstractFieldsType extends AbstractObjectType
 {
     /**
      * @var array
@@ -36,7 +36,7 @@ class AbstractInputType extends AbstractInputObjectType
         $this->fields = $fields;
         $this->name = $name;
 
-        parent::__construct();
+        parent::__construct(['fields' => $this->fields, 'name' => $this->name]);
     }
 
     public function getName()
@@ -46,7 +46,6 @@ class AbstractInputType extends AbstractInputObjectType
 
     public function build($config)
     {
-        $config->addFields($this->fields);
     }
 }
 
