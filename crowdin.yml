@@ -1,3 +1,4 @@
 files:
-  - source: /src/Kunstmaan/*/Resources/translations/messages.en.yml
-    translation: /src/Kunstmaan/*/Resources/translations/messages.%two_letters_code%.yml
+  - source: /src/Kunstmaan/AdminBundle/Resources/translations/messages.en.yml
+    translation: >-
+      /src/Kunstmaan/AdminBundle/Resources/translations/messages.%two_letters_code%.yml
