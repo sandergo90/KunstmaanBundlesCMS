@@ -1,21 +1,21 @@
 ---
 subaction:
-  versions: "Versions"
+  versions: "Versionen"
 action:
-  saveasdraft: "Save as draft"
-  recopyfromlanguage: "Copy content from other language"
+  saveasdraft: "Entwurf Speichern"
+  recopyfromlanguage: "Inhalte kopieren von anderen Sprach"
   exportpagetemplate: "Export pagetemplate"
-  publish: "Publish"
-  unpublish: "Unpublish"
-  preview: "Preview"
-  save: "Save"
-  delete: "Delete"
-  addsubpage: "Add subpage"
+  publish: "Publizieren"
+  unpublish: "Depublizieren"
+  preview: "Vorschau"
+  save: "Speichern"
+  delete: "Löschen"
+  addsubpage: "Unterseite Erstellen"
   duplicate: "Duplicate"
 modal:
   sourcelanguage: "Source language"
 pages:
-  copynotavailable: "Please translate the parent page first"
+  copynotavailable: "Bitte zuerst die übergeordnete Seite übersetzen."
 kuma_node:
   form:
     controller_action:
