@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  _instanceof:
+    Kunstmaan\AdminBundle\Helper\Menu\MenuAdaptorInterface:
+      tags: [kunstmaan_admin.menu.adaptor]
+
+  Kunstmaan\CookieBundle\:
+    resource: '../../*'
+    exclude: '../../{Entity,Repository,Tests,Controller,Features,Resources}'

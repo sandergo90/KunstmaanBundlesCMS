@@ -1,0 +1,6 @@
+name: "Legal page"
+rows:
+    - regions:
+        - { name: "legal_header", span: 12 }
+        - { name: "legal_main", span: 12 }
+template: "{{ bundle.name }}::Pages\\LegalPage\\pagetemplate.html.twig"

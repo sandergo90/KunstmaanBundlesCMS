@@ -49,8 +49,8 @@ class PageContext implements Context
     public function iAddPage($pageType, $pageName)
     {
         switch ($pageType) {
-            case 'ContentPage':
-                $pageType = ContentPage::class;
+            case 'LegalFolderPage':
+                $pageType = LegalFolderPage::class;
                 break;
             case 'FormPage':
                 $pageType = FormPage::class;

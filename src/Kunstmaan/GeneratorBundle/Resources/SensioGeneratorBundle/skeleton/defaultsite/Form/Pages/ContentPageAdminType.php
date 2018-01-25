@@ -60,6 +60,6 @@ class ContentPageAdminType extends PageAdminType
      */
     public function getBlockPrefix()
     {
-	return 'contentpage';
+	return 'LegalFolderPage';
     }
 }

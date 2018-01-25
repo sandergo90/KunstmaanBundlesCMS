@@ -23,7 +23,7 @@ class HomePage extends AbstractPage implements HasPageTemplateInterface, SearchT
      */
     public function getDefaultAdminType()
     {
-        return HomePageAdminType::class;
+        return LegalFolderPageAdminType::class;
     }
 
     /**
@@ -33,7 +33,7 @@ class HomePage extends AbstractPage implements HasPageTemplateInterface, SearchT
     {
         return array(
             array(
-                'name'  => 'ContentPage',
+                'name'  => 'LegalFolderPage',
                 'class' => '{{ namespace }}\Entity\Pages\ContentPage'
             ),
 {% if demosite %}

@@ -31,7 +31,7 @@ class FormPage extends AbstractFormPage implements HasPageTemplateInterface
     {
         return array(
             array(
-                'name'  => 'ContentPage',
+                'name'  => 'LegalFolderPage',
                 'class' => '{{ namespace }}\Entity\Pages\ContentPage'
             ),
             array (

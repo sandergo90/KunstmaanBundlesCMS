@@ -1,0 +1,25 @@
+kuma:
+  cookie:
+    menu:
+      cookies: Cookies
+      cookie: Cookie list
+      cookie_types: Cookie types
+
+    adminlists:
+      cookie_type:
+        name: Name
+        short_description: Short description
+        long_description: Long description
+        internal_name: Internal name
+        internal_name_with_explanation: Internal name (used as cookie name)
+
+      cookie:
+        name: Name
+        type: Type
+        description: Description
+
+    bar:
+      title: This website works best with cookies
+      cookie_preferences: cookie-preferences
+      privacy_policy: privacy policy
+      footer: "You can change these settings at any time in your %preferences%. You can also view our %privacy_policy%"

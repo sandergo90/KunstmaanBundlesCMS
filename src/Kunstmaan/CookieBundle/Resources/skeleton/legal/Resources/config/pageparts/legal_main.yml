@@ -1,0 +1,11 @@
+name: "Main"
+context: "legal_main"
+types:
+    - { name: "Button", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\ButtonPagePart" }
+    - { name: "Header", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\HeaderPagePart" }
+    - { name: "Image", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\ImagePagePart" }
+    - { name: "Intro Text", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\IntroTextPagePart" }
+    - { name: "Line", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LinePagePart" }
+    - { name: "Text", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\TextPagePart" }
+    - { name: "Tip", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LegalTipPagePart" }
+    - { name: "Icon text", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LegalIconTextPagePart" }

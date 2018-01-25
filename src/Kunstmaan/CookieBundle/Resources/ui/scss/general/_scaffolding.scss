@@ -1,0 +1,32 @@
+/* Containers
+   ========================================================================== */
+.legal-container {
+    max-width: $container-width + ($container-padding * 2);
+    padding-left: $container-padding;
+    padding-right: $container-padding;
+    margin: 0 auto;
+
+    @media (min-width: $screen-sm) {
+        max-width: $container-width + ($container-padding--sm * 2);
+        padding-left: $container-padding--sm;
+        padding-right: $container-padding--sm;
+    }
+
+    @media (min-width: $screen-md) {
+        max-width: $container-width + ($container-padding--md * 2);
+        padding-left: $container-padding--md;
+        padding-right: $container-padding--md;
+    }
+
+    > :last-child[class*='-pp'] {
+        margin-bottom: 0;
+    }
+}
+
+.legal-row {
+    display: flex;
+}
+
+.legal__text-center {
+    text-align: center;
+}

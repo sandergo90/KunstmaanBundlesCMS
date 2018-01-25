@@ -85,6 +85,7 @@
         "kunstmaan/dashboard-bundle": "self.version",
         "kunstmaan/behat-bundle": "self.version",
         "kunstmaan/generator-bundle": "self.version",
+        "kunstmaan/cookie-bundle": "self.version",
         "kunstmaan/live-reload-bundle": "self.version",
         "kunstmaan/voting-bundle": "self.version",
         "kunstmaan/languagechooser-bundle": "self.version",

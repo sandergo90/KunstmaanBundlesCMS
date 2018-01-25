@@ -267,7 +267,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
         $nodeRepo = $this->manager->getRepository('KunstmaanNodeBundle:Node');
         $homePage = $nodeRepo->findOneBy(array('internalName' => 'homepage'));
 
-        $contentPage = new ContentPage();
+        $contentPage = new LegalFolderPage();
 	$contentPage->setTitle('Services');
 
         $translations = array();
@@ -313,7 +313,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 
 	// Buy bikes page
 	$servicesPage = $nodeRepo->findOneBy(array('internalName' => 'services'));
-	$contentPage = new ContentPage();
+	$contentPage = new LegalFolderPage();
 	$contentPage->setTitle('Our bikes');
 
 	$folder = $this->manager->getRepository('KunstmaanMediaBundle:Folder')->findOneBy(array('rel' => 'image'));
@@ -374,7 +374,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 	}
 
 	// Repair bikes page
-	$contentPage = new ContentPage();
+	$contentPage = new LegalFolderPage();
 	$contentPage->setTitle('Bike repair');
 
 	$menuMedia = $this->mediaCreator->createFile($imgDir.'stocks/stock2.jpg', $folder->getId());
@@ -422,7 +422,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 	}
 
 	// Rent bikes page
-	$contentPage = new ContentPage();
+	$contentPage = new LegalFolderPage();
 	$contentPage->setTitle('Rent bikes');
 
 	$menuMedia = $this->mediaCreator->createFile($imgDir.'stocks/stock3.jpg', $folder->getId());
@@ -470,7 +470,7 @@ class DefaultSiteFixtures extends AbstractFixture implements OrderedFixtureInter
 	}
 
 	// All pageparts page
-	$contentPage = new ContentPage();
+	$contentPage = new LegalFolderPage();
 	$contentPage->setTitle('All pageparts');
 
         $translations = array();

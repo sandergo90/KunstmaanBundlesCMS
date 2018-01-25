@@ -86,7 +86,7 @@ class ContentPage extends AbstractPage implements HasPageTemplateInterface, Sear
     /**
      * @param string $description
      *
-     * @return ContentPage
+     * @return LegalFolderPage
      */
     public function setMenuDescription($description)
     {

@@ -1,0 +1,28 @@
+<!-- START of Kunstmaan cookie bar -->
+<div id="kumacookiebar">
+    <div class="legal-container">
+        <h1>{{ 'kuma.cookie.bar.title' | trans }}</h1>
+
+        {% set types = get_cookie_types() %}
+
+        <div class="legal-row">
+            {% for type in types %}
+                <div class="legal-col">
+                    <div class="legal-title">
+                        {{ type.name }}
+                    </div>
+                    {% if type.shortDescription is not empty %}
+                        <p class="legal-paragraph">
+                            {{ type.shortDescription | replace_url | raw }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="legal-footer">
+            {#<p>{{ 'kuma.cookie.bar.footer' | trans({'%privacy_policy%': null}) | raw }}</p>#}
+        </div>
+    </div>
+</div>
+<!-- END of Kunstmaan cookie bar -->

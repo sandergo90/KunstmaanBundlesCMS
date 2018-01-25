@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Sizes
+
+   This file is exclusively intended for setting up variables
+   Never add styles directly to this file
+   ========================================================================== */
+
+/* Screen sizes
+   ========================================================================== */
+$screen-xs: 375px;
+$screen-sm: 420px;
+$screen-md: 768px;
+$screen-lg: 1024px;
+$screen-xl: 1200px;
+$screen-xxl: 1440px;
+
+$screen-xs-max: $screen-sm - 1px;
+$screen-sm-max: $screen-md - 1px;
+$screen-md-max: $screen-lg - 1px;
+$screen-lg-max: $screen-xl - 1px;
+$screen-xl-max: $screen-xxl - 1px;
+
+
+/* Margins and paddings
+   ========================================================================== */
+$container-padding: 20px;
+$container-padding--sm: 35px;
+$container-padding--md: 55px;
+
+
+/* Widths
+   ========================================================================== */
+$container-width: 790px;
+$container-width--large: 1200px;
+$container-width--header: 1440px;

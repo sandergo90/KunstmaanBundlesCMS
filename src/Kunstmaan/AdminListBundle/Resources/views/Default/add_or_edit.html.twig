@@ -3,12 +3,26 @@
 
 {% block extrabodyclasses %}{{ parent() }}{% if entityVersionLockCheck %} js-entity-version-lock{% endif %}{% endblock %}
 
+{% block admin_page_title %}
+    {% if entity is defined and getOverviewRoute(entity) is not null %}
+        <div class="col-sm-6 col-md-8">
+            <div class="btn-group">e
+                <a href="{{ path(getOverviewRoute(entity)) }}" class="btn btn-default"><i class="fa fa-arrow-left"></i>
+                    Back to overview
+                </a>
+            </div>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
 {% block header %}
     {% if entityVersionLockCheck %}
         <div class="hidden" id="js-entity-version-lock-data" data-check-interval="{{ entityVersionLockInterval }}" data-url="{{ path('KunstmaanAdminListBundle_entity_lock_check', {'id': entity.id, 'repository': adminlistconfigurator.getRepositoryName()}) }}">
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-times"></i>
+                    <i class="fa fa-times"></i>
                 </button>
                 <span class="message"></span>
             </div>
@@ -63,15 +77,15 @@
 {% endblock %}
 
 {% block content %}
-        <!-- Fields -->
-        <fieldset class="form__fieldset--padded">
-            {% block form_content %}
-                {% if tabPane is defined %}
-                    {{ tabs_widget(tabPane) }}
-                {% else %}
-                    {{ form_rest(form) }}
-                {% endif %}
-            {% endblock %}
-        </fieldset>
+    <!-- Fields -->
+    <fieldset class="form__fieldset--padded">
+        {% block form_content %}
+            {% if tabPane is defined %}
+                {{ tabs_widget(tabPane) }}
+            {% else %}
+                {{ form_rest(form) }}
+            {% endif %}
+        {% endblock %}
+    </fieldset>
     </form>
 {% endblock %}

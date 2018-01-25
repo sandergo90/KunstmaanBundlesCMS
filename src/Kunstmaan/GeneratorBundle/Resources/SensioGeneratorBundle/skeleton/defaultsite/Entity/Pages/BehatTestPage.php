@@ -37,7 +37,7 @@ class BehatTestPage extends AbstractPage implements HasPageTemplateInterface
                 'class' => '{{ namespace }}\Entity\Pages\HomePage'
             ),
             array(
-                'name'  => 'ContentPage',
+                'name'  => 'LegalFolderPage',
                 'class' => '{{ namespace }}\Entity\Pages\ContentPage'
             ),
 {% if demosite %}

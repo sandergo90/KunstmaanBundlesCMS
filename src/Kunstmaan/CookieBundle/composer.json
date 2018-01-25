@@ -1,0 +1,35 @@
+{
+    "name": "kunstmaan/cookie-bundle",
+    "type": "symfony-bundle",
+    "description": "If you're like us, you like to build applications without having to do the same things over and over again and dislike copy/pasting code and change a couple of words every time you need feature X. The KunstmaanGeneratorBundle gives you the possibility to generate code for new bundles, adminlists and can even make you a basic default website. That way you don't have to wait too long before you see some results and you have more time to do other things. Easy no?",
+    "keywords": [ "kunstmaan", "cms", "generator"],
+    "homepage": "https://github.com/Kunstmaan/KunstmaanCookieBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kunstmaan Team",
+            "homepage": "http://www.kunstmaan.be/",
+            "email": "support@kunstmaan.be"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/symfony": "~2.8",
+        "doctrine/orm": "^2.2.3",
+        "sensio/generator-bundle": "~2.5|~3.0",
+        "kunstmaan/utilities-bundle": "~3.2"
+    },
+    "suggest": {
+        "kunstmaan/node-bundle": "~3.2",
+        "kunstmaan/pagepart-bundle": "~3.2"
+    },
+    "autoload": {
+        "psr-4": { "Kunstmaan\\CookieBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.0-dev"
+        }
+    }
+}

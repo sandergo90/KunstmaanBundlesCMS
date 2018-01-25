@@ -1,0 +1,65 @@
+kuma:
+  cookie:
+    bar:
+      title: Deze website werkt optimaal met cookies
+      cookie_preferences: cookie-voorkeuren
+      privacy_policy: privacybeleid
+      footer: "U kan deze instellingen op elk moment aanpassen in je %preferences%. Bekijk ook ons %privacy_policy%"
+
+    fixtures:
+      cookie_preferences:
+        text:
+          1: Wij willen dat uw bezoek aan onze website even indrukwekkend is als onze service. Om uw ervaring te optimaliseren, maken we gebruik van cookies en vergelijkbare technieken. In het kader van gegevensbescherming, laten wij u weten hoe wij cookies gebruiken op onze site en hoe u ze, indien u dat wenst en ondanks de voordelen ervan, kunt deactiveren.
+          2: Een cookie is een klein (tijdelijk) tekstbestand dat een website op uw computer of mobiel toestel opslaat wanneer u onze site bezoekt. Met die cookies kan de website uw toestel markeren en het herkennen wanneer u door de verschillende secties van de site surft (en eventueel bij een later bezoek), zodat u bijvoorbeeld niet voor elke pagina die u opvraagt opnieuw uw paswoord hoeft in te geven. Daarnaast gebruiken we ook cookies voor marketingdoeleinden.
+          3: Als u van het volledige gebruiksgemak van onze website wil gebruiken, is het nodig dat u onze cookies accepteert. Dat kan door de cookiemelding tijdens uw eerste bezoek te accepteren. U kan nadien op elk moment uw voorkeuren weer wijzigen.
+          4: Als u niet wil dat we gebruik maken van cookies, kunt u deze makkelijk uitschakelen. Hou er wel rekening mee dat onze website dan niet optimaal werkt.
+          5: Onze cookies kunnen u in geen geval als individu linken aan een naam en/of een voornaam. Meer gegevens over de verwerking van uw persoonsgegevens vindt u in onze privacy policy.
+          6: Wij zullen deze verklaringen af en toe aan moeten aanpassen, omdat bijvoorbeeld onze website of de regels rondom cookies wijzigen. We mogen de inhoud van de verklaringen en de cookies die opgenomen staan in de lijsten altijd en zonder waarschuwing vooraf wijzigen. U kunt deze webpagina raadplegen voor de laatste versie.
+        tip:
+          1: Meer informatie over hoe cookies werken vindt u op de externe website All about cookies.
+          2: 'U kunt ook de cookies die onze partners gebruiken beheren via deze websites: <br> <a target="_blank" href="http://www.youronlinechoices.eu/">Your Online Choices</a> <br> <a target="_blank" href="http://youradchoices.com/"> Your Ad choices</a>'
+        headers:
+          1: Wat zijn cookies?
+          2: Welke cookies gebruikt Kunstmaan en waarom?
+          3: Cookies accepteren
+          4: Cookies wijzigen of uitschakelen
+          5: Respect voor privacy
+          6: Vragen en updates
+        icon_text:
+          1:
+            title: Leuk weetje
+            subtitle: Ook digitale cookies hebben een vervaldatum
+            text: Wist je dat lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.
+          2:
+            title: Leuk weetje
+            subtitle: Waar komt de naam cookie vandaan?
+            text: Wist je dat lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.
+
+      privacy_policy:
+        text:
+          1: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+          2: >
+             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes: <br>
+             <ul>
+              <li>Lorem ipsum dolor sit amet consectetuer</li>
+              <li>Adipiscing elit aenean commodo ligula eget dolor</li>
+              <li>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
+             </ul>
+          3: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+        headers:
+          1: Waarom u dit moet lezen
+          2: Lorem ipsul dolor sit
+
+      contact:
+        text:
+          1: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+          2: >
+            <h4>Via mail:</h4> <br>
+            <a href="privacy@kunstmaan.be">privacy@kunstmaan.be</a>
+          3: >
+            <h4>Contactgegevens</h4>
+            Kunstmaan Accenture Interactive <br>
+            Philipssite 5, bus 10 3001 Leuven <br>
+            +32 (0)16 300 780
+

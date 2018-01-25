@@ -1,0 +1,6 @@
+name: "Header"
+context: "legal_header"
+types:
+    - { name: "Centered Icon", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LegalCenteredIconPagePart" }
+    - { name: "Image", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\ImagePagePart" }
+    - { name: "Text", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\TextPagePart" }
