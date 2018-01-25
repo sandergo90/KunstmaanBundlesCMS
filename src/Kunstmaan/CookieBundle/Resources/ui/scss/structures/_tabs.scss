@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Structures - TABS
+   ========================================================================== */
+
+/* Android 2.3 :checked fix */
+@keyframes fake {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.legal-tabs {
+    .legal-state {
+        position: absolute;
+        left: -10000px;
+    }
+
+    .legal-flex-tabs {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .legal-tab {
+            flex-grow: 1;
+            max-height: 40px;
+            text-align: center;
+        }
+
+        .panel {
+            background-color: #fff;
+            padding: 20px;
+            min-height: 300px;
+            display: none;
+            width: 100%;
+            flex-basis: auto;
+        }
+    }
+
+    .legal-tab {
+        display: inline-block;
+        padding: 10px;
+        vertical-align: top;
+        background-color: #eee;
+        cursor: pointer;
+        border-left: 10px solid #ccc;
+
+        &:hover {
+            background-color: #fff;
+        }
+    }
+}
+#tab-one:checked ~ .legal-flex-tabs #tab-one-label,
+#tab-two:checked ~ .legal-flex-tabs #tab-two-label,
+#tab-three:checked ~ .legal-flex-tabs #tab-three-label {
+    background-color: #fff;
+    cursor: default;
+    border-left-color: #69be28;
+}
+#tab-one:checked ~ .legal-flex-tabs #tab-panel,
+#tab-two:checked ~ .legal-flex-tabs #tab-panel,
+#tab-three:checked ~ .legal-flex-tabs #tab-panel {
+    display: block;
+}
+@media (max-width: 600px) {
+    .legal-flex-tabs {
+        flex-direction: column;
+
+        .legal-tab {
+            background: #fff;
+            border-bottom: 1px solid #ccc;
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+        }
+
+        #tab-one-label {order: 1;}
+        #tab-two-label {order: 3;}
+        #tab-three-label {order: 5;}
+    ;
+        #tab-panel {order: 2;}
+        #tab-panel {order: 4;}
+        #tab-panel {order: 6;}
+        #tab-panel { order: 8;}
+    }
+
+    #tab-one:checked ~ .legal-flex-tabs #tab-one-label,
+    #tab-two:checked ~ .legal-flex-tabs #tab-two-label,
+    #tab-three:checked ~ .legal-flex-tabs #tab-three-label {
+        border-bottom: none;
+    }
+
+    #tab-one:checked ~ .legal-flex-tabs #tab-panel,
+    #tab-two:checked ~ .legal-flex-tabs #tab-panel,
+    #tab-three:checked ~ .legal-flex-tabs #tab-panel {
+        border-bottom: 1px solid #ccc;
+    }
+}
+
