@@ -1,0 +1,29 @@
+<div class="legal__text-center">
+    <h1>{{ page.title }}</h1>
+    {{ render_pageparts(page, 'legal_header') }}
+</div>
+
+<div class="legal-main-wrapper">
+    <div class="legal__left">
+        {% set tocContent = "" %}
+        {% if page is defined %}
+            {% for pagepart in getpageparts(page, 'legal_main') %}
+                {% if 'HeaderPagePart' in pagepart.getDefaultView %}
+                    {% if pagepart.niv is defined and pagepart.niv == 2 %}
+                        {% set tocContent = tocContent ~ '<li><a href=\"#' ~ pagepart.getTitle|slugify ~ '\">' ~ pagepart.getTitle ~ '</a></li>' %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if tocContent %}
+                <ul>
+                    {{ tocContent|raw }}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="legal__right">
+        {{ render_pageparts(page, 'legal_main') }}
+    </div>
+</div>

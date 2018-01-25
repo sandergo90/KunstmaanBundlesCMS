@@ -161,7 +161,7 @@ class PageGenerator extends KunstmaanGenerator
     /**
      * Update the getPossibleChildTypes function of the parent Page classes
      */
-    private function updateParentPages()
+        private function updateParentPages()
     {
         $phpCode = "            array(\n";
         $phpCode .= "                'name' => '" . $this->entity . "',\n";

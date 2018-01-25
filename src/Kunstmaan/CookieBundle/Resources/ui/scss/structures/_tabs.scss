@@ -2,30 +2,21 @@
    Structures - TABS
    ========================================================================== */
 
-/* Android 2.3 :checked fix */
-@keyframes fake {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 1;
-    }
-}
-.legal-tabs {
+.legal-tabs-wrapper {
     .legal-state {
         position: absolute;
         left: -10000px;
     }
 
-    .legal-flex-tabs {
+    .legal-tabs {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
 
         .legal-tab {
             flex-grow: 1;
-            max-height: 40px;
             text-align: center;
+            padding: 10px;
         }
 
         .panel {
@@ -51,20 +42,20 @@
         }
     }
 }
-#tab-one:checked ~ .legal-flex-tabs #tab-one-label,
-#tab-two:checked ~ .legal-flex-tabs #tab-two-label,
-#tab-three:checked ~ .legal-flex-tabs #tab-three-label {
+#tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-label,
+#tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-label,
+#tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-label {
     background-color: #fff;
     cursor: default;
     border-left-color: #69be28;
 }
-#tab-one:checked ~ .legal-flex-tabs #tab-panel,
-#tab-two:checked ~ .legal-flex-tabs #tab-panel,
-#tab-three:checked ~ .legal-flex-tabs #tab-panel {
+#tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-panel,
+#tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-panel,
+#tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-panel {
     display: block;
 }
 @media (max-width: 600px) {
-    .legal-flex-tabs {
+    .legal-tabs {
         flex-direction: column;
 
         .legal-tab {
@@ -76,25 +67,24 @@
             }
         }
 
-        #tab-one-label {order: 1;}
-        #tab-two-label {order: 3;}
-        #tab-three-label {order: 5;}
-    ;
-        #tab-panel {order: 2;}
-        #tab-panel {order: 4;}
-        #tab-panel {order: 6;}
-        #tab-panel { order: 8;}
+        #tab-legal_privacy_policy-label {order: 1;}
+        #tab-legal_cookie_preferences-label {order: 3;}
+        #tab-legal_contact-label {order: 5;}
+
+        #tab-legal_privacy_policy-panel {order: 2;}
+        #tab-legal_cookie_preferences-panel {order: 4;}
+        #tab-legal_contact-panel {order: 6;}
     }
 
-    #tab-one:checked ~ .legal-flex-tabs #tab-one-label,
-    #tab-two:checked ~ .legal-flex-tabs #tab-two-label,
-    #tab-three:checked ~ .legal-flex-tabs #tab-three-label {
+    #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-label,
+    #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-label,
+    #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-label {
         border-bottom: none;
     }
 
-    #tab-one:checked ~ .legal-flex-tabs #tab-panel,
-    #tab-two:checked ~ .legal-flex-tabs #tab-panel,
-    #tab-three:checked ~ .legal-flex-tabs #tab-panel {
+    #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-panel,
+    #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-panel,
+    #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-panel {
         border-bottom: 1px solid #ccc;
     }
 }

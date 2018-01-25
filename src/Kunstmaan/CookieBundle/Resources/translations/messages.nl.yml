@@ -63,3 +63,38 @@ kuma:
             Philipssite 5, bus 10 3001 Leuven <br>
             +32 (0)16 300 780
 
+      cookie_types:
+        functional_cookie:
+          name: Functionele cookies
+          internal_name: functional_cookie
+          short_description: Dit zijn noodzakelijke cookies die ervoor zorgen dat deze website goed functioneert.
+          long_description: Dankzij deze cookies zorgen we ervoor dat u van optimaal gebruiksgemak geniet. We onthouden zo uw taalkeuze, zodat u die niet bij elk bezoek opnieuw moet ingeven. Daarnaast zorgen deze cookies ervoor dat u niet opnieuw een formulier moet invullen wanneer u een pagina herlaadt en dat u onze YouTube-video's kan bekijken. Deze cookies komen van XX en worden na XX automatisch verwijderd.
+
+        analyzing_cookie:
+          name: Analyserende cookies
+          internal_name: analyzing_cookie
+          short_description: Hiermee kunnen we het algemeen gebruik van deze website meten.
+          long_description: >
+            XX streeft ernaar om altijd beter te doen. Niet alleen onze XX, maar ook het gebruiksgemak van onze website. Dankzij analyserende cookies en Google Analytics krijgen we inzicht in uw surfgedrag. Zo kunnen wij meer kennis opdoen en onze site altijd maar klantvriendelijker maken.
+            Deze cookie komt van XX en wordt maximaal 2 jaar bewaard.
+
+        marketing_cookie:
+          name: Marketing cookies
+          internal_name: marketing_cookie
+          short_description: Hierin worden persoonlijke gegevens van u opgeslagen.
+          long_description: >
+            Met deze cookies zien we waarin u geïnteresseerd bent en welke producten u bekijkt. Zo kunnen we u nadien persoonlijke inspiratie en aanbiedingen sturen in zoekmachines en social media. Zonder deze cookies kunnen we u geen aanbiedingen sturen en mist u dus persoonlijke aanbevelingen op onze websites, nieuwsbrieven, e-mails,...
+            Deze cookies komen van XX en blijven maximaal 2 jaar bewaard.
+
+      cookies:
+        functional_cookie:
+          name: Functionele cookie
+          description: Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna.
+
+        analyzing_cookie:
+          name: Analyserende cookie
+          description: Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna.
+
+        marketing_cookie:
+          name: Marketing cookie
+          description: Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna.

@@ -5,6 +5,8 @@ namespace {{ namespace }}\DataFixtures\ORM\LegalGenerator;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Kunstmaan\CookieBundle\Entity\Cookie;
+use Kunstmaan\CookieBundle\Entity\CookieType;
 use Kunstmaan\MediaBundle\Helper\Services\MediaCreatorService;
 use Kunstmaan\NodeBundle\Entity\Node;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
@@ -66,10 +68,11 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->requiredLocales = explode('|', $this->container->getParameter('requiredlocales'));
 
         $this->createLegalPages();
+        $this->createCookieTypes();
     }
 
     /**
-     * Create a Homepage
+     * Create legal pages
      */
     private function createLegalPages()
     {
@@ -82,7 +85,6 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
                 'language' => $locale,
                 'callback' => function (LegalFolderPage $page, NodeTranslation $translation, $seo) {
                     $translation->setTitle('Legal');
-                    $translation->setSlug($this->slugifier->slugify('Legal'));
                 },
             ];
         }
@@ -108,6 +110,40 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
+     * Creates the cookie types
+     */
+    public function createCookieTypes()
+    {
+        $cookieTypes = ['functional_cookie', 'analyzing_cookie', 'marketing_cookie'];
+
+        foreach ($cookieTypes as $cookieType) {
+            $type = new CookieType();
+            $type->setInternalName($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.internal_name'));
+            $type->setName($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.name'));
+            $type->setShortDescription($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.short_description'));
+            $type->setLongDescription($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.long_description'));
+
+            $this->manager->persist($type);
+            $this->createCookies($type);
+        }
+
+        $this->manager->flush();
+    }
+
+    /**
+     * @param CookieType $cookieType
+     */
+    public function createCookies(CookieType $cookieType)
+    {
+        $cookie = new Cookie();
+        $cookie->setName($this->translator->trans('kuma.cookie.fixtures.cookies.'.$cookieType->getInternalName().'.name'));
+        $cookie->setDescription($this->translator->trans('kuma.cookie.fixtures.cookies.'.$cookieType->getInternalName().'.description'));
+        $cookie->setType($cookieType);
+
+        $this->manager->persist($cookie);
+    }
+
+    /**
      * @param Node $node
      */
     private function addPrivacyPolicyPageParts(Node $node)
@@ -118,33 +154,33 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
             $pageparts['legal_header'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.text.1')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.text.1'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.headers.1')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.headers.1'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.text.2')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.text.2'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.headers.2')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.headers.2'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.text.3')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.privacy_policy.text.3'),
                 ]
             );
 
@@ -173,26 +209,26 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
             $pageparts['legal_header'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.1')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.1'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.1')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.1'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.2')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.2'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\LegalTipPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.tip.1')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.tip.1'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
@@ -201,14 +237,14 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
                     'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.1.title'),
                     'setSubtitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.1.subtitle'),
                     'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.1.text'),
-                    'setIcon' => $this->mediaCreator->createFile($imgDir.'label.svg', $folder->getId())
+                    'setIcon' => $this->mediaCreator->createFile($imgDir.'label.svg', $folder->getId()),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.2')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.2'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
@@ -217,65 +253,65 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
                     'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.2.title'),
                     'setSubtitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.2.subtitle'),
                     'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.2.text'),
-                    'setIcon' => $this->mediaCreator->createFile($imgDir.'cookie_monster.svg', $folder->getId())
+                    'setIcon' => $this->mediaCreator->createFile($imgDir.'cookie_monster.svg', $folder->getId()),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.3')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.3'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.3')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.3'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.4')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.4'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.4')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.4'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.5')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.5'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.5')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.5'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\LegalTipPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.tip.2')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.tip.2'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\HeaderPagePart',
                 [
                     'setNiv' => 2,
-                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.6')
+                    'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.headers.6'),
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.6')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.text.6'),
                 ]
             );
 
@@ -294,19 +330,19 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
             $pageparts['legal_header'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.contact.text.1')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.contact.text.1'),
                 ]
             );
             $pageparts['legal_header'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.contact.text.2')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.contact.text.2'),
                 ]
             );
             $pageparts['legal_header'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\TextPagePart',
                 [
-                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.contact.text.3')
+                    'setContent' => $this->translator->trans('kuma.cookie.fixtures.contact.text.3'),
                 ]
             );
 
