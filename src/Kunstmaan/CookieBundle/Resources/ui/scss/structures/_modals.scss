@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Structures - legal-modal
+   ========================================================================== */
+
+/* Variables
+   ========================================================================== */
+$legal-modal-border: 5px;
+$z-legal-modal-backdrop: 50;
+$z-legal-modal: 51;
+
+/* General
+   ========================================================================== */
+.legal-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    max-height: calc(100% - 100px);
+    max-width: $container-width + ($container-padding--md * 2);
+    overflow: scroll;
+
+    opacity: 0;
+
+    transform: translate(-50%, -50%);
+
+    transition: .2s ease-in-out;
+
+    &.legal-modal--visible {
+        top: 50%;
+        z-index: $z-legal-modal;
+
+        opacity: 1;
+
+        transition: .2s ease-in-out;
+        background: white;
+    }
+}
+
+
+/* Backdrop
+   ========================================================================== */
+.legal-modal__backdrop {
+    position: fixed;
+    top: -2.5%;
+    left: -2.5%;
+    z-index: -1;
+
+    opacity: 0;
+
+    width: calc(100% + 5%);
+    height: calc(100% + 5%);
+
+    background-color: rgba($black, .6);
+
+    transition: .2s ease-in-out;
+
+    &.legal-modal__backdrop--visible {
+        z-index: $z-legal-modal-backdrop;
+
+        opacity: 1;
+    }
+}

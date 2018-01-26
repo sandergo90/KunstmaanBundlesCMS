@@ -21,7 +21,30 @@
         </div>
 
         <div class="legal-footer">
-            {#<p>{{ 'kuma.cookie.bar.footer' | trans({'%privacy_policy%': null}) | raw }}</p>#}
+            {% set preferences %}
+                <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_cookie_preferences'}) }}">
+                    {{ 'kuma.cookie.bar.cookie_preferences' | trans }}
+                </a>
+            {% endset %}
+            {% set privacy %}
+                <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_privacy_policy'}) }}">
+                    {{ 'kuma.cookie.bar.privacy_policy' | trans }}
+                </a>
+            {% endset %}
+            {% spaceless %}
+                <p>{{ 'kuma.cookie.bar.footer' | trans({'%preferences%': preferences, '%privacy_policy%': privacy}) | raw }}</p>
+            {% endspaceless %}
+        </div>
+    </div>
+</div>
+
+<div class="legal-modal legal-modal--narrow" id="legal-modal--cookies">
+    <div class="legal-modal__content">
+        <button class="legal-modal__close svg-parent js-legal-modal-close">
+            CLOSE
+        </button>
+        <div class="js-legal-modal__content-wrapper">
+
         </div>
     </div>
 </div>
