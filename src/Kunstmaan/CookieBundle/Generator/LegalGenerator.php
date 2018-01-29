@@ -121,6 +121,7 @@ class LegalGenerator extends KunstmaanGenerator
         $this->renderSingleFile($sourceDir, $targetDir, 'LegalCenteredIconPagePart.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'LegalTipPagePart.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'LegalIconTextPagePart.php', $parameters);
+        $this->renderSingleFile($sourceDir, $targetDir, 'LegalCookiesPagePart.php', $parameters);
 
         $this->assistant->writeLine('Generating pageparts : <info>OK</info>');
     }
@@ -150,6 +151,7 @@ class LegalGenerator extends KunstmaanGenerator
         $this->renderSingleFile($sourceDir, $targetDir, 'LegalCenteredIconPagePartAdminType.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'LegalTipPagePartAdminType.php', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'LegalIconTextPagePartAdminType.php', $parameters);
+        $this->renderSingleFile($sourceDir, $targetDir, 'LegalCookiesPagePartAdminType.php', $parameters);
 
         $this->assistant->writeLine('Generating pageparts form types : <info>OK</info>');
     }
@@ -203,12 +205,11 @@ class LegalGenerator extends KunstmaanGenerator
         $this->renderSingleFile($sourceDir, $targetDir, 'pagetemplate.html.twig', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'view.html.twig', $parameters);
 
-        $relPath = '/Resources/views/PageParts/LegalCenteredIconPagePart/';
-        $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
-        $relPath = '/Resources/views/PageParts/LegalTipPagePart/';
-        $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
-        $relPath = '/Resources/views/PageParts/LegalIconTextPagePart/';
-        $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
+        $pageParts = ['LegalCenteredIconPagePart', 'LegalTipPagePart', 'LegalIconTextPagePart', 'LegalCookiesPagePart'];
+        foreach ($pageParts as $pagePart) {
+            $relPath = sprintf('/Resources/views/PageParts/%s/', $pagePart);
+            $this->renderFiles($this->skeletonDir.$relPath, $this->bundle->getPath().$relPath, $parameters, true);
+        }
 
         $this->assistant->writeLine('Generating template files : <info>OK</info>');
     }

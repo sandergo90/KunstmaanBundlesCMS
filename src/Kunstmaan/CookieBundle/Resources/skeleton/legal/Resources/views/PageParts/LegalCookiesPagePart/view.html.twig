@@ -1,0 +1,26 @@
+{% set cookie = get_legal_cookie(app.request) %}
+
+<div class="legal-cookies-pp">
+    {% for type in get_cookie_types() %}
+        {{ type.name }}
+        {% if type.alwaysOn %}
+            {{ 'kuma.cookie.cookie_preferences.always_on' | trans }}
+        {% else %}
+            {% set checked = false %}
+            {% if cookie[type.internalName] is defined and cookie[type.internalName] %} {% set checked = true %} {% endif %}
+            <input type="checkbox" id="legal_cookie_{{ type.internalName }}" class="btn toggle js-legal-toggle" rel="{{ type.internalName }}"{% if checked %} checked{% endif %}/>
+            <label for="legal_cookie_{{ type.internalName }}">
+                {% if checked %}
+                    {{ 'kuma.cookie.cookie_preferences.on' | trans }}
+                {% else %}
+                    {{ 'kuma.cookie.cookie_preferences.off' | trans }}
+                {% endif %}
+            </label>
+        {% endif %}
+        {% if type.longDescription is not empty %}
+            <p>
+                {{ type.longDescription | replace_url | raw }}
+            </p>
+        {% endif %}
+    {% endfor %}
+</div>

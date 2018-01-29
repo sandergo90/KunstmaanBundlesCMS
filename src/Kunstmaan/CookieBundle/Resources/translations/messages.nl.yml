@@ -6,8 +6,16 @@ kuma:
       privacy_policy: privacybeleid
       footer: "U kan deze instellingen op elk moment aanpassen in je %preferences%. Bekijk ook ons %privacy_policy%"
 
+    cookie_preferences:
+      on: aan
+      off: uit
+      always_on: altijd aan
+      to_top: Terug naar boven
+      save: voorkeuren opslaan
+
     fixtures:
       cookie_preferences:
+        title: Cookie voorkeuren
         text:
           1: Wij willen dat uw bezoek aan onze website even indrukwekkend is als onze service. Om uw ervaring te optimaliseren, maken we gebruik van cookies en vergelijkbare technieken. In het kader van gegevensbescherming, laten wij u weten hoe wij cookies gebruiken op onze site en hoe u ze, indien u dat wenst en ondanks de voordelen ervan, kunt deactiveren.
           2: Een cookie is een klein (tijdelijk) tekstbestand dat een website op uw computer of mobiel toestel opslaat wanneer u onze site bezoekt. Met die cookies kan de website uw toestel markeren en het herkennen wanneer u door de verschillende secties van de site surft (en eventueel bij een later bezoek), zodat u bijvoorbeeld niet voor elke pagina die u opvraagt opnieuw uw paswoord hoeft in te geven. Daarnaast gebruiken we ook cookies voor marketingdoeleinden.
@@ -36,6 +44,7 @@ kuma:
             text: Wist je dat lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.
 
       privacy_policy:
+        title: Privacy beleid
         text:
           1: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
           2: >
@@ -52,6 +61,7 @@ kuma:
           2: Lorem ipsul dolor sit
 
       contact:
+        title: Contacteer ons
         text:
           1: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
           2: >

@@ -99,13 +99,13 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $legalFolderNode = $this->pageCreator->createPage($legalFolderPage, $translations, $options);
 
-        $node = $this->createLegalPage($legalFolderNode, 'Contact us', 'legal_contact');
+        $node = $this->createLegalPage($legalFolderNode, $this->translator->trans('kuma.cookie.fixtures.contact.title'), 'legal_contact', 3);
         $this->addContactPageParts($node);
 
-        $node = $this->createLegalPage($legalFolderNode, 'Cookie preferences', 'legal_cookie_preferences');
+        $node = $this->createLegalPage($legalFolderNode, $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.title'), 'legal_cookie_preferences', 2);
         $this->addCookiePreferencesPageParts($node);
 
-        $node = $this->createLegalPage($legalFolderNode, 'Privacy policy', 'legal_privacy_policy');
+        $node = $this->createLegalPage($legalFolderNode, $this->translator->trans('kuma.cookie.fixtures.privacy_policy.title'), 'legal_privacy_policy', 1);
         $this->addPrivacyPolicyPageParts($node);
     }
 
@@ -122,6 +122,9 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
             $type->setName($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.name'));
             $type->setShortDescription($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.short_description'));
             $type->setLongDescription($this->translator->trans('kuma.cookie.fixtures.cookie_types.'.$cookieType.'.long_description'));
+            if ($cookieType === 'functional_cookie') {
+                $type->setAlwaysOn(true);
+            }
 
             $this->manager->persist($type);
             $this->createCookies($type);
@@ -248,6 +251,9 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
                 ]
             );
             $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
+                '{{ namespace }}\Entity\PageParts\LegalCookiesPagePart', []
+            );
+            $pageparts['legal_main'][] = $this->pagePartCreator->getCreatorArgumentsForPagePartAndProperties(
                 '{{ namespace }}\Entity\PageParts\LegalIconTextPagePart',
                 [
                     'setTitle' => $this->translator->trans('kuma.cookie.fixtures.cookie_preferences.icon_text.2.title'),
@@ -354,10 +360,11 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
      * @param Node   $parent
      * @param string $title
      * @param string $internalName
+     * @param int    $weight
      *
      * @return Node
      */
-    private function createLegalPage(Node $parent, string $title, string $internalName)
+    private function createLegalPage(Node $parent, string $title, string $internalName, int $weight)
     {
         $legalPage = new LegalPage();
         $legalPage->setTitle($title);
@@ -366,9 +373,10 @@ class DefaultFixtures extends AbstractFixture implements OrderedFixtureInterface
         foreach ($this->requiredLocales as $locale) {
             $translations[] = [
                 'language' => $locale,
-                'callback' => function (LegalPage $page, NodeTranslation $translation, $seo) use ($title) {
+                'callback' => function (LegalPage $page, NodeTranslation $translation, $seo) use ($title, $weight) {
                     $translation->setTitle($title);
                     $translation->setSlug($this->slugifier->slugify($title));
+                    $translation->setWeight($weight);
                 },
             ];
         }

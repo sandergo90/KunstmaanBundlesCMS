@@ -12,6 +12,7 @@ kuma:
         long_description: Long description
         internal_name: Internal name
         internal_name_with_explanation: Internal name (used as cookie name)
+        always_on: Altijd aan
 
       cookie:
         name: Name
@@ -23,3 +24,10 @@ kuma:
       cookie_preferences: cookie-preferences
       privacy_policy: privacy policy
       footer: "You can change these settings at any time in your %preferences%. You can also view our %privacy_policy%"
+
+  cookie_preferences:
+    on: on
+    off: off
+    always_on: always on
+    to_top: Back to top
+    save: save preferences

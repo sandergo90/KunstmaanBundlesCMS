@@ -4,6 +4,7 @@ namespace Kunstmaan\CookieBundle\Form;
 
 use Kunstmaan\AdminBundle\Form\WysiwygType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -60,6 +61,14 @@ class CookieTypeAdminType extends AbstractType
             [
                 'required' => true,
                 'label' => 'kuma.cookie.adminlists.cookie_type.internal_name_with_explanation',
+            ]
+        );
+        $builder->add(
+            'alwaysOn',
+            CheckboxType::class,
+            [
+                'required' => true,
+                'label' => 'kuma.cookie.adminlists.cookie_type.always_on',
             ]
         );
     }

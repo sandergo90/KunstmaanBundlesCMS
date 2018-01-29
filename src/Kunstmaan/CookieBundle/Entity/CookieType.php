@@ -57,6 +57,13 @@ class CookieType extends AbstractEntity implements OverviewNavigationInterface
     private $weight = 0;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="always_on", type="boolean")
+     */
+    private $alwaysOn = false;
+
+    /**
      * Set name
      *
      * @param string $name
@@ -185,4 +192,28 @@ class CookieType extends AbstractEntity implements OverviewNavigationInterface
     }
 
 
+
+    /**
+     * Set alwaysOn
+     *
+     * @param boolean $alwaysOn
+     *
+     * @return CookieType
+     */
+    public function setAlwaysOn($alwaysOn)
+    {
+        $this->alwaysOn = $alwaysOn;
+
+        return $this;
+    }
+
+    /**
+     * Get alwaysOn
+     *
+     * @return boolean
+     */
+    public function isAlwaysOn()
+    {
+        return $this->alwaysOn;
+    }
 }

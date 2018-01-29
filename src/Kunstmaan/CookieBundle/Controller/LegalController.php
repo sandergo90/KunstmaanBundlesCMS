@@ -2,10 +2,12 @@
 
 namespace Kunstmaan\CookieBundle\Controller;
 
+use Kunstmaan\CookieBundle\Helper\LegalCookieHelper;
 use Kunstmaan\NodeBundle\Entity\Node;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,6 +17,19 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LegalController extends AbstractController
 {
+    /** @var LegalCookieHelper */
+    private $cookieHelper;
+
+    /**
+     * LegalController constructor.
+     *
+     * @param LegalCookieHelper $cookieHelper
+     */
+    public function __construct(LegalCookieHelper $cookieHelper)
+    {
+        $this->cookieHelper = $cookieHelper;
+    }
+
     /**
      * @Route("/modal/{internal_name}", name="kunstmaancookiebundle_legal_modal")
      * @ParamConverter("node", class="Kunstmaan\NodeBundle\Entity\Node", options={
@@ -34,5 +49,24 @@ class LegalController extends AbstractController
                 'page' => $page,
             ]
         );
+    }
+
+    /**
+     * @Route("/toggle-cookies", name="kunstmaancookiebundle_legal_toggle_cookies")
+     */
+    public function toggleCookiesAction(Request $request)
+    {
+        $cookieTypes = $request->request->all();
+
+        $legalCookie = $this->cookieHelper->findOrCreateLegalCookie($request);
+
+        foreach ($cookieTypes as $internalName => $value) {
+            $legalCookie[$internalName] = $value;
+        }
+
+        $response = new JsonResponse();
+        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($legalCookie));
+
+        return $response;
     }
 }

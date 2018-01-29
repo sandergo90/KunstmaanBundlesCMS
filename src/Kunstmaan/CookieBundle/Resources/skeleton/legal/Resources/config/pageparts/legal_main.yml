@@ -9,3 +9,4 @@ types:
     - { name: "Text", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\TextPagePart" }
     - { name: "Tip", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LegalTipPagePart" }
     - { name: "Icon text", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LegalIconTextPagePart" }
+    - { name: "Cookies", class: "{{ namespace|replace({'\\': '\\\\'}) }}\\Entity\\PageParts\\LegalCookiesPagePart" }

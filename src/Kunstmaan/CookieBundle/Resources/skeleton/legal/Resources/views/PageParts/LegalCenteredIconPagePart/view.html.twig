@@ -1,9 +1,7 @@
 <div class="legal-centered-icon-pp">
-    <div class="legal-container">
-        <figure class="">
-            {% if resource.icon is not empty %}
-                <img src="{{ asset(resource.icon.url) }}">
-            {% endif %}
-        </figure>
-    </div>
+    <figure class="">
+        {% if resource.icon is not empty %}
+            <img src="{{ asset(resource.icon.url) }}">
+        {% endif %}
+    </figure>
 </div>

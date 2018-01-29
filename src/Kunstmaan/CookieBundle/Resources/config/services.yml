@@ -11,3 +11,8 @@ services:
   Kunstmaan\CookieBundle\:
     resource: '../../*'
     exclude: '../../{Entity,Repository,Tests,Controller,Features,Resources}'
+
+  Kunstmaan\CookieBundle\Controller\:
+    resource: '../../Controller/*'
+    autowire: true
+    public: true

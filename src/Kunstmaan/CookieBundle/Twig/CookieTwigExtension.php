@@ -4,6 +4,8 @@ namespace Kunstmaan\CookieBundle\Twig;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Kunstmaan\CookieBundle\Entity\CookieType;
+use Kunstmaan\CookieBundle\Helper\LegalCookieHelper;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class CookieTwigExtension
@@ -15,14 +17,19 @@ class CookieTwigExtension extends \Twig_Extension
     /** @var EntityManagerInterface */
     private $em;
 
+    /** @var LegalCookieHelper */
+    private $cookieHelper;
+
     /**
      * CookieTwigExtension constructor.
      *
      * @param EntityManagerInterface $em
+     * @param LegalCookieHelper      $cookieHelper
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, LegalCookieHelper $cookieHelper)
     {
         $this->em = $em;
+        $this->cookieHelper = $cookieHelper;
     }
 
     /**
@@ -34,6 +41,7 @@ class CookieTwigExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('get_cookie_types', [$this, 'getCookieTypes']),
+            new \Twig_SimpleFunction('get_legal_cookie', [$this, 'getLegalCookie']),
         ];
     }
 
@@ -43,5 +51,15 @@ class CookieTwigExtension extends \Twig_Extension
     public function getCookieTypes()
     {
         return $this->em->getRepository('KunstmaanCookieBundle:CookieType')->findAll();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array|mixed
+     */
+    public function getLegalCookie(Request $request)
+    {
+        return $this->cookieHelper->findOrCreateLegalCookie($request);
     }
 }

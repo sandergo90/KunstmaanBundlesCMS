@@ -18,6 +18,7 @@
             <input class="legal-state" type="radio" name="tabs-state" id="tab-{{ key }}"{% if key == node.internalName %} checked{% endif %}/>
         {% endfor %}
 
+
         <div class="legal-tabs">
             {% for key,tab in tabs %}
                 <label for="tab-{{ key }}" id="tab-{{ key }}-label" class="legal-tab">
@@ -32,5 +33,14 @@
                 </div>
             {% endfor %}
         </div>
+    </div>
+
+    <div class="legal-footer">
+        <p class="totop-pp">
+            <a href="#">{{ 'kuma.cookie.cookie_preferences.to_top' | trans }}</a>
+        </p>
+        <button class="btn js-legal-toggle-subscriber" data-href="{{ path('kunstmaancookiebundle_legal_toggle_cookies') }}">
+            {{ 'kuma.cookie.cookie_preferences.save' | trans }}
+        </button>
     </div>
 </div>
