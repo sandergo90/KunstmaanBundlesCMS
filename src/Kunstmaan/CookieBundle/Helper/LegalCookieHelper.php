@@ -45,16 +45,16 @@ class LegalCookieHelper
                 $types = $this->em->getRepository('KunstmaanCookieBundle:CookieType')->findAll();
                 foreach ($types as $type) {
                     if ($type->isAlwaysOn()) {
-                        $cookies[$type->getInternalName()] = true;
+                        $cookies[$type->getInternalName()] = 'true';
                     } else {
-                        $cookies[$type->getInternalName()] = false;
+                        $cookies[$type->getInternalName()] = 'false';
                     }
                 }
             }
-            $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME, serialize($cookies));
+            $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME, json_encode($cookies));
         }
 
-        return unserialize($this->legalCookie, [false]);
+        return json_decode($this->legalCookie, true);
     }
 
     /**
@@ -68,7 +68,7 @@ class LegalCookieHelper
             $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME);
         }
 
-        return unserialize($this->legalCookie, [false]);
+        return json_decode($this->legalCookie);
     }
 
     /**
@@ -88,6 +88,7 @@ class LegalCookieHelper
 
         $legalCookie['cookie_log_id'] = $log->getId();
 
-        return new Cookie(self::LEGAL_COOKIE_NAME, serialize($legalCookie));
+
+        return new Cookie(self::LEGAL_COOKIE_NAME, json_encode($legalCookie), 0, '/', null, true, false);
     }
 }

@@ -93,7 +93,7 @@ class LegalController extends AbstractController
         $legalCookie = $this->cookieHelper->findOrCreateLegalCookie($request);
 
         foreach ($legalCookie as $internalName => $value) {
-            $legalCookie[$internalName] = true;
+            $legalCookie[$internalName] = 'true';
         }
 
         $response = new JsonResponse();
