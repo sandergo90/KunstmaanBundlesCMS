@@ -20,6 +20,7 @@ export default class LegalToggleSubscriber {
             el.addEventListener('click', this.toggleCookies);
         });
     }
+
     addToggleAllEventListener() {
         querySelectorAll(`.${CLASSES.TRIGGER.TOGGLE_ALL}`).forEach((el) => {
             el.addEventListener('click', this.toggleAllCookies);
@@ -40,7 +41,7 @@ export default class LegalToggleSubscriber {
         if (url) {
             // Build data params
             xhr.post(url, data).then((request) => {
-
+                alert('Saved');
             });
         }
     }
@@ -54,7 +55,7 @@ export default class LegalToggleSubscriber {
         if (url) {
             // Build data params
             xhr.post(url).then((request) => {
-
+                alert('Saved');
             });
         }
     }

@@ -80,7 +80,7 @@ class LegalController extends AbstractController
         }
 
         $response = new JsonResponse();
-        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($legalCookie));
+        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($request, $legalCookie));
 
         return $response;
     }
@@ -97,7 +97,7 @@ class LegalController extends AbstractController
         }
 
         $response = new JsonResponse();
-        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($legalCookie));
+        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($request, $legalCookie));
 
         return $response;
     }
