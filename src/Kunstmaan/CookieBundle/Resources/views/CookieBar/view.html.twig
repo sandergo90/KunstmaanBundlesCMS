@@ -1,50 +1,56 @@
-<!-- START of Kunstmaan cookie bar -->
-<div id="kumacookiebar">
-    <div class="legal-container">
-        <h1>{{ 'kuma.cookie.bar.title' | trans }}</h1>
+{% set cookie = get_legal_cookie(app.request) %}
 
-        {% set types = get_cookie_types() %}
+{% if cookie is empty %}
+    <!-- START of Kunstmaan cookie bar -->
+    <div id="kumacookiebar">
+        <div class="legal-container">
+            <h1>{{ 'kuma.cookie.bar.title' | trans }}</h1>
 
-        <div class="legal-row">
-            {% for type in types %}
-                <div class="legal-col">
-                    <div class="legal-title">
-                        {{ type.name }}
+            {% set types = get_cookie_types() %}
+
+            <div class="legal-row">
+                {% for type in types %}
+                    <div class="legal-col">
+                        <div class="legal-title">
+                            {{ type.name }}
+                        </div>
+                        {% if type.shortDescription is not empty %}
+                            <p class="legal-paragraph">
+                                {{ type.shortDescription | replace_url | raw }}
+                            </p>
+                        {% endif %}
                     </div>
-                    {% if type.shortDescription is not empty %}
-                        <p class="legal-paragraph">
-                            {{ type.shortDescription | replace_url | raw }}
-                        </p>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
 
-        <div class="legal-footer">
-            <div class="legal-footer__preferences">
-                {% set preferences %}
-                    <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_cookie_preferences'}) }}">
-                        {{ 'kuma.cookie.bar.cookie_preferences' | trans }}
-                    </a>
-                {% endset %}
-                {% set privacy %}
-                    <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_privacy_policy'}) }}">
-                        {{ 'kuma.cookie.bar.privacy_policy' | trans }}
-                    </a>
-                {% endset %}
-                {% spaceless %}
-                    <div class="legal-footer__preferences__left">
-                        {{ 'kuma.cookie.bar.footer' | trans({'%preferences%': preferences, '%privacy_policy%': privacy}) | raw }}                </div>
-                {% endspaceless %}
+            <div class="legal-footer">
+                <div class="legal-footer__preferences">
+                    {% set preferences %}
+                        <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_cookie_preferences'}) }}">
+                            {{ 'kuma.cookie.bar.cookie_preferences' | trans }}
+                        </a>
+                    {% endset %}
+                    {% set privacy %}
+                        <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_privacy_policy'}) }}">
+                            {{ 'kuma.cookie.bar.privacy_policy' | trans }}
+                        </a>
+                    {% endset %}
+                    {% spaceless %}
+                        <div class="legal-footer__preferences__left">
+                            {{ 'kuma.cookie.bar.footer' | trans({'%preferences%': preferences, '%privacy_policy%': privacy}) | raw }}                </div>
+                    {% endspaceless %}
 
-                <div class="legal-footer__preferences__right">
-                    <a href="#" class="legal-btn">{{ 'kuma.cookie.bar.button' | trans | raw }}</a>
-                    <span>{{ 'kuma.cookie.bar.change_preferences' | trans | raw }}</span>
+                    <div class="legal-footer__preferences__right">
+                        <button data-href="{{ path('kunstmaancookiebundle_legal_toggle_all_cookies') }}" class="legal-btn js-legal-toggle-all-subscriber">{{ 'kuma.cookie.bar.button' | trans | raw }}</button>
+                        <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_cookie_preferences'}) }}">
+                            {{ 'kuma.cookie.bar.change_preferences' | trans }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+{% endif %}
 
 <div class="legal-modal legal-modal--narrow" id="legal-modal--cookies">
     <div class="legal-modal__content">

@@ -27,9 +27,10 @@ kuma:
       button: I accept all cookies
       change_preferences: I want to set my cookie-preferences manually
 
-  cookie_preferences:
-    on: on
-    off: off
-    always_on: always on
-    to_top: Back to top
-    save: save preferences
+    cookie_preferences:
+      on: on
+      off: off
+      always_on: always on
+      to_top: Back to top
+      save: save preferences
+      detail: View cookies in detail

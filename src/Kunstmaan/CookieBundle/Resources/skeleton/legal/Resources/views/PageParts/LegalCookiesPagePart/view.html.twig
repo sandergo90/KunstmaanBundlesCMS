@@ -17,6 +17,9 @@
                 {% endif %}
             </label>
         {% endif %}
+        <a href="{{ path('kunstmaancookiebundle_legal_detail', {'internalName': type.internalName}) }}">
+            {{ 'kuma.cookie.cookie_preferences.detail' | trans }}
+        </a>
         {% if type.longDescription is not empty %}
             <p>
                 {{ type.longDescription | replace_url | raw }}

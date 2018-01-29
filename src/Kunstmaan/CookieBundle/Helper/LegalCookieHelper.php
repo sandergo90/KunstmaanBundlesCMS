@@ -57,6 +57,20 @@ class LegalCookieHelper
     }
 
     /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function getLegalCookie(Request $request)
+    {
+        if (null === $this->legalCookie) {
+            $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME);
+        }
+
+        return unserialize($this->legalCookie, [false]);
+    }
+
+    /**
      * @param array $legalCookie
      *
      * @return Cookie

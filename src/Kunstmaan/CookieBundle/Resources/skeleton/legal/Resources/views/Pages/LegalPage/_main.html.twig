@@ -1,0 +1,18 @@
+{% set first = true %}
+{% for pagepart in getpageparts(page, 'legal_main') %}
+    {% if 'HeaderPagePart' in pagepart.getDefaultView %}
+        {% if pagepart.niv is defined and pagepart.niv == 2 %}
+            {% if not first %}
+                </div>
+            {% endif %}
+            {% set first = false %}
+            <div class="legal-heading-wrapper">
+        {% endif %}
+    {% endif %}
+
+    {% include pagepart.defaultView with {'resource': pagepart} %}
+
+    {% if loop.last and not first %}
+        </div>
+    {% endif %}
+{% endfor %}

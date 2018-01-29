@@ -4,18 +4,25 @@ import querySelectorAll from './querySelectorAll';
 const CLASSES = {
     TOGGLES: 'js-legal-toggle',
     TRIGGER: {
-        CLICK: 'js-legal-toggle-subscriber'
+        TOGGLE: 'js-legal-toggle-subscriber',
+        TOGGLE_ALL: 'js-legal-toggle-all-subscriber'
     }
 };
 
 export default class LegalToggleSubscriber {
     constructor() {
         this.addToggleEventListener();
+        this.addToggleAllEventListener();
     }
 
     addToggleEventListener() {
-        querySelectorAll(`.${CLASSES.TRIGGER.CLICK}`).forEach((el) => {
+        querySelectorAll(`.${CLASSES.TRIGGER.TOGGLE}`).forEach((el) => {
             el.addEventListener('click', this.toggleCookies);
+        });
+    }
+    addToggleAllEventListener() {
+        querySelectorAll(`.${CLASSES.TRIGGER.TOGGLE_ALL}`).forEach((el) => {
+            el.addEventListener('click', this.toggleAllCookies);
         });
     }
 
@@ -33,7 +40,21 @@ export default class LegalToggleSubscriber {
         if (url) {
             // Build data params
             xhr.post(url, data).then((request) => {
-                alert('Saved');
+
+            });
+        }
+    }
+
+    toggleAllCookies(event) {
+        event.preventDefault();
+
+        const element = event.target;
+        const url = element.dataset.href;
+
+        if (url) {
+            // Build data params
+            xhr.post(url).then((request) => {
+
             });
         }
     }
