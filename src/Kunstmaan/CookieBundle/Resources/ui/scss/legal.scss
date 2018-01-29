@@ -5,9 +5,17 @@
    Never add styles directly to this file
    ========================================================================== */
 
-/* Base
+/* Config
    ========================================================================== */
-@import "config/sizes";
+@import "config/general/sizes";
+@import "config/general/colors";
+@import "config/general/z-index";
+
+@import "config/general/typography/bodycopy";
+@import "config/general/typography/fonts";
+
+/* General
+   ========================================================================== */
 @import "general/scaffolding";
 
 /* Structures

@@ -25,6 +25,19 @@
 
 .legal-row {
     display: flex;
+
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.legal-col {
+    width: 290px;
+
+    p {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 .legal__text-center {

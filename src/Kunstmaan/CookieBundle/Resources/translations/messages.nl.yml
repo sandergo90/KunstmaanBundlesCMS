@@ -4,7 +4,10 @@ kuma:
       title: Deze website werkt optimaal met cookies
       cookie_preferences: cookie-voorkeuren
       privacy_policy: privacybeleid
+      preferences: cookie-coorkeuren
       footer: "U kan deze instellingen op elk moment aanpassen in je %preferences%. Bekijk ook ons %privacy_policy%"
+      button: Ik aanvaard al deze cookies
+      change_preferences: ik wil mijn cookie-voorkeuren zelf instellen
 
     cookie_preferences:
       on: aan

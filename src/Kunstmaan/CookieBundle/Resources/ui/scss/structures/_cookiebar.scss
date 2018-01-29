@@ -4,8 +4,75 @@
 
 #kumacookiebar {
     position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 49;
-    background: #faf7f5;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+
+    z-index: $z-cookie-bar;
+
+    padding: 60px 0 35px;
+
+    background: $grey;
+
+    h1 {
+        margin: 0 0 30px;
+
+        font: {
+            family: $font-family--headings;
+            weight: $font-weight--black;
+            size: 33px;
+        }
+
+        color: $blue;
+    }
+}
+
+.legal-title {
+    margin-bottom: 10px;
+
+    font: {
+        family: $font-family--base;
+        weight: $font-weight--medium;
+        size: 18px;
+    }
+
+    color: $blue;
+}
+
+.legal-btn {
+    display: inline-block;
+    padding: 10px 30px;
+
+    background-color: $green;
+    color: $white;
+
+    border-radius: 25px;
+
+    font: {
+        family: $font-family--base;
+        weight: $font-weight--medium;
+        size: 15px;
+    }
+
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.legal-footer__preferences {
+    display: flex;
+    margin-top: 20px;
+
+    justify-content: space-between;
+
+    &__left {
+        width: 370px;
+
+        align-self: flex-end;
+    }
+
+    &__right {
+        display: flex;
+
+        flex-direction: column;
+    }
 }

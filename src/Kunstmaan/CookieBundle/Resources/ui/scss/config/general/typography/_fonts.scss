@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Fonts
+
+   This file is exclusively intended for setting up variables
+   Never add styles directly to this file
+   ========================================================================== */
+
+/* Webfonts
+   ========================================================================== */
+$helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$times: "Times New Roman", serif;
+$roboto: "Roboto", $helvetica; // light:300 - regular:400 - medium:500 - bold:700 - black:900
+$graphik: "Graphik", $helvetica;
+
+$primary-font: $graphik;
+
+
+/* Defaults
+   ========================================================================== */
+$font-family--base:         $primary-font;
+$font-family--headings:     $primary-font;
+$font-family--buttons:      $primary-font;
