@@ -45,9 +45,9 @@ class LegalCookieHelper
                 $types = $this->em->getRepository('KunstmaanCookieBundle:CookieType')->findAll();
                 foreach ($types as $type) {
                     if ($type->isAlwaysOn()) {
-                        $cookies[$type->getInternalName()] = 'true';
+                        $cookies['cookies'][$type->getInternalName()] = 'true';
                     } else {
-                        $cookies[$type->getInternalName()] = 'false';
+                        $cookies['cookies'][$type->getInternalName()] = 'undefined';
                     }
                 }
             }
@@ -68,7 +68,7 @@ class LegalCookieHelper
             $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME);
         }
 
-        return json_decode($this->legalCookie);
+        return json_decode($this->legalCookie, true)['cookies'];
     }
 
     /**
@@ -87,7 +87,6 @@ class LegalCookieHelper
         $this->em->flush();
 
         $legalCookie['cookie_log_id'] = $log->getId();
-
 
         return new Cookie(self::LEGAL_COOKIE_NAME, json_encode($legalCookie), 0, '/', null, true, false);
     }

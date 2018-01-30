@@ -13,6 +13,7 @@ export default class LegalToggleSubscriber {
     constructor() {
         this.addToggleEventListener();
         this.addToggleAllEventListener();
+        triggerCookieEvent();
     }
 
     addToggleEventListener() {
@@ -41,7 +42,7 @@ export default class LegalToggleSubscriber {
         if (url) {
             // Build data params
             xhr.post(url, data).then((request) => {
-                alert('Saved');
+                return triggerCookieEvent();
             });
         }
     }
@@ -55,8 +56,38 @@ export default class LegalToggleSubscriber {
         if (url) {
             // Build data params
             xhr.post(url).then((request) => {
-                alert('Saved');
+                return triggerCookieEvent();
             });
+        }
+    }
+}
+
+function triggerCookieEvent() {
+    const cookiearray = document.cookie.split(';');
+
+    for (let i = 0; i < cookiearray.length; i++) {
+        const name = cookiearray[i].split('=')[0].trim();
+        const value = decodeURIComponent(cookiearray[i].split('=')[1]);
+
+        if (name === 'legal_cookie') {
+            const parsed = JSON.parse(value);
+
+            if (parsed.cookies !== undefined) {
+                const cookies = parsed.cookies
+                ;
+
+                for (let k in cookies) {
+                    if (cookies.hasOwnProperty(k)) {
+                        dataLayer.push({
+                            'event': 'enableCookie',
+                            'attributes': {
+                                'cookieName': k,
+                                'cookieValue': cookies[k]
+                            }
+                        });
+                    }
+                }
+            }
         }
     }
 }
