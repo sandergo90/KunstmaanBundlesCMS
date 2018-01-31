@@ -3,6 +3,7 @@
 namespace Kunstmaan\CookieBundle\Helper;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Kunstmaan\CookieBundle\Entity\CookieLog;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -44,25 +45,49 @@ class LegalCookieHelper
                 $types = $this->em->getRepository('KunstmaanCookieBundle:CookieType')->findAll();
                 foreach ($types as $type) {
                     if ($type->isAlwaysOn()) {
-                        $cookies[$type->getInternalName()] = true;
+                        $cookies['cookies'][$type->getInternalName()] = 'true';
                     } else {
-                        $cookies[$type->getInternalName()] = false;
+                        $cookies['cookies'][$type->getInternalName()] = 'undefined';
                     }
                 }
             }
-            $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME, serialize($cookies));
+            $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME, json_encode($cookies));
         }
 
-        return unserialize($this->legalCookie, [false]);
+        return json_decode($this->legalCookie, true);
     }
 
     /**
-     * @param array $legalCookie
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function getLegalCookie(Request $request)
+    {
+        if (null === $this->legalCookie) {
+            $this->legalCookie = $request->cookies->get(self::LEGAL_COOKIE_NAME);
+        }
+
+        return json_decode($this->legalCookie, true)['cookies'];
+    }
+
+    /**
+     * @param Request $request
+     * @param array   $legalCookie
      *
      * @return Cookie
      */
-    public function saveLegalCookie(array $legalCookie)
+    public function saveLegalCookie(Request $request, array $legalCookie)
     {
-        return new Cookie(self::LEGAL_COOKIE_NAME, serialize($legalCookie));
+        $log = new CookieLog();
+        $log->setIpAddress($request->getClientIp());
+        $log->setCreated(new \DateTime('now'));
+
+        $this->em->persist($log);
+        $this->em->flush();
+
+        $legalCookie['cookie_log_id'] = $log->getId();
+
+        return new Cookie(self::LEGAL_COOKIE_NAME, json_encode($legalCookie), 0, '/', null, true, false);
     }
 }

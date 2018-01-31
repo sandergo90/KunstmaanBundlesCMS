@@ -2,6 +2,7 @@
 
 namespace Kunstmaan\CookieBundle\Controller;
 
+use Kunstmaan\CookieBundle\Entity\CookieType;
 use Kunstmaan\CookieBundle\Helper\LegalCookieHelper;
 use Kunstmaan\NodeBundle\Entity\Node;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -52,6 +53,20 @@ class LegalController extends AbstractController
     }
 
     /**
+     * @Route("/detail/{internalName}", name="kunstmaancookiebundle_legal_detail")
+     * @ParamConverter("cookieType", options={"mapping": {"internalName": "internalName"}})
+     */
+    public function cookieDetailAction(Request $request, CookieType $cookieType)
+    {
+        return $this->render(
+            '@KunstmaanCookie/CookieBar/_detail.html.twig',
+            [
+                'type' => $cookieType,
+            ]
+        );
+    }
+
+    /**
      * @Route("/toggle-cookies", name="kunstmaancookiebundle_legal_toggle_cookies")
      */
     public function toggleCookiesAction(Request $request)
@@ -61,11 +76,28 @@ class LegalController extends AbstractController
         $legalCookie = $this->cookieHelper->findOrCreateLegalCookie($request);
 
         foreach ($cookieTypes as $internalName => $value) {
-            $legalCookie[$internalName] = $value;
+            $legalCookie['cookies'][$internalName] = $value;
         }
 
         $response = new JsonResponse();
-        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($legalCookie));
+        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($request, $legalCookie));
+
+        return $response;
+    }
+
+    /**
+     * @Route("/toggle-all-cookies", name="kunstmaancookiebundle_legal_toggle_all_cookies")
+     */
+    public function toggleAllCookiesAction(Request $request)
+    {
+        $legalCookie = $this->cookieHelper->findOrCreateLegalCookie($request);
+
+        foreach ($legalCookie['cookies'] as $internalName => $value) {
+            $legalCookie['cookies'][$internalName] = 'true';
+        }
+
+        $response = new JsonResponse();
+        $response->headers->setCookie($this->cookieHelper->saveLegalCookie($request, $legalCookie));
 
         return $response;
     }

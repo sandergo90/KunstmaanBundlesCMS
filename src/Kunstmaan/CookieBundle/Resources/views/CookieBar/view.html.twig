@@ -2,8 +2,13 @@
 <div id="kumacookiebar">
     <div class="legal-container">
         <h2>{{ 'kuma.cookie.bar.title' | trans }}</h2>
+{% set cookie = get_legal_cookie(app.request) %}
 
-        {% set types = get_cookie_types() %}
+{% if cookie is empty %}
+    <!-- START of Kunstmaan cookie bar -->
+    <div id="kumacookiebar">
+        <div class="legal-container">
+            <h1>{{ 'kuma.cookie.bar.title' | trans }}</h1>
 
         <div class="legal-row">
             {% for type in types %}
@@ -52,11 +57,12 @@
                     <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_cookie_preferences'}) }}">
                         {{ 'kuma.cookie.bar.change_preferences' | trans | raw }}
                     </a>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
+{% endif %}
 
 <div class="legal-modal legal-modal--narrow" id="legal-modal--cookies">
     <div class="legal-modal__content">

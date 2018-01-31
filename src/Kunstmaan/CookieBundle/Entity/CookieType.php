@@ -2,6 +2,8 @@
 
 namespace Kunstmaan\CookieBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
@@ -62,6 +64,19 @@ class CookieType extends AbstractEntity implements OverviewNavigationInterface
      * @ORM\Column(name="always_on", type="boolean")
      */
     private $alwaysOn = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Kunstmaan\CookieBundle\Entity\Cookie", mappedBy="type")
+     */
+    private $cookies;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cookies = new ArrayCollection();
+    }
 
     /**
      * Set name
@@ -184,16 +199,6 @@ class CookieType extends AbstractEntity implements OverviewNavigationInterface
     }
 
     /**
-     * @return string
-     */
-    public function getOverViewRoute()
-    {
-        return 'kunstmaancookiebundle_admin_cookietype';
-    }
-
-
-
-    /**
      * Set alwaysOn
      *
      * @param boolean $alwaysOn
@@ -215,5 +220,57 @@ class CookieType extends AbstractEntity implements OverviewNavigationInterface
     public function isAlwaysOn()
     {
         return $this->alwaysOn;
+    }
+
+    /**
+     * Get alwaysOn
+     *
+     * @return boolean
+     */
+    public function getAlwaysOn()
+    {
+        return $this->alwaysOn;
+    }
+
+    /**
+     * Add cookie
+     *
+     * @param Cookie $cookie
+     *
+     * @return CookieType
+     */
+    public function addCooky(Cookie $cookie)
+    {
+        $this->cookies[] = $cookie;
+
+        return $this;
+    }
+
+    /**
+     * Remove cookie
+     *
+     * @param Cookie $cookie
+     */
+    public function removeCooky(Cookie $cookie)
+    {
+        $this->cookies->removeElement($cookie);
+    }
+
+    /**
+     * Get cookies
+     *
+     * @return Collection
+     */
+    public function getCookies()
+    {
+        return $this->cookies;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOverViewRoute()
+    {
+        return 'kunstmaancookiebundle_admin_cookietype';
     }
 }

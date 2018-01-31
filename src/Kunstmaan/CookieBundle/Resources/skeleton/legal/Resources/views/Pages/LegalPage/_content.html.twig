@@ -24,6 +24,6 @@
     </div>
 
     <div class="legal__right">
-        {{ render_pageparts(page, 'legal_main') }}
+        {% include '<%= bundle.name %>:Pages:LegalPage/_main.html.twig' %}
     </div>
 </div>

@@ -35,7 +35,7 @@ class Cookie extends AbstractEntity
     /**
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="Kunstmaan\CookieBundle\Entity\CookieType")
+     * @ORM\ManyToOne(targetEntity="Kunstmaan\CookieBundle\Entity\CookieType", inversedBy="cookies")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
     private $type;

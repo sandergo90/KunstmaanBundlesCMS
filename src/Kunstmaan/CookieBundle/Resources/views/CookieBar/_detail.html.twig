@@ -1,0 +1,6 @@
+<h2>{{ type.name }}</h2>
+
+{% for cookie in type.cookies %}
+    <h3>{{ cookie.name }}</h3>
+    <p>{{ cookie.description | replace_url | raw }}</p>
+{% endfor %}

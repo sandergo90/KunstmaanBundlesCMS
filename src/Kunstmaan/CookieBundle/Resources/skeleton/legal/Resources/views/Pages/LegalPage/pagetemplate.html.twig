@@ -18,7 +18,6 @@
             <input class="legal-state" type="radio" name="tabs-state" id="tab-{{ key }}"{% if key == node.internalName %} checked{% endif %}/>
         {% endfor %}
 
-
         <div class="legal-tabs">
             {% for key,tab in tabs %}
                 <label for="tab-{{ key }}" id="tab-{{ key }}-label" class="legal-tab">
@@ -29,7 +28,7 @@
             {% for key,tab in tabs %}
                 {% set pageToRender = get_page_by_node_translation(tab.nodeTranslation(app.request.locale)) %}
                 <div id="tab-{{ key }}-panel" class="panel{% if key == node.internalName %} active{% endif %}">
-                    {% include 'WillWebsiteBundle:Pages:LegalPage/_content.html.twig' with {'page': pageToRender} %}
+                    {% include '<%= bundle.name %>:Pages:LegalPage/_content.html.twig' with {'page': pageToRender} %}
                 </div>
             {% endfor %}
         </div>

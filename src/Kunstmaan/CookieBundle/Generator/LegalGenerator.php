@@ -202,6 +202,7 @@ class LegalGenerator extends KunstmaanGenerator
         $targetDir = $this->bundle->getPath().$relPath;
 
         $this->renderSingleFile($sourceDir, $targetDir, '_content.html.twig', $parameters);
+        $this->renderSingleFile($sourceDir, $targetDir, '_main.html.twig', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'pagetemplate.html.twig', $parameters);
         $this->renderSingleFile($sourceDir, $targetDir, 'view.html.twig', $parameters);
 
