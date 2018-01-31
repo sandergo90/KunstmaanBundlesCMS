@@ -1,21 +1,21 @@
 /* Containers
    ========================================================================== */
 .legal-container {
-    max-width: $container-width + ($container-padding * 2);
-    padding-left: $container-padding;
-    padding-right: $container-padding;
+    max-width: $kumac_container-width + ($kumac_container-padding * 2);
+    padding-left: $kumac_container-padding;
+    padding-right: $kumac_container-padding;
     margin: 0 auto;
 
-    @media (min-width: $screen-sm) {
-        max-width: $container-width + ($container-padding--sm * 2);
-        padding-left: $container-padding--sm;
-        padding-right: $container-padding--sm;
+    @media (min-width: $kumac_screen-sm) {
+        max-width: $kumac_container-width + ($kumac_container-padding--sm * 2);
+        padding-left: $kumac_container-padding--sm;
+        padding-right: $kumac_container-padding--sm;
     }
 
-    @media (min-width: $screen-md) {
-        max-width: $container-width + ($container-padding--md * 2);
-        padding-left: $container-padding--md;
-        padding-right: $container-padding--md;
+    @media (min-width: $kumac_screen-md) {
+        max-width: $kumac_container-width + ($kumac_container-padding--md * 2);
+        padding-left: $kumac_container-padding--md;
+        padding-right: $kumac_container-padding--md;
     }
 
     > :last-child[class*='-pp'] {
@@ -25,18 +25,41 @@
 
 .legal-row {
     display: flex;
+    margin: 0 -15px;
 
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-direction: column;
+
+    @media (min-width: $kumac_screen-xss) {
+        flex-direction: row;
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+    @media (min-width: $kumac_screen-xs) {
+        flex: 1 1;
+    }
 }
 
 .legal-col {
-    width: 290px;
+    margin: 0 15px;
+
+    font: {
+        size: 15px;
+    }
 
     p {
         margin: 0;
         padding: 0;
+    }
+
+    @media (min-width: $kumac_screen-xss) {
+        max-width: none;
+        margin: 0 15px 25px;
+    }
+
+    @media (min-width: $kumac_screen-xs) {
+        max-width: 280px;
     }
 }
 

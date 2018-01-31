@@ -15,8 +15,15 @@ const CLASSES = {
     BACKDROP: {
         VISIBLE: 'legal-modal__backdrop--visible',
         DEFAULT: 'legal-modal__backdrop'
-    }
+    },
+    TITLE: 'legal-title',
+    PARAGRAPH: 'legal-paragraph',
+    OPEN: 'open'
 };
+
+let titles;
+let resizeTimer;
+const mq = window.matchMedia( "(max-width: 479px)" );
 
 export default class LegalCookieBar {
     constructor() {
@@ -41,6 +48,20 @@ export default class LegalCookieBar {
         autoOpenModals.forEach((handle) => {
             this.targetModal = handle;
             this.modalHandler();
+        });
+
+        titles = Array.prototype.slice.call(document.querySelectorAll(`.${CLASSES.TITLE}`));
+
+        window.addEventListener('resize', this.resizeHandler);
+
+        titles.forEach((title) => {
+            if (mq.matches) {
+                const content = title.parentElement.querySelector(`.${CLASSES.PARAGRAPH}`);
+                
+                content.style.marginTop = `${-content.offsetHeight}px`;
+            }
+
+            title.addEventListener('click', this.titleClickHandler);
         });
     }
 
@@ -110,4 +131,46 @@ export default class LegalCookieBar {
             this.modalHandler();
         }
     }
+
+    titleClickHandler(e) {
+        if (mq.matches) {
+            const title = e.path[1].querySelector(`.${CLASSES.TITLE}`);
+            const content = e.path[1].querySelector(`.${CLASSES.PARAGRAPH}`);
+
+            if (parseInt(content.style.marginTop) < 0) {
+                content.style.marginTop = 0;
+                if (title.className.indexOf(`${CLASSES.OPEN}`) < 0) {
+                    title.classList.add(`${CLASSES.OPEN}`);
+                }
+            } else {
+                content.style.marginTop = `${-content.offsetHeight}px`;
+                if (title.className.indexOf(`${CLASSES.OPEN}`) > -1) {
+                    title.classList.remove(`${CLASSES.OPEN}`);
+                }
+            }
+        }
+    }
+
+    resizeHandler() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+
+            titles.forEach((title) => {
+                const content = title.parentElement.querySelector(`.${CLASSES.PARAGRAPH}`);
+
+                if (mq.matches) {
+                    if (title.className.indexOf(`${CLASSES.OPEN}`) > -1) {
+                        content.style.marginTop = 0;
+                    } else {
+                        content.style.marginTop = `${-content.offsetHeight}px`;
+                    }
+                } else {
+                    content.style.marginTop = 0;
+                }
+            });
+
+
+        }, 250);
+    }
+
 }

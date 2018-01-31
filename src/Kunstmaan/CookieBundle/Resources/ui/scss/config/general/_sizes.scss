@@ -7,29 +7,28 @@
 
 /* Screen sizes
    ========================================================================== */
-$screen-xs: 375px;
-$screen-sm: 420px;
-$screen-md: 768px;
-$screen-lg: 1024px;
-$screen-xl: 1200px;
-$screen-xxl: 1440px;
+$kumac_screen-xss: 480px;
+$kumac_screen-xs: 680px;
+$kumac_screen-sm: 768px;
+$kumac_screen-md: 992px;
+$kumac_screen-lg: 1200px;
+$kumac_screen-xl: 1400px;
 
-$screen-xs-max: $screen-sm - 1px;
-$screen-sm-max: $screen-md - 1px;
-$screen-md-max: $screen-lg - 1px;
-$screen-lg-max: $screen-xl - 1px;
-$screen-xl-max: $screen-xxl - 1px;
+$kumac_screen-xs-max: $kumac_screen-sm - 1px;
+$kumac_screen-sm-max: $kumac_screen-md - 1px;
+$kumac_screen-md-max: $kumac_screen-lg - 1px;
+$kumac_screen-lg-max: $kumac_screen-xl - 1px;
 
 
 /* Margins and paddings
    ========================================================================== */
-$container-padding: 20px;
-$container-padding--sm: 35px;
-$container-padding--md: 55px;
+$kumac_container-padding: 20px;
+$kumac_container-padding--sm: 35px;
+$kumac_container-padding--md: 55px;
 
 
 /* Widths
    ========================================================================== */
-$container-width: 1190px;
-$container-width--large: 1200px;
-$container-width--header: 1440px;
+$kumac_container-width: 1200px;
+$kumac_container-width--large: 1200px;
+$kumac_container-width--header: 1440px;

@@ -4,9 +4,9 @@
 
 /* Variables
    ========================================================================== */
-$legal-modal-border: 5px;
-$z-legal-modal-backdrop: 50;
-$z-legal-modal: 51;
+$kumac_legal-modal-border: 5px;
+$kumac_z-legal-modal-backdrop: 50;
+$kumac_z-legal-modal: 51;
 
 /* General
    ========================================================================== */
@@ -16,7 +16,7 @@ $z-legal-modal: 51;
     left: 50%;
     z-index: -1;
     max-height: calc(100% - 100px);
-    max-width: $container-width + ($container-padding--md * 2);
+    max-width: $kumac_container-width + ($kumac_container-padding--md * 2);
     overflow: scroll;
 
     opacity: 0;
@@ -27,12 +27,12 @@ $z-legal-modal: 51;
 
     &.legal-modal--visible {
         top: 50%;
-        z-index: $z-legal-modal;
+        z-index: $kumac_z-legal-modal;
 
         opacity: 1;
 
         transition: .2s ease-in-out;
-        background: white;
+        background: $kumac_white;
     }
 }
 
@@ -50,12 +50,12 @@ $z-legal-modal: 51;
     width: calc(100% + 5%);
     height: calc(100% + 5%);
 
-    background-color: rgba($black, .6);
+    background-color: rgba($kumac_black, .6);
 
     transition: .2s ease-in-out;
 
     &.legal-modal__backdrop--visible {
-        z-index: $z-legal-modal-backdrop;
+        z-index: $kumac_z-legal-modal-backdrop;
 
         opacity: 1;
     }
