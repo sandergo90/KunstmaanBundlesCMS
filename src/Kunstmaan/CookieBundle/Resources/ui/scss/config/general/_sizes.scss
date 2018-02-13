@@ -7,28 +7,29 @@
 
 /* Screen sizes
    ========================================================================== */
-$kumac_screen-xss: 480px;
-$kumac_screen-xs: 680px;
-$kumac_screen-sm: 768px;
-$kumac_screen-md: 992px;
-$kumac_screen-lg: 1200px;
-$kumac_screen-xl: 1400px;
+$kumac_screen-xss:              480px;
+$kumac_screen-xs:               680px;
+$kumac_screen-sm:               768px;
+$kumac_screen-md:               1025px;
+$kumac_screen-ipad--landscape:  1025px;
+$kumac_screen-lg:               1200px;
+$kumac_screen-xl:               1400px;
 
-$kumac_screen-xs-max: $kumac_screen-sm - 1px;
-$kumac_screen-sm-max: $kumac_screen-md - 1px;
-$kumac_screen-md-max: $kumac_screen-lg - 1px;
-$kumac_screen-lg-max: $kumac_screen-xl - 1px;
+$kumac_screen-xs-max:           $kumac_screen-sm - 1px;
+$kumac_screen-sm-max:           $kumac_screen-md - 1px;
+$kumac_screen-md-max:           $kumac_screen-lg - 1px;
+$kumac_screen-lg-max:           $kumac_screen-xl - 1px;
 
 
 /* Margins and paddings
    ========================================================================== */
-$kumac_container-padding: 20px;
-$kumac_container-padding--sm: 35px;
-$kumac_container-padding--md: 55px;
+$kumac_container-padding:       20px;
+$kumac_container-padding--sm:   35px;
+$kumac_container-padding--md:   55px;
 
 
 /* Widths
    ========================================================================== */
-$kumac_container-width: 1200px;
-$kumac_container-width--large: 1200px;
+$kumac_container-width:         1200px;
+$kumac_container-width--large:  1200px;
 $kumac_container-width--header: 1440px;

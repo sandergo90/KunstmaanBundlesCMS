@@ -15,7 +15,12 @@ kuma:
       always_on: altijd aan
       to_top: Terug naar boven
       save: voorkeuren opslaan
-      detail: Deze cookies in detail
+      detail:
+        desktop:  Deze cookies in detail
+        mobile: Details
+
+    sidebar:
+      back: terug
 
     fixtures:
       cookie_preferences:

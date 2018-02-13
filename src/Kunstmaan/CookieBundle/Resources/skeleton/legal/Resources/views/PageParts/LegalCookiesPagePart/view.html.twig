@@ -1,25 +1,39 @@
 {% set cookie = get_legal_cookie(app.request) %}
 
-<div class="legal-cookies-pp">
+<div class="legal-cookies">
     {% for type in get_cookie_types() %}
-        {{ type.name }}
-        {% if type.alwaysOn %}
-            {{ 'kuma.cookie.cookie_preferences.always_on' | trans }}
-        {% else %}
-            {% set checked = false %}
-            {% if attribute(cookie, type.internalName) is defined and attribute(cookie, type.internalName) == "true" %} {% set checked = true %} {% endif %}
-            <input type="checkbox" id="legal_cookie_{{ type.internalName }}" class="toggle js-legal-toggle" rel="{{ type.internalName }}"{% if checked %} checked{% endif %}/>
-            <label for="legal_cookie_{{ type.internalName }}">
-                {% if checked %}
-                    {{ 'kuma.cookie.cookie_preferences.on' | trans }}
-                {% else %}
-                    {{ 'kuma.cookie.cookie_preferences.off' | trans }}
-                {% endif %}
-            </label>
-        {% endif %}
-        <a href="{{ path('kunstmaancookiebundle_legal_detail', {'internalName': type.internalName}) }}">
-            {{ 'kuma.cookie.cookie_preferences.detail' | trans }}
-        </a>
+        <strong class="toggle-name">
+            {{ type.name }}
+        </strong>
+        <div class="toggle-container">
+            {% if type.alwaysOn %}
+                <div class="toggle__always">
+                    <img src="/frontend/img/legal/svg/check.svg"/>
+                    <span class="toggle__text">
+                        {{ 'kuma.cookie.cookie_preferences.always_on' | trans }}
+                    </span>
+                </div>
+            {% else %}
+                {% set checked = false %}
+                {% if attribute(cookie, type.internalName) is defined and attribute(cookie, type.internalName) == "true" %} {% set checked = true %} {% endif %}
+                <label for="legal_cookie_{{ type.internalName }}" class="toggle">
+                    <input type="checkbox" id="legal_cookie_{{ type.internalName }}" class="toggle__input js-legal-toggle" rel="{{ type.internalName }}"{% if checked %} checked{% endif %}/>
+                    <div class="toggle__slider"></div>
+                    <div class="toggle__text">
+                        <span class="toggle__text--true">{{ 'kuma.cookie.cookie_preferences.on' | trans }}</span>
+                        <span class="toggle__text--false">{{ 'kuma.cookie.cookie_preferences.off' | trans }}</span>
+                    </div>
+                </label>
+            {% endif %}
+            <a href="{{ path('kunstmaancookiebundle_legal_detail', {'internalName': type.internalName}) }}" class="toggle__link js-toggle__link">
+                <span class="toggle__link__desktop">
+                    {{ 'kuma.cookie.cookie_preferences.detail.desktop' | trans }}
+                </span>
+                <span class="toggle__link__mobile">
+                    {{ 'kuma.cookie.cookie_preferences.detail.mobile' | trans }}
+                </span>
+            </a>
+        </div>
         {% if type.longDescription is not empty %}
             <p>
                 {{ type.longDescription | replace_url | raw }}
@@ -27,3 +41,7 @@
         {% endif %}
     {% endfor %}
 </div>
+
+
+{% set cookie = get_legal_cookie(app.request) %}
+

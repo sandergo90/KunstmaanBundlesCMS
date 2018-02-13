@@ -1,7 +1,7 @@
 {% set tabs = {
-    'legal_privacy_policy': 'legal_privacy_policy',
-    'legal_cookie_preferences': 'legal_cookie_preferences',
-    'legal_contact': 'legal_contact'
+'legal_privacy_policy': 'legal_privacy_policy',
+'legal_cookie_preferences': 'legal_cookie_preferences',
+'legal_contact': 'legal_contact'
 } %}
 
 {% for key, tab in tabs %}
@@ -32,14 +32,5 @@
                 </div>
             {% endfor %}
         </div>
-    </div>
-
-    <div class="legal-footer">
-        <p class="totop-pp">
-            <a href="#">{{ 'kuma.cookie.cookie_preferences.to_top' | trans }}</a>
-        </p>
-        <button class="btn js-legal-toggle-subscriber" data-href="{{ path('kunstmaancookiebundle_legal_toggle_cookies') }}">
-            {{ 'kuma.cookie.cookie_preferences.save' | trans }}
-        </button>
     </div>
 </div>

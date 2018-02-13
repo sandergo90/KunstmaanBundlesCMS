@@ -1,7 +1,7 @@
-import LegalCookieBar from './LegalCookieBar';
-import LegalToggleSubscriber from './LegalToggleSubscriber';
+import legalCookieBar from './legalCookieBar';
+import legalToggleSubscriber from './legalToggleSubscriber';
 
 document.addEventListener('DOMContentLoaded', () => {
-    new LegalCookieBar();
-    new LegalToggleSubscriber();
+    legalCookieBar.init();
+    legalToggleSubscriber.init();
 });

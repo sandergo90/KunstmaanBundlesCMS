@@ -3,16 +3,28 @@
     {% if 'HeaderPagePart' in pagepart.getDefaultView %}
         {% if pagepart.niv is defined and pagepart.niv == 2 %}
             {% if not first %}
-                </div>
+                </div></div></div>
             {% endif %}
             {% set first = false %}
             <div class="legal-heading-wrapper">
+                <div class="legal-heading js-collapsible-title">
+                    <svg class="icon icon--chevron--down legal-heading__icon">
+                        <use xlink:href="/frontend/img/legal/svg/symbol-defs.svg#icon--chevron--down"></use>
+                    </svg>
         {% endif %}
     {% endif %}
 
     {% include pagepart.defaultView with {'resource': pagepart} %}
 
+    {% if 'HeaderPagePart' in pagepart.getDefaultView %}
+    {% if pagepart.niv is defined and pagepart.niv == 2 %}
+    </div>
+    <div class="legal-content-container">
+        <div class="legal-content js-collapsible-content">
+    {% endif %}
+    {% endif %}
+
     {% if loop.last and not first %}
-        </div>
+        </div></div></div>
     {% endif %}
 {% endfor %}

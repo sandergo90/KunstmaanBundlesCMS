@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Structures - Fact
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+
+.legal-fact {
+    display: flex;
+    margin: 30px auto;
+    padding: 30px;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+
+    background-color: $kumac_grey;
+
+    @media (min-width: 600px) {
+        position: relative;
+
+        padding-right: 150px;
+    }
+}
+
+.legal-fact__header {
+    max-width: calc(100% - 150px);
+
+    flex: 1 1 auto;
+
+    @media (min-width: 600px) {
+        max-width: 100%;
+    }
+}
+
+.legal-fact__title {
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    font: {
+        size: 14px;
+        weight: 600;
+    }
+
+    text-transform: uppercase;
+}
+
+.legal-fact__subtitle {
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    font: {
+        size: 16px;
+        weight: 400;
+    }
+}
+
+.legal-fact__figure {
+    display: block;
+    width: 150px;
+    margin: 0;
+
+    flex: 0 0 150px;
+
+    @media (min-width: 600px) {
+        position: absolute;
+        top: 50%;
+        right: 0;
+
+        transform: translateY(-50%)
+    }
+}
+
+.legal-fact__figure__image {
+    display: block;
+    width: 150px;
+    height: 150px;
+}
+
+.legal-fact__content {
+    width: 100%;
+}

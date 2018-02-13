@@ -2,17 +2,24 @@
    Structures - Cookiebar
    ========================================================================== */
 
-#kumacookiebar {
+.kumacookiebar {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+
+    display: none;
 
     z-index: $kumac_z-cookie-bar;
 
     padding: 35px 0 35px;
 
     background: $kumac_grey;
+
+
+    &--show {
+        display: block;
+    }
 
     h2 {
         margin: 0 0 30px;
@@ -46,7 +53,7 @@
 .legal-title {
     display: flex;
 
-    margin: 0 0 5px;
+    margin: 0 0 10px;
 
     flex-direction: row;
     justify-content: space-between;
@@ -59,6 +66,10 @@
     color: $kumac_blue;
 
     cursor: pointer;
+
+    span {
+        pointer-events: none;
+    }
 
     @media (min-width: $kumac_screen-xss) {
         cursor: default;
@@ -88,7 +99,7 @@
     position: relative;
 
     padding: 0;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 
     overflow: hidden;
 
@@ -106,7 +117,7 @@
 .legal-btn {
     display: inline-block;
     margin-bottom: 20px;
-    padding: 10px 30px;
+    padding: 10px 15px;
 
     background-color: $kumac_green;
     color: $kumac_white !important;
@@ -115,11 +126,18 @@
 
     font: {
         size: 15px;
+        weight: 400;
     }
 
     text-transform: uppercase;
     text-decoration: none;
     text-align: center;
+
+    outline: 0;
+}
+
+.legal-footer {
+    margin-top: 5px;
 }
 
 .legal-footer__preferences {
@@ -129,7 +147,7 @@
     justify-content: center;
     flex-wrap: wrap;
 
-    &__left {
+    &__first {
         display: none;
         width: 370px;
         padding-right: 30px;
@@ -139,6 +157,8 @@
         font: {
             size: 14px;
         }
+
+        line-height: 2;
 
         order: 1;
 
@@ -157,7 +177,7 @@
         }
     }
 
-    &__right {
+    &__second {
         display: flex;
         width: 100%;
         margin-top: 20px;
@@ -180,6 +200,7 @@
             width: auto;
 
             order: 2;
+            align-items: flex-end;
         }
     }
 
@@ -191,4 +212,26 @@
         flex-wrap: nowrap;
         justify-content: space-between;
     }
+}
+
+/* ==========================================================================
+   Structures - Cookie Modal
+   ========================================================================== */
+.legal-modal__content {
+    position: relative;
+    overflow: scroll;
+    max-height: calc(100vh - 100px);
+}
+
+.legal-modal__close {
+    position: absolute;
+    top: -25px;
+    right: 5px;
+
+    width: 20px;
+    height: 20px;
+
+    fill: $kumac_white;
+
+    cursor: pointer;
 }

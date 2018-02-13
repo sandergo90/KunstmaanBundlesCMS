@@ -11,22 +11,21 @@ $kumac_z-legal-modal: 51;
 /* General
    ========================================================================== */
 .legal-modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: fixed;
+    top: 35px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     z-index: -1;
-    max-height: calc(100% - 100px);
-    max-width: $kumac_container-width + ($kumac_container-padding--md * 2);
-    overflow: scroll;
 
     opacity: 0;
 
-    transform: translate(-50%, -50%);
-
     transition: .2s ease-in-out;
 
+    overflow: hidden;
+
     &.legal-modal--visible {
-        top: 50%;
         z-index: $kumac_z-legal-modal;
 
         opacity: 1;
@@ -34,8 +33,105 @@ $kumac_z-legal-modal: 51;
         transition: .2s ease-in-out;
         background: $kumac_white;
     }
+
+    .legal-container {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    @media(min-width: $kumac_screen-ipad--landscape) {
+        top: 50%;
+        left: 50%;
+        bottom: auto;
+        right: auto;
+
+        //max-width: $kumac_container-width + ($kumac_container-padding--md * 2);
+        max-width: 1024px;
+        width: 75%;
+
+        transform: translate(-50%, -50%);
+
+        &.legal-modal--visible {
+            top: 50%;
+        }
+    }
 }
 
+.legal-modal__content {
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    max-height: calc(100vh - 35px);
+
+    &--open {
+        overflow-y: hidden;
+    }
+
+    @media(min-width: $kumac_screen-md) {
+        max-height: calc(100vh - 100px);
+    }
+}
+
+.legal-modal__close {
+    position: absolute;
+    top: -28px;
+    right: 20px;
+
+    width: 20px;
+    height: 20px;
+
+    fill: $kumac_blue--light;
+
+    cursor: pointer;
+
+    @media(min-width: $kumac_screen-md) {
+        top: -25px;
+        right: 5px;
+
+        fill: $kumac_white;
+    }
+}
+
+.legal-main-wrapper {
+    align-items: flex-start;
+}
+
+.legal__left {
+    display: none;
+
+    @media(min-width: $kumac_screen-ipad--landscape) {
+        position: sticky;
+        top: 30px;
+        left: 0;
+
+        display: block;
+    }
+}
+
+.legal__left__navigation {
+    padding-left: 0;
+    margin-top: 20px;
+
+    list-style-type: none;
+
+    li {
+        padding-bottom: 10px;
+
+        line-height: 1.2;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.legal__right {
+    :first-child {
+        margin-top: 0;
+    }
+}
 
 /* Backdrop
    ========================================================================== */
@@ -50,7 +146,7 @@ $kumac_z-legal-modal: 51;
     width: calc(100% + 5%);
     height: calc(100% + 5%);
 
-    background-color: rgba($kumac_black, .6);
+    background-color: $kumac_grey;
 
     transition: .2s ease-in-out;
 
@@ -59,4 +155,163 @@ $kumac_z-legal-modal: 51;
 
         opacity: 1;
     }
+
+    @media(min-width: $kumac_screen-ipad--landscape) {
+        background-color: rgba($kumac_black, .6);
+    }
+}
+
+/* Legal Tip pp
+   ========================================================================== */
+.legal-tip-pp {
+    display: flex;
+
+    flex-direction: row;
+    align-items: flex-start;
+
+    .legal-tip-pp__text {
+        margin-left: 20px;
+        margin-top: 0;
+    }
+}
+
+/* To top pp
+   ========================================================================== */
+.totop-pp {
+    position: fixed;
+    left: 0;
+    bottom: 16px;
+
+    display: flex;
+    width: 56px;
+    height: 50px;
+    margin: 0;
+
+    justify-content: center;
+
+    background: $kumac_blue--light;
+
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+
+    transition: all .2s ease;
+    transform: translateX(-100%);
+
+    &:after {
+        content: url("/frontend/img/legal/svg/arrow--up.svg");
+
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        transform: translate3D(-50%, -50%, 0);
+    }
+}
+
+.totop-pp__text {
+    display: none;
+}
+
+.totop-pp__icon {
+    width: 17px;
+    height: 18px;
+
+    fill: $kumac_white;
+
+    cursor: pointer;
+}
+
+.totop-pp--shown {
+    transform: translateX(0);
+}
+
+/* Other
+   ========================================================================== */
+
+.legal-footer {
+    position: relative;
+}
+
+.legal-footer__save {
+    position: absolute;
+    top: -38px;
+    right: 20px;
+}
+
+/* Legal content
+   ========================================================================== */
+.legal-intro {
+    .text-pp {
+        margin: 25px;
+    }
+}
+
+.legal-heading {
+    display: flex;
+
+    margin: 0;
+
+    flex-direction: row;
+    align-items: center;
+
+    font: {
+        size: 18px;
+    }
+
+    color: $kumac_blue;
+
+    cursor: pointer;
+
+    span,
+    h2 {
+        margin: 20px 0;
+        pointer-events: none;
+    }
+
+    @media (min-width: $kumac_screen-sm) {
+        cursor: default;
+    }
+}
+
+.legal-heading__icon {
+    width: 14px;
+    height: 14px;
+    max-width: 14px;
+    margin-right: 20px;
+
+    flex: 1 0 auto;
+
+    fill: $kumac_blue--lighter;
+
+    pointer-events: none;
+
+    transition: transform .2s ease;
+
+    .open & {
+        transform: rotateZ(-180deg);
+    }
+
+    @media (min-width: $kumac_screen-sm) {
+        display: none;
+    }
+}
+
+.legal-content-container {
+    position: relative;
+
+    padding: 0;
+    margin-bottom: 5px;
+
+    overflow: hidden;
+
+    border-bottom: 1px solid $kumac_grey--dark;
+
+    @media (min-width: $kumac_screen-sm) {
+        border-bottom: none;
+    }
+}
+
+.legal-content {
+    transition: margin-top .2s ease;
 }

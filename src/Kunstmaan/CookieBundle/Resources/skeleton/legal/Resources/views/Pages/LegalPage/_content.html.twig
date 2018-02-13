@@ -1,4 +1,4 @@
-<div class="legal__text-center">
+<div class="legal__text-center legal-intro">
     <h1>{{ page.title }}</h1>
     {{ render_pageparts(page, 'legal_header') }}
 </div>
@@ -16,7 +16,7 @@
             {% endfor %}
 
             {% if tocContent %}
-                <ul>
+                <ul class="legal__left__navigation js-legal__left__navigation">
                     {{ tocContent|raw }}
                 </ul>
             {% endif %}
@@ -26,4 +26,10 @@
     <div class="legal__right">
         {% include '<%= bundle.name %>:Pages:LegalPage/_main.html.twig' %}
     </div>
+</div>
+
+<div class="legal-footer">
+    <button class="js-legal-toggle-subscriber legal-footer__save legal-btn" data-href="{{ path('kunstmaancookiebundle_legal_toggle_cookies') }}">
+        {{ 'kuma.cookie.cookie_preferences.save' | trans }}
+    </button>
 </div>

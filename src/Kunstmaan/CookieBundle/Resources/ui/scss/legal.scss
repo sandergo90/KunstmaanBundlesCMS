@@ -12,7 +12,6 @@
 @import "config/general/z-index";
 
 @import "config/general/typography/bodycopy";
-@import "config/general/typography/fonts";
 
 /* General
    ========================================================================== */
@@ -23,6 +22,9 @@
 @import "structures/cookiebar";
 @import "structures/tabs";
 @import "structures/modals";
+@import "structures/legal-cookies-pp";
+@import "structures/sidebar";
+@import "structures/fact";
 
 /* Pages
    ========================================================================== */

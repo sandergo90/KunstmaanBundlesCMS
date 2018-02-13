@@ -29,15 +29,13 @@
 
     flex-direction: column;
 
-    @media (min-width: $kumac_screen-xss) {
-        flex-direction: row;
-        align-items: flex-start;
-
-        flex-wrap: wrap;
-    }
-
     @media (min-width: $kumac_screen-xs) {
         flex: 1 1;
+    }
+
+    @media (min-width: $kumac_screen-sm) {
+        flex-direction: row;
+        align-items: flex-start;
     }
 }
 
@@ -58,7 +56,7 @@
         margin: 0 15px 25px;
     }
 
-    @media (min-width: $kumac_screen-xs) {
+    @media (min-width: $kumac_screen-sm) {
         max-width: 280px;
     }
 }

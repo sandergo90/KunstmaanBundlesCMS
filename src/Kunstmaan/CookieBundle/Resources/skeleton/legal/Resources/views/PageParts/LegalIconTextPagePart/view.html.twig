@@ -1,10 +1,14 @@
-<div class="legal-icon-text-pp">
-    <figure class="">
-        {% if resource.icon is not empty %}
-            <img src="{{ asset(resource.icon.url) }}">
-        {% endif %}
+<div class="legal-fact">
+    <hgroup class="legal-fact__header">
+        <p class="legal-fact__title">{{ resource.title }}</p>
+        <h3 class="legal-fact__subtitle">{{ resource.subtitle }}</h3>
+    </hgroup>
+
+    <figure class="legal-fact__figure">
+        <img src="{{ asset(resource.icon.url) }}" alt="" class="legal-fact__figure__image">
     </figure>
-    <div>{{ resource.title }}</div>
-    <h5>{{ resource.subtitle }}</h5>
-    <p>{{ resource.content | replace_url | raw }}</p>
+
+    <div class="legal-fact__content">
+        {{ resource.content | replace_url | raw }}
+    </div>
 </div>

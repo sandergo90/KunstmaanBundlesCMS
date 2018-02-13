@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Structures - Legal cookies pagepart
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+
+.legal-cookies {
+    counter-reset: cookie;
+}
+
+/* Toggle
+   ========================================================================== */
+
+.toggle-container {
+    display: flex;
+
+    padding: 10px 20px 10px 10px;
+
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid $kumac_grey--dark;
+
+    border-radius: 25px;
+}
+
+.toggle__always {
+    display: flex;
+
+    margin-left: 5px;
+
+    align-items: center;
+}
+
+.toggle-name {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font: {
+        weight: 500;
+        size: 24px;
+    }
+
+    &:before {
+        counter-increment: cookie;
+        content: counter(cookie) ".";
+    }
+}
+
+.toggle {
+    position: relative;
+
+    display: inline-flex;
+    height: 27px;
+    margin: 0 10px;
+
+    cursor: pointer;
+
+    align-items: center;
+}
+
+.toggle__text {
+    margin: 0 5px;
+}
+
+.toggle__link {
+    text-decoration: none;
+}
+
+.toggle__link__desktop {
+    display: none;
+    
+    @media (min-width: $kumac_screen-xss) {
+        display: block;
+    }
+}
+
+.toggle__link__mobile {
+    display: block;
+    
+    @media (min-width: $kumac_screen-xss) {
+        display: none;
+    }
+}
+
+.toggle__input {
+    display: none;
+
+    + .toggle__slider {
+        position: relative;
+
+        width: 50px;
+        height: 27px;
+
+        background-color: $kumac_grey;
+        border-radius: 25px;
+        box-shadow: inset 0 1px 2px rgba($kumac_black, 0.13);
+
+        &:before {
+            content: url(../../frontend/img/legal/svg/toggle--cross.svg);
+
+            padding: 1px 12px;
+
+            position: absolute;
+            top: -3px;
+            left: -3px;
+
+            width: 33px;
+            height: 33px;
+
+            border-radius: 25px;
+
+            background-color: $kumac_grey--dark;
+
+            transition: all .2s ease;
+
+            box-shadow: 1px 1px 1px rgba($kumac_black, .13);
+        }
+    }
+
+    ~ .toggle__text {
+        margin: 0 0 0 10px;
+
+        .toggle__text--true {
+            display: none;
+        }
+
+        .toggle__text--false {
+            display: inline-block;
+        }
+    }
+    &:checked {
+        + .toggle__slider {
+            &:before {
+                content: url(../../frontend/img/legal/svg/toggle--check.svg);
+
+                left: calc(100% - 30px);
+
+                padding: 1px 10px;
+
+                background-color: $kumac_green;
+            }
+        }
+
+        ~ .toggle__text {
+            .toggle__text--true {
+                display: inline-block;
+            }
+
+            .toggle__text--false {
+                display: none;
+            }
+        }
+    }
+}

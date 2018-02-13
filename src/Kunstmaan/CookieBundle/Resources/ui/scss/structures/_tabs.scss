@@ -20,8 +20,8 @@
         }
 
         .panel {
-            background-color: #fff;
-            padding: 20px;
+            background-color: $kumac_white;
+            padding: 20px 40px;
             min-height: 300px;
             display: none;
             width: 100%;
@@ -35,17 +35,19 @@
         vertical-align: top;
         background-color: #eee;
         cursor: pointer;
-        border-left: 10px solid #ccc;
 
         &:hover {
-            background-color: #fff;
+            background-color: darken(#eeeeee, 25);
         }
     }
 }
 #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-label,
 #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-label,
 #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-label {
-    background-color: #fff;
+    background-color: $kumac_white;
+
+    font-weight: 500;
+
     cursor: default;
 }
 #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-panel,
@@ -53,38 +55,3 @@
 #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-panel {
     display: block;
 }
-@media (max-width: 600px) {
-    .legal-tabs {
-        flex-direction: column;
-
-        .legal-tab {
-            background: #fff;
-            border-bottom: 1px solid #ccc;
-
-            &:last-of-type {
-                border-bottom: none;
-            }
-        }
-
-        #tab-legal_privacy_policy-label {order: 1;}
-        #tab-legal_cookie_preferences-label {order: 3;}
-        #tab-legal_contact-label {order: 5;}
-
-        #tab-legal_privacy_policy-panel {order: 2;}
-        #tab-legal_cookie_preferences-panel {order: 4;}
-        #tab-legal_contact-panel {order: 6;}
-    }
-
-    #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-label,
-    #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-label,
-    #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-label {
-        border-bottom: none;
-    }
-
-    #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-panel,
-    #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-panel,
-    #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-panel {
-        border-bottom: 1px solid #ccc;
-    }
-}
-
