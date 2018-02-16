@@ -3,6 +3,7 @@ import xhr from './Xhr';
 import scroll from './scroll';
 import sidebar from './sidebar';
 import toggles from './legalToggleSubscriber';
+import utils from './utils';
 
 const legalCookieBar = {
     init
@@ -19,7 +20,8 @@ const CLASSES = {
         DEFAULT: 'legal-modal',
         VISIBLE: 'legal-modal--visible',
         AUTO_OPEN: 'legal-modal--autoopen',
-        CLOSE_BUTTON: 'js-legal-modal-close'
+        CLOSE_BUTTON: 'js-legal-modal-close',
+        DETAIL: 'legal-modal--detail'
     },
     BACKDROP: {
         VISIBLE: 'legal-modal__backdrop--visible',
@@ -31,7 +33,8 @@ const CLASSES = {
         TITLE: 'js-collapsible-title',
         CONTENT: 'js-collapsible-content',
         OPEN: 'open'
-    }
+    },
+    TOGGLELINK: 'js-toggle__link'
 };
 
 let titles;
@@ -43,6 +46,7 @@ let urlModal;
 let handles;
 let autoOpenModals;
 let backdrop;
+let toggleLinks;
 
 /**
  * Init cookie consent
@@ -53,6 +57,9 @@ function init() {
     autoOpenModals = querySelectorAll(`.${CLASSES.MODAL.AUTO_OPEN}`);
     // titles on cookiebar
     titles = querySelectorAll(`.${CLASSES.COLLAPSIBLE.TITLE}`);
+    modalTitles = querySelectorAll(`.${CLASSES.COLLAPSIBLE.TITLE}`);
+    // toggle buttons in page mode
+    toggleLinks = querySelectorAll(`.${CLASSES.TOGGLELINK}`);
 
     isHidden = true;
 
@@ -67,6 +74,15 @@ function init() {
     titles.forEach((cookieBarTitle) => {
         collapseResizeHandler(mq, titles);
         cookieBarTitle.addEventListener('click', collapseClickHandler.bind(this, mq));
+    });
+
+    modalTitles.forEach((modalTitle) => {
+        collapseResizeHandler(mqModal, modalTitles);
+        modalTitle.addEventListener('click', collapseClickHandler.bind(this, mqModal));
+    });
+
+    toggleLinks.forEach((handle) => {
+        handle.addEventListener('click', toggleLinkHandler);
     });
 }
 
@@ -115,10 +131,9 @@ function keyboardHandler(event) {
  */
 function modalHandler() {
     const closeBtn = targetModal.querySelector(`.${CLASSES.MODAL.CLOSE_BUTTON}`);
-    const bar = document.querySelector(`.${CLASSES.BAR}`);
 
     if (isHidden) {
-        bar.classList.remove(`${CLASSES.BAR_VISIBLE}`);
+        toggleCookieBar();
         // First get page content.
         xhr.get(urlModal).then((request) => {
             const response = request.responseText;
@@ -165,7 +180,7 @@ function modalHandler() {
 
         isHidden = true;
 
-        bar.classList.add(`${CLASSES.BAR_VISIBLE}`);
+        toggleCookieBar();
     }
 }
 
@@ -224,6 +239,39 @@ function collapseClickHandler(media, event) {
             if (title.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) > -1) {
                 title.classList.remove(`${CLASSES.COLLAPSIBLE.OPEN}`);
             }
+        }
+    }
+}
+
+/**
+ * Handler for toggles on page mode
+ * @param event
+ */
+function toggleLinkHandler(event) {
+    event.preventDefault();
+
+    const element = event.currentTarget;
+    targetModal = document.querySelector(element.dataset.target);
+    urlModal = element.href;
+
+    targetModal.classList.add(`${CLASSES.MODAL.DETAIL}`);
+
+    modalHandler();
+
+
+}
+
+/**
+ * Toggles visibility of cookiebar
+ */
+function toggleCookieBar() {
+    const bar = document.querySelector(`.${CLASSES.BAR}`);
+
+    if (bar instanceof HTMLElement) {
+        if (utils.hasClass(bar, `${CLASSES.BAR_VISIBLE}`)) {
+            bar.classList.remove(`${CLASSES.BAR_VISIBLE}`);
+        } else {
+            bar.classList.add(`${CLASSES.BAR_VISIBLE}`);
         }
     }
 }

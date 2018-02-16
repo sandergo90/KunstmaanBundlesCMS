@@ -20,7 +20,7 @@
     align-items: center;
     justify-content: space-between;
 
-    border: 1px solid $kumac_grey--dark;
+    border: 1px solid $legal_grey--dark;
 
     border-radius: 25px;
 }
@@ -72,7 +72,7 @@
 .toggle__link__desktop {
     display: none;
     
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         display: block;
     }
 }
@@ -80,7 +80,7 @@
 .toggle__link__mobile {
     display: block;
     
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         display: none;
     }
 }
@@ -94,9 +94,9 @@
         width: 50px;
         height: 27px;
 
-        background-color: $kumac_grey;
+        background-color: $legal_grey;
         border-radius: 25px;
-        box-shadow: inset 0 1px 2px rgba($kumac_black, 0.13);
+        box-shadow: inset 0 1px 2px rgba($legal_true-black, 0.13);
 
         &:before {
             content: url(../../frontend/img/legal/svg/toggle--cross.svg);
@@ -112,11 +112,11 @@
 
             border-radius: 25px;
 
-            background-color: $kumac_grey--dark;
+            background-color: $legal_grey--dark;
 
             transition: all .2s ease;
 
-            box-shadow: 1px 1px 1px rgba($kumac_black, .13);
+            box-shadow: 1px 1px 1px rgba($legal_true-black, .13);
         }
     }
 
@@ -140,7 +140,7 @@
 
                 padding: 1px 10px;
 
-                background-color: $kumac_green;
+                background-color: $legal_secondary-color;
             }
         }
 

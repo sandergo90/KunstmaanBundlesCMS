@@ -10,11 +10,11 @@
 
     display: none;
 
-    z-index: $kumac_z-cookie-bar;
+    z-index: $legal_z-cookie-bar;
 
     padding: 35px 0 35px;
 
-    background: $kumac_grey;
+    background: $legal_grey;
 
 
     &--show {
@@ -28,18 +28,10 @@
             size: 33px;
         }
 
-        color: $kumac_blue;
+        color: $legal_headings;
     }
 
-    a {
-        color: $kumac_blue--light;
-
-        text-decoration: none;
-
-        cursor: pointer;
-    }
-
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         bottom: 15px;
         left: 15px;
         right: 15px;
@@ -63,7 +55,7 @@
         size: 18px;
     }
 
-    color: $kumac_blue;
+    color: $legal_headings;
 
     cursor: pointer;
 
@@ -71,7 +63,7 @@
         pointer-events: none;
     }
 
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         cursor: default;
     }
 }
@@ -80,7 +72,7 @@
     width: 14px;
     height: 14px;
 
-    fill: $kumac_blue--lighter;
+    fill: $legal_primary-color;
 
     pointer-events: none;
 
@@ -90,7 +82,7 @@
         transform: rotateZ(180deg);
     }
 
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         display: none;
     }
 }
@@ -103,37 +95,15 @@
 
     overflow: hidden;
 
-    border-bottom: 1px solid $kumac_grey--dark;
+    border-bottom: 1px solid $legal_grey--dark;
 
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         border-bottom: none;
     }
 }
 
 .legal-paragraph {
     transition: margin-top .2s ease;
-}
-
-.legal-btn {
-    display: inline-block;
-    margin-bottom: 20px;
-    padding: 10px 15px;
-
-    background-color: $kumac_green;
-    color: $kumac_white !important;
-
-    border-radius: 25px;
-
-    font: {
-        size: 15px;
-        weight: 400;
-    }
-
-    text-transform: uppercase;
-    text-decoration: none;
-    text-align: center;
-
-    outline: 0;
 }
 
 .legal-footer {
@@ -167,12 +137,12 @@
 
             order: 2;
 
-            @media (min-width: $kumac_screen-xs) {
+            @media (min-width: $legal_screen-xs) {
                 display: none;
             }
         }
 
-        @media (min-width: $kumac_screen-xs) {
+        @media (min-width: $legal_screen-xs) {
             display: block;
         }
     }
@@ -192,11 +162,11 @@
 
         order: 1;
 
-        @media (min-width: $kumac_screen-xss) {
+        @media (min-width: $legal_screen-xss) {
             margin-top: 0;
         }
 
-        @media (min-width: $kumac_screen-xs) {
+        @media (min-width: $legal_screen-xs) {
             width: auto;
 
             order: 2;
@@ -204,34 +174,12 @@
         }
     }
 
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         margin-top: 0;
     }
 
-    @media (min-width: $kumac_screen-xs) {
+    @media (min-width: $legal_screen-xs) {
         flex-wrap: nowrap;
         justify-content: space-between;
     }
-}
-
-/* ==========================================================================
-   Structures - Cookie Modal
-   ========================================================================== */
-.legal-modal__content {
-    position: relative;
-    overflow: scroll;
-    max-height: calc(100vh - 100px);
-}
-
-.legal-modal__close {
-    position: absolute;
-    top: -25px;
-    right: 5px;
-
-    width: 20px;
-    height: 20px;
-
-    fill: $kumac_white;
-
-    cursor: pointer;
 }

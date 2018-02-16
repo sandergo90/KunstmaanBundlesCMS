@@ -33,12 +33,7 @@ function init() {
     toggleLinks = Array.prototype.slice.call(modal.querySelectorAll(`.${CLASSES.TOGGLELINK}`));
 
     toggleLinks.forEach((toggleLink) => {
-        if (utils.hasClass('html', CLASSES.MODALOPEN)) {
-            toggleLink.addEventListener('click', toggleLinkHandler);
-        } else {
-            console.log('no modal behaviour');
-        }
-
+        toggleLink.addEventListener('click', toggleLinkHandler);
     });
 
     backButton.addEventListener('click', backButtonHandler);

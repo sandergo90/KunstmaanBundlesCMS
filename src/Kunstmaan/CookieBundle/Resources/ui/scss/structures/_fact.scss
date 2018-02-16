@@ -14,9 +14,9 @@
     flex-wrap: wrap;
     align-items: center;
 
-    background-color: $kumac_grey;
+    background-color: $legal_grey;
 
-    @media (min-width: 600px) {
+    @media (min-width: $legal_screen-xs) {
         position: relative;
 
         padding-right: 150px;
@@ -28,7 +28,7 @@
 
     flex: 1 1 auto;
 
-    @media (min-width: 600px) {
+    @media (min-width: $legal_screen-xs) {
         max-width: 100%;
     }
 }
@@ -67,7 +67,7 @@
         top: 50%;
         right: 0;
 
-        transform: translateY(-50%)
+        transform: translateY(-50%);
     }
 }
 

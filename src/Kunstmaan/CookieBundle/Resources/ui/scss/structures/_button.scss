@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Structures - Button
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+
+.legal-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+
+    background-color: $legal_button-background;
+    color: $legal_button-color !important;
+
+    border-radius: 25px;
+    border: 2px solid $legal_button-border-color--hover;
+
+    font: {
+        size: 15px;
+        weight: 400;
+    }
+
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+
+    outline: 0;
+
+    transition: all .2s ease;
+
+    &:hover {
+        background: $legal_button-background--hover;
+
+        color: $legal_button-color--hover !important;
+
+        text-decoration: none !important;
+    }
+}

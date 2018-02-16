@@ -7,16 +7,16 @@
 
 .legal-sidebar {
     position: absolute;
-    top: 0;
+    top: 30px;
     right: 0;
 
-    z-index: 2;
+    z-index: $legal_z-sidebar;
 
     width: 100%;
-    height: 100%;
+    height: calc(100% - 30px);
     padding: 20px;
 
-    background-color: $kumac_white;
+    background-color: $legal_white;
 
     transform: translateX(100%);
 
@@ -30,7 +30,7 @@
 }
 
 .legal-sidebar__content-wrapper {
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         padding: 0 90px;
     }
 }

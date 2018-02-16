@@ -10,21 +10,26 @@
 
     .legal-tabs {
         display: flex;
+
         justify-content: space-between;
         flex-wrap: wrap;
 
         .legal-tab {
-            flex-grow: 1;
-            text-align: center;
             padding: 10px;
+
+            flex-grow: 1;
+
+            text-align: center;
         }
 
         .panel {
-            background-color: $kumac_white;
-            padding: 20px 40px;
-            min-height: 300px;
             display: none;
             width: 100%;
+            min-height: 300px;
+            padding: 20px 40px;
+
+            background-color: $legal_white;
+
             flex-basis: auto;
         }
     }
@@ -32,24 +37,48 @@
     .legal-tab {
         display: inline-block;
         padding: 10px;
+
         vertical-align: top;
-        background-color: #eee;
+
+        background-color: transparent;
+
         cursor: pointer;
 
-        &:hover {
-            background-color: darken(#eeeeee, 25);
+        border-bottom: 1px solid $legal_black;
+
+        color: $legal_black;
+
+        .legal-modal & {
+            background-color: $legal_tabs;
+
+            border: none;
+
+            &:hover {
+                background-color: darken($legal_tabs, 25);
+            }
         }
     }
 }
+
 #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-label,
 #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-label,
 #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-label {
-    background-color: $kumac_white;
+    background-color: transparent;
 
     font-weight: 500;
 
     cursor: default;
+
+    border: 1px solid $legal_black;
+    border-bottom: none;
+
+    .legal-modal & {
+        background-color: $legal_white;
+
+        border: none;
+    }
 }
+
 #tab-legal_privacy_policy:checked ~ .legal-tabs #tab-legal_privacy_policy-panel,
 #tab-legal_cookie_preferences:checked ~ .legal-tabs #tab-legal_cookie_preferences-panel,
 #tab-legal_contact:checked ~ .legal-tabs #tab-legal_contact-panel {

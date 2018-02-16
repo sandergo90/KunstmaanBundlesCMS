@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Imports
+
+   This file is exclusively intended for setting up imports
+   Never add styles directly to this file
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/general/links";
+
+/* Structures
+   ========================================================================== */
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/cookiebar";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/tabs";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/modals";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/legal-cookies-pp";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/sidebar";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/fact";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/notification";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/button";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/tip-pp";
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/structures/top-top-pp";
+
+/* Pages
+   ========================================================================== */
+@import "vendor/kunstmaan/bundles-cms/src/Kunstmaan/CookieBundle/Resources/ui/scss/pages/legal";

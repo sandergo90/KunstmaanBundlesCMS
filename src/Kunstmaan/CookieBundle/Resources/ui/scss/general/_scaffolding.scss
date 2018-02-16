@@ -1,21 +1,21 @@
 /* Containers
    ========================================================================== */
 .legal-container {
-    max-width: $kumac_container-width + ($kumac_container-padding * 2);
-    padding-left: $kumac_container-padding;
-    padding-right: $kumac_container-padding;
+    max-width: $legal_container-width + ($legal_container-padding * 2);
+    padding-left: $legal_container-padding;
+    padding-right: $legal_container-padding;
     margin: 0 auto;
 
-    @media (min-width: $kumac_screen-sm) {
-        max-width: $kumac_container-width + ($kumac_container-padding--sm * 2);
-        padding-left: $kumac_container-padding--sm;
-        padding-right: $kumac_container-padding--sm;
+    @media (min-width: $legal_screen-sm) {
+        max-width: $legal_container-width + ($legal_container-padding--sm * 2);
+        padding-left: $legal_container-padding--sm;
+        padding-right: $legal_container-padding--sm;
     }
 
-    @media (min-width: $kumac_screen-md) {
-        max-width: $kumac_container-width + ($kumac_container-padding--md * 2);
-        padding-left: $kumac_container-padding--md;
-        padding-right: $kumac_container-padding--md;
+    @media (min-width: $legal_screen-md) {
+        max-width: $legal_container-width + ($legal_container-padding--md * 2);
+        padding-left: $legal_container-padding--md;
+        padding-right: $legal_container-padding--md;
     }
 
     > :last-child[class*='-pp'] {
@@ -29,11 +29,11 @@
 
     flex-direction: column;
 
-    @media (min-width: $kumac_screen-xs) {
+    @media (min-width: $legal_screen-xs) {
         flex: 1 1;
     }
 
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         flex-direction: row;
         align-items: flex-start;
     }
@@ -51,12 +51,12 @@
         padding: 0;
     }
 
-    @media (min-width: $kumac_screen-xss) {
+    @media (min-width: $legal_screen-xss) {
         max-width: none;
         margin: 0 15px 25px;
     }
 
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         max-width: 280px;
     }
 }

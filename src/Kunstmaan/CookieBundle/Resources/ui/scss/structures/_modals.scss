@@ -1,23 +1,19 @@
 /* ==========================================================================
-   Structures - legal-modal
+   Structures - Legal modal
    ========================================================================== */
-
-/* Variables
-   ========================================================================== */
-$kumac_legal-modal-border: 5px;
-$kumac_z-legal-modal-backdrop: 50;
-$kumac_z-legal-modal: 51;
 
 /* General
    ========================================================================== */
 .legal-modal {
     position: fixed;
-    top: 35px;
+    top: 10px;
     left: 0;
     right: 0;
     bottom: 0;
 
-    z-index: -1;
+    z-index: $legal_z-modal;
+
+    padding-top: 30px;
 
     opacity: 0;
 
@@ -25,13 +21,15 @@ $kumac_z-legal-modal: 51;
 
     overflow: hidden;
 
+    background: transparent;
+
     &.legal-modal--visible {
-        z-index: $kumac_z-legal-modal;
+        z-index: $legal_z-modal--visible;
 
         opacity: 1;
 
         transition: .2s ease-in-out;
-        background: $kumac_white;
+        background: transparent;
     }
 
     .legal-container {
@@ -40,13 +38,12 @@ $kumac_z-legal-modal: 51;
         margin: 0;
     }
 
-    @media(min-width: $kumac_screen-ipad--landscape) {
+    @media(min-width: $legal_screen-md) {
         top: 50%;
         left: 50%;
         bottom: auto;
         right: auto;
 
-        //max-width: $kumac_container-width + ($kumac_container-padding--md * 2);
         max-width: 1024px;
         width: 75%;
 
@@ -65,32 +62,34 @@ $kumac_z-legal-modal: 51;
 
     max-height: calc(100vh - 35px);
 
+    background-color: $legal_white;
+
     &--open {
         overflow-y: hidden;
     }
 
-    @media(min-width: $kumac_screen-md) {
-        max-height: calc(100vh - 100px);
+    @media(min-width: $legal_screen-md) {
+        max-height: calc(100vh - 130px);
     }
 }
 
 .legal-modal__close {
     position: absolute;
-    top: -28px;
+    top: 0;
     right: 20px;
 
     width: 20px;
     height: 20px;
 
-    fill: $kumac_blue--light;
+    fill: $legal_primary-color;
 
     cursor: pointer;
 
-    @media(min-width: $kumac_screen-md) {
-        top: -25px;
+    @media(min-width: $legal_screen-md) {
+        top: 0;
         right: 5px;
 
-        fill: $kumac_white;
+        fill: $legal_white;
     }
 }
 
@@ -98,10 +97,10 @@ $kumac_z-legal-modal: 51;
     align-items: flex-start;
 }
 
-.legal__left {
+.legal__aside {
     display: none;
 
-    @media(min-width: $kumac_screen-ipad--landscape) {
+    @media(min-width: $legal_screen-md) {
         position: sticky;
         top: 30px;
         left: 0;
@@ -110,7 +109,7 @@ $kumac_z-legal-modal: 51;
     }
 }
 
-.legal__left__navigation {
+.legal__aside__navigation {
     padding-left: 0;
     margin-top: 20px;
 
@@ -127,9 +126,15 @@ $kumac_z-legal-modal: 51;
     }
 }
 
-.legal__right {
+.legal__main {
     :first-child {
         margin-top: 0;
+    }
+}
+
+.legal-modal--detail {
+    .legal-modal__content {
+        padding: 20px 50px;
     }
 }
 
@@ -139,91 +144,26 @@ $kumac_z-legal-modal: 51;
     position: fixed;
     top: -2.5%;
     left: -2.5%;
-    z-index: -1;
+    z-index: $legal_z-modal-backdrop;
 
     opacity: 0;
 
     width: calc(100% + 5%);
     height: calc(100% + 5%);
 
-    background-color: $kumac_grey;
+    background-color: $legal_grey;
 
     transition: .2s ease-in-out;
 
     &.legal-modal__backdrop--visible {
-        z-index: $kumac_z-legal-modal-backdrop;
+        z-index: $legal_z-modal-backdrop--visible;
 
         opacity: 1;
     }
 
-    @media(min-width: $kumac_screen-ipad--landscape) {
-        background-color: rgba($kumac_black, .6);
+    @media(min-width: $legal_screen-md) {
+        background-color: rgba($legal_true-black, .6);
     }
-}
-
-/* Legal Tip pp
-   ========================================================================== */
-.legal-tip-pp {
-    display: flex;
-
-    flex-direction: row;
-    align-items: flex-start;
-
-    .legal-tip-pp__text {
-        margin-left: 20px;
-        margin-top: 0;
-    }
-}
-
-/* To top pp
-   ========================================================================== */
-.totop-pp {
-    position: fixed;
-    left: 0;
-    bottom: 16px;
-
-    display: flex;
-    width: 56px;
-    height: 50px;
-    margin: 0;
-
-    justify-content: center;
-
-    background: $kumac_blue--light;
-
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-
-    transition: all .2s ease;
-    transform: translateX(-100%);
-
-    &:after {
-        content: url("/frontend/img/legal/svg/arrow--up.svg");
-
-        position: absolute;
-
-        top: 50%;
-        left: 50%;
-
-        transform: translate3D(-50%, -50%, 0);
-    }
-}
-
-.totop-pp__text {
-    display: none;
-}
-
-.totop-pp__icon {
-    width: 17px;
-    height: 18px;
-
-    fill: $kumac_white;
-
-    cursor: pointer;
-}
-
-.totop-pp--shown {
-    transform: translateX(0);
 }
 
 /* Other
@@ -259,7 +199,7 @@ $kumac_z-legal-modal: 51;
         size: 18px;
     }
 
-    color: $kumac_blue;
+    color: $legal_headings;
 
     cursor: pointer;
 
@@ -269,7 +209,7 @@ $kumac_z-legal-modal: 51;
         pointer-events: none;
     }
 
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         cursor: default;
     }
 }
@@ -282,7 +222,7 @@ $kumac_z-legal-modal: 51;
 
     flex: 1 0 auto;
 
-    fill: $kumac_blue--lighter;
+    fill: $legal_primary-color;
 
     pointer-events: none;
 
@@ -292,7 +232,7 @@ $kumac_z-legal-modal: 51;
         transform: rotateZ(-180deg);
     }
 
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         display: none;
     }
 }
@@ -305,9 +245,9 @@ $kumac_z-legal-modal: 51;
 
     overflow: hidden;
 
-    border-bottom: 1px solid $kumac_grey--dark;
+    border-bottom: 1px solid $legal_grey--dark;
 
-    @media (min-width: $kumac_screen-sm) {
+    @media (min-width: $legal_screen-sm) {
         border-bottom: none;
     }
 }

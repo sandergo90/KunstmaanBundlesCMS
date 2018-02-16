@@ -22,6 +22,9 @@ kuma:
     sidebar:
       back: terug
 
+    notification:
+      text: Cookies opgeslagen
+
     fixtures:
       cookie_preferences:
         title: Cookie voorkeuren

@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Variables
+
+   This file is exclusively intended for setting up variables
+   Never add styles directly to this file
+   ========================================================================== */
+
+/* Screen sizes
+   ========================================================================== */
+$legal_screen-xss:              480px !default;
+$legal_screen-xs:               680px !default;
+$legal_screen-sm:               768px !default;
+$legal_screen-md:               1025px !default;
+
+$legal_screen-xs-max:           $legal_screen-sm - 1px !default;
+$legal_screen-sm-max:           $legal_screen-md - 1px !default;
+
+/* Margins and paddings
+   ========================================================================== */
+$legal_container-padding:       20px !default;
+$legal_container-padding--sm:   35px !default;
+$legal_container-padding--md:   55px !default;
+
+/* Widths
+   ========================================================================== */
+$legal_container-width:         1200px !default;
+
+/* Colors
+   ========================================================================== */
+$legal_true-black:                  #000000 !default;
+$legal_black:                       #0C0033 !default;
+$legal_white:                       #FFFFFF !default;
+
+$legal_grey:                        #FAF7F5 !default;
+$legal_grey--dark:                  #E2E2E2 !default;
+
+$legal_blue:                        #49A5DD !default;
+
+$legal_green:                       #34CC98 !default;
+
+// Main colors
+$legal_primary-color:               $legal_blue !default;
+$legal_secondary-color:             $legal_green !default;
+
+// Button colors
+$legal_button-background:           $legal_secondary-color !default;
+$legal_button-color:                $legal_white !default;
+$legal_button-background--hover:    $legal_white !default;
+$legal_button-color--hover:         $legal_secondary-color !default;
+$legal_button-border-color--hover:  $legal_secondary-color !default;
+
+// Heading colors
+$legal_headings:                    $legal_black !default;
+
+// Tab colors
+$legal_tabs:                        $legal_grey--dark !default;
+
+/* Z-index
+   ========================================================================== */
+$legal_z-notification:            1000 !default;
+
+$legal_z-cookie-bar:              999 !default;
+
+$legal_z-sidebar:                 2 !default;
+
+$legal_z-modal:                   -1 !default;
+$legal_z-modal--visible:          51 !default;
+
+$legal_z-modal-backdrop:          -1 !default;
+$legal_z-modal-backdrop--visible: 50 !default;
+
+
+

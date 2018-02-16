@@ -5,7 +5,7 @@ const scroll = {
 };
 
 const CLASSES = {
-    CONTAINER: 'js-legal__left__navigation',
+    CONTAINER: 'js-legal__aside__navigation',
     CONTENT: 'legal-modal__content',
     TOTOP: 'totop-pp',
     TOTOPVISIBLE: 'totop-pp--shown'

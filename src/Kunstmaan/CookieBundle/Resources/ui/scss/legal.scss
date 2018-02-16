@@ -7,15 +7,12 @@
 
 /* Config
    ========================================================================== */
-@import "config/general/sizes";
-@import "config/general/colors";
-@import "config/general/z-index";
-
-@import "config/general/typography/bodycopy";
+@import "config/variables";
 
 /* General
    ========================================================================== */
 @import "general/scaffolding";
+@import "general/links";
 
 /* Structures
    ========================================================================== */
@@ -25,6 +22,10 @@
 @import "structures/legal-cookies-pp";
 @import "structures/sidebar";
 @import "structures/fact";
+@import "structures/notification";
+@import "structures/button";
+@import "structures/tip-pp";
+@import "structures/top-top-pp";
 
 /* Pages
    ========================================================================== */

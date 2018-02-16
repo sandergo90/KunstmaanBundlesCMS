@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Genera
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+
+a {
+    .legal-container & {
+
+        color: $legal_primary-color;
+
+        text-decoration: none;
+
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+
+            color: $legal_primary-color;
+        }
+    }
+}

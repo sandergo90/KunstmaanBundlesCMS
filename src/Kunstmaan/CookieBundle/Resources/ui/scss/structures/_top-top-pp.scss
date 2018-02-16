@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Structures - To-top pagepart
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+
+.totop-pp {
+    position: fixed;
+    left: 0;
+    bottom: 16px;
+
+    display: flex;
+    width: 56px;
+    height: 50px;
+    margin: 0;
+
+    justify-content: center;
+
+    background: $legal_primary-color;
+
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+
+    transition: all .2s ease;
+    transform: translateX(-100%);
+
+    &:after {
+        content: url("/frontend/img/legal/svg/arrow--up.svg");
+
+        position: absolute;
+
+        top: 55%;
+        left: 50%;
+
+        transform: translate3D(-50%, -50%, 0);
+    }
+}
+
+.totop-pp__text {
+    display: none;
+}
+
+.totop-pp__icon {
+    width: 17px;
+    height: 18px;
+
+    fill: $legal_white;
+
+    cursor: pointer;
+}
+
+.totop-pp--shown {
+    transform: translateX(0);
+}

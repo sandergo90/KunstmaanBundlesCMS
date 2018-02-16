@@ -4,7 +4,7 @@
 </div>
 
 <div class="legal-main-wrapper">
-    <div class="legal__left">
+    <div class="legal__aside">
         {% set tocContent = "" %}
         {% if page is defined %}
             {% for pagepart in getpageparts(page, 'legal_main') %}
@@ -16,14 +16,14 @@
             {% endfor %}
 
             {% if tocContent %}
-                <ul class="legal__left__navigation js-legal__left__navigation">
+                <ul class="legal__aside__navigation js-legal__aside__navigation">
                     {{ tocContent|raw }}
                 </ul>
             {% endif %}
         {% endif %}
     </div>
 
-    <div class="legal__right">
+    <div class="legal__main">
         {% include '<%= bundle.name %>:Pages:LegalPage/_main.html.twig' %}
     </div>
 </div>

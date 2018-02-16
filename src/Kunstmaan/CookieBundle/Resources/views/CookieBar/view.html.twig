@@ -55,13 +55,18 @@
                         <a class="js-legal-modal-handle" data-target="#legal-modal--cookies" data-url="{{ path('kunstmaancookiebundle_legal_modal', {'internal_name': 'legal_cookie_preferences'}) }}">
                             {{ 'kuma.cookie.bar.change_preferences' | trans | raw }}
                         </a>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 {% endif %}
+
+<div class="notification js-notification">
+    <p class="notification__content">
+        {{ 'kuma.cookie.notification.text' | trans }}
+    </p>
+</div>
 
 <div class="legal-modal legal-modal--narrow" id="legal-modal--cookies">
     <div class="legal-sidebar js-legal-sidebar">

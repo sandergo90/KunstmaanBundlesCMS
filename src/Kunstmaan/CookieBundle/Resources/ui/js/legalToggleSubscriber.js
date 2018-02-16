@@ -1,5 +1,6 @@
 import xhr from './Xhr';
 import querySelectorAll from './querySelectorAll';
+import notifications from './notification';
 
 const legalToggleSubscriber = {
     init,
@@ -21,7 +22,8 @@ let allCookieToggles;
  * Init cookie toggles
  */
 function init() {
-    initAllCookieToggles()
+    initAllCookieToggles();
+    initSingleCookieToggles();
     triggerCookieEvent();
 }
 
@@ -40,7 +42,6 @@ function initAllCookieToggles() {
  * Init single cookies toggles
  */
 function initSingleCookieToggles() {
-    console.log('initing singles');
     singleCookieToggles = querySelectorAll(`.${CLASSES.TRIGGER.TOGGLE}`);
 
     singleCookieToggles.forEach((el) => {
@@ -87,7 +88,6 @@ function triggerCookieEvent() {
  * @param event
  */
 function toggleCookiesHandler(event) {
-    console.log('handling');
     event.preventDefault();
 
     const element = event.target;
@@ -102,6 +102,7 @@ function toggleCookiesHandler(event) {
     if (url) {
         // Build data params
         xhr.post(url, data).then((request) => {
+            notifications.showNotification();
             return triggerCookieEvent();
         });
     }
@@ -112,6 +113,7 @@ function toggleCookiesHandler(event) {
  * @param event
  */
 function toggleAllCookiesHandler(event) {
+
     event.preventDefault();
 
     const element = event.target;
@@ -120,6 +122,7 @@ function toggleAllCookiesHandler(event) {
     if (url) {
         // Build data params
         xhr.post(url).then((request) => {
+            notifications.showNotification();
             return triggerCookieEvent();
         });
     }
