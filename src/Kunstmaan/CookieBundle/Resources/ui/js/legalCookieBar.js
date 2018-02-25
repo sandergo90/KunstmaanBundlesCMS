@@ -190,8 +190,11 @@ function modalHandler() {
 function resizeHandler() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-        collapseResizeHandler(mq, titles);
-        collapseResizeHandler(mqModal, modalTitles);
+        if (utils.hasClass(`${CLASSES.BAR}`, `${CLASSES.BAR_VISIBLE}`)) {
+            collapseResizeHandler(mq, titles);
+        } else {
+            collapseResizeHandler(mqModal, modalTitles);
+        }
     }, 250);
 }
 

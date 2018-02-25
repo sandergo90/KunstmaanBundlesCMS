@@ -94,6 +94,8 @@
 }
 
 .legal-main-wrapper {
+    padding-bottom: 80px;
+
     align-items: flex-start;
 }
 
@@ -177,6 +179,41 @@
     position: absolute;
     top: -38px;
     right: 20px;
+}
+
+.legal-footer--sticky {
+    position: fixed;
+    bottom: 0;
+    right: auto;
+
+    z-index: $legal_z-sticky-footer;
+
+    display: flex;
+    width: 1200px;
+    max-width: 1310px;
+    height: 80px;
+    padding: 0 55px;
+    margin: 0 auto;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    background-color: $legal_white;
+
+    .legal-btn {
+        margin-bottom: 0;
+        position: relative;
+        top: auto;
+        right: auto;
+    }
+
+    &.normal {
+        position: relative;
+    }
+
+    .legal-modal & {
+        width: 100%;
+    }
 }
 
 /* Legal content

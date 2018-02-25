@@ -20,9 +20,20 @@ let totop;
  */
 function init() {
     anchorLists = querySelectorAll(`.${CLASSES.CONTAINER}`);
-    content = document.querySelector(`.${CLASSES.CONTENT}`);
-    totop = content.querySelector(`.${CLASSES.TOTOP}`);
-    totop.addEventListener('click', toTopHandler);
+
+    if (document.querySelector(`.${CLASSES.CONTENT}`)) {
+        content = document.querySelector(`.${CLASSES.CONTENT}`);
+        content.addEventListener('scroll', scrollHandler);
+    } else {
+        content = document.querySelector(`html`);
+        window.addEventListener('scroll', scrollHandler);
+    }
+
+    if (content.querySelector(`.${CLASSES.TOTOP}`)) {
+        totop = content.querySelector(`.${CLASSES.TOTOP}`);
+
+        totop.addEventListener('click', toTopHandler);
+    }
 
     anchorLists.forEach((anchorList) => {
         const anchors = Array.prototype.slice.call(anchorList.querySelectorAll('li > a'));
@@ -32,18 +43,31 @@ function init() {
         });
 
     });
-
-    content.addEventListener('scroll', scrollHandler);
 }
 
 /**
  * Scroll handler
  */
 function scrollHandler() {
-    if (content.scrollTop >= 500) {
+    if (content.scrollTop >= document.querySelector('.legal-container').offsetTop) {
         totop.classList.add(`${CLASSES.TOTOPVISIBLE}`);
     } else {
         totop.classList.remove(`${CLASSES.TOTOPVISIBLE}`);
+    }
+    const footers = querySelectorAll('.legal-footer--sticky');
+
+    if (parseInt(content.scrollTop + document.documentElement.clientHeight) >= parseInt(document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 200)) {
+        console.log('YES: ' + (content.scrollTop + screen.height) + ' / ' + (document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 100));
+        footers.forEach((footer) => {
+            footer.classList.add("normal");
+        });
+
+    } else {
+        footers.forEach((footer) => {
+            footer.classList.remove("normal");
+        });
+        console.log('NO: ' + (content.scrollTop + screen.height) + ' / ' + (document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 100));
+
     }
 }
 
@@ -56,7 +80,7 @@ function clickHandler(event) {
 
     const targetOffset = document.querySelector(event.currentTarget.getAttribute('href')).offsetTop;
 
-    smooth_scroll_to(content, targetOffset, 500);
+    smooth_scroll_to(content, targetOffset - 45, 500);
 }
 
 /**

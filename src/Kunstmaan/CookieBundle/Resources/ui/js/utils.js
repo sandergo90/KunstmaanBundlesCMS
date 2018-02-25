@@ -11,9 +11,15 @@ const utils = {
  */
 function hasClass(identifier, className) {
     if (identifier instanceof HTMLElement) {
-        return identifier.classList.contains(className);
+        if (identifier) {
+            return identifier.classList.contains(className);
+        }
+        return false;
     } else {
-        return document.querySelector(identifier).classList.contains(className);
+        if (document.querySelector(identifier)) {
+            return document.querySelector(identifier).classList.contains(className);
+        }
+        return false;
     }
 }
 

@@ -10,6 +10,8 @@
     left: 0;
     bottom: 16px;
 
+    z-index: $legal_z-totop;
+
     display: flex;
     width: 56px;
     height: 50px;

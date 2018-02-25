@@ -24,9 +24,13 @@
 }
 
 .legal-fact__header {
-    max-width: calc(100% - 150px);
+    max-width: auto;
 
     flex: 1 1 auto;
+
+    @media (min-width: $legal_screen-xss) {
+        max-width: calc(100% - 150px);
+    }
 
     @media (min-width: $legal_screen-xs) {
         max-width: 100%;
@@ -56,13 +60,17 @@
 }
 
 .legal-fact__figure {
-    display: block;
+    display: none;
     width: 150px;
     margin: 0;
 
     flex: 0 0 150px;
 
-    @media (min-width: 600px) {
+    @media (min-width: $legal_screen-xss) {
+        display: block;
+    }
+
+    @media (min-width: $legal_screen-xs) {
         position: absolute;
         top: 50%;
         right: 0;
