@@ -23,10 +23,10 @@ kuma:
       title: This website works best with cookies
       cookie_preferences: cookie-preferences
       privacy_policy: privacy policy
+      preferences: cookie-preferences
       footer: "You can change these settings at any time in your %preferences%. You can also view our %privacy_policy%"
       button: I accept all cookies
       change_preferences: I want to set my cookie-preferences manually
-
     cookie_preferences:
       on: on
       off: off

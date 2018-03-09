@@ -33,8 +33,42 @@
             {% endfor %}
         </div>
     </div>
+
+    <div class="legal-footer--sticky">
+        <button class="js-legal-toggle-subscriber legal-footer__save legal-btn" data-href="{{ path('kunstmaancookiebundle_legal_toggle_cookies') }}">
+            {{ 'kuma.cookie.cookie_preferences.save' | trans }}
+        </button>
+    </div>
+    <a href="#" class="totop-pp"></a>
+
+    <div class="notification js-notification">
+        <p class="notification__content">
+            {{ 'kuma.cookie.notification.text' | trans }}
+        </p>
+    </div>
+
+    <div class="legal-modal legal-modal--narrow" id="legal-modal--cookies-page">
+        <div class="legal-sidebar js-legal-sidebar">
+            <a href="#" class="js-legal-sidebar__back legal-sidebar__back">
+                <svg class="icon icon--chevron--down legal-sidebar__back__icon">
+                    <use xlink:href="/frontend/img/legal/svg/symbol-defs.svg#icon--chevron--down"></use>
+                </svg>
+            <span class="legal-sidebar__back__text">
+                {{ 'kuma.cookie.sidebar.back' | trans | raw }}
+            </span>
+            </a>
+            <div class="legal-sidebar__content-wrapper">
+
+            </div>
+        </div>
+        <svg class="icon icon--cross legal-modal__close svg-parent js-legal-modal-close">
+            <use xlink:href="/frontend/img/legal/svg/symbol-defs.svg#icon--cross"></use>
+        </svg>
+        <div class="legal-modal__content--extra">
+            <div class="js-legal-modal__content-wrapper">
+
+            </div>
+        </div>
+    </div>
 </div>
 
-{# Kuma Cookie Bar #}
-{% block kumacookiebar %}
-{% endblock %}
