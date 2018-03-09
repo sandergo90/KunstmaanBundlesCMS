@@ -21,7 +21,12 @@ const CLASSES = {
         VISIBLE: 'legal-modal--visible',
         AUTO_OPEN: 'legal-modal--autoopen',
         CLOSE_BUTTON: 'js-legal-modal-close',
-        DETAIL: 'legal-modal--detail'
+        DETAIL: 'legal-modal--detail',
+        COLLAPSIBLE: {
+            TITLE: 'js-modal-collapsible-title',
+            CONTENT: 'js-modal-collapsible-content',
+            OPEN: 'open'
+        }
     },
     BACKDROP: {
         VISIBLE: 'legal-modal__backdrop--visible',
@@ -57,7 +62,7 @@ function init() {
     autoOpenModals = querySelectorAll(`.${CLASSES.MODAL.AUTO_OPEN}`);
     // titles on cookiebar
     titles = querySelectorAll(`.${CLASSES.COLLAPSIBLE.TITLE}`);
-    modalTitles = querySelectorAll(`.${CLASSES.COLLAPSIBLE.TITLE}`);
+    modalTitles = querySelectorAll(`.${CLASSES.MODAL.COLLAPSIBLE.TITLE}`);
     // toggle buttons in page mode
     toggleLinks = querySelectorAll(`.${CLASSES.TOGGLELINK}`);
 
@@ -72,13 +77,13 @@ function init() {
     window.addEventListener('resize', resizeHandler);
 
     titles.forEach((cookieBarTitle) => {
-        collapseResizeHandler(mq, titles);
-        cookieBarTitle.addEventListener('click', collapseClickHandler.bind(this, mq));
+        collapseResizeHandlerCookiebar(mq, titles);
+        cookieBarTitle.addEventListener('click', collapseClickHandlerCookiebar.bind(this, mq));
     });
 
     modalTitles.forEach((modalTitle) => {
-        collapseResizeHandler(mqModal, modalTitles);
-        modalTitle.addEventListener('click', collapseClickHandler.bind(this, mqModal));
+        collapseResizeHandlerCookiePopup(mqModal, modalTitles);
+        modalTitle.addEventListener('click', collapseClickHandlerCookiePopup.bind(this, mqModal));
     });
 
     toggleLinks.forEach((handle) => {
@@ -142,6 +147,7 @@ function modalHandler() {
 
             if (typeof wrapper !== 'undefined') {
                 wrapper.outerHTML = response;
+
             }
         }).then(() => {
             targetModal.classList.add(CLASSES.MODAL.VISIBLE);
@@ -160,12 +166,11 @@ function modalHandler() {
             toggles.initSingleCookieToggles();
 
             // inside modal
-
-            modalTitles = querySelectorAll(`.${CLASSES.COLLAPSIBLE.TITLE}`);
+            modalTitles = querySelectorAll(`.${CLASSES.MODAL.COLLAPSIBLE.TITLE}`);
 
             modalTitles.forEach((modalTitle) => {
-                collapseResizeHandler(mqModal, modalTitles);
-                modalTitle.addEventListener('click', collapseClickHandler.bind(this, mqModal));
+                collapseResizeHandlerCookiePopup(mqModal, modalTitles);
+                modalTitle.addEventListener('click', collapseClickHandlerCookiePopup.bind(this, mqModal));
             });
         });
     } else {
@@ -190,22 +195,46 @@ function modalHandler() {
 function resizeHandler() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-        if (utils.hasClass(`${CLASSES.BAR}`, `${CLASSES.BAR_VISIBLE}`)) {
-            collapseResizeHandler(mq, titles);
+        if (utils.hasClass(`.${CLASSES.BAR}`, `${CLASSES.BAR_VISIBLE}`)) {
+            collapseResizeHandlerCookiebar(mq, titles);
         } else {
-            collapseResizeHandler(mqModal, modalTitles);
+            collapseResizeHandlerCookiePopup(mqModal, modalTitles);
         }
     }, 250);
 }
 
+// /**
+//  * Collapse handler on resize
+//  * @param media
+//  * @param collection
+//  */
+// function collapseResizeHandler(media, collection) {
+//     if (collection) {
+//         collection.forEach((handle) => {
+//             const content = handle.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.CONTENT}`);
+//
+//             if (media.matches) {
+//                 if (handle.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) > -1) {
+//                     content.style.marginTop = 0;
+//                 } else {
+//                     content.style.marginTop = `${-content.offsetHeight -25}px`;
+//                 }
+//             } else {
+//                 content.style.marginTop = 0;
+//             }
+//         });
+//     }
+// }
+
 /**
- * Collapse handler on resize
+ * Collapse handler on resize for the cookiebar
  * @param media
  * @param collection
  */
-function collapseResizeHandler(media, collection) {
+function collapseResizeHandlerCookiebar(media, collection) {
     if (collection) {
         collection.forEach((handle) => {
+
             const content = handle.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.CONTENT}`);
 
             if (media.matches) {
@@ -222,11 +251,60 @@ function collapseResizeHandler(media, collection) {
 }
 
 /**
- * Collapse handler on click
+ * Collapse handler on resize for the cookiepopup
+ * @param media
+ * @param collection
+ */
+function collapseResizeHandlerCookiePopup(media, collection) {
+    console.log(collection);
+    if (collection) {
+        collection.forEach((handle) => {
+            const content = handle.parentElement.querySelector(`.${CLASSES.MODAL.COLLAPSIBLE.CONTENT}`);
+            console.log(handle);
+            if (media.matches) {
+                if (handle.className.indexOf(`${CLASSES.MODAL.COLLAPSIBLE.OPEN}`) > -1) {
+                    content.style.marginTop = 0;
+                } else {
+                    content.style.marginTop = `${-content.offsetHeight -25}px`;
+                }
+            } else {
+                content.style.marginTop = 0;
+            }
+        });
+    }
+}
+
+// /**
+//  * Collapse handler on click
+//  * @param media
+//  * @param event
+//  */
+// function collapseClickHandler(media, event) {
+//     event.preventDefault();
+//     if (media.matches) {
+//         const title = event.currentTarget.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.TITLE}`);
+//         const content = event.currentTarget.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.CONTENT}`);
+//
+//         if (parseInt(content.style.marginTop) < 0) {
+//             content.style.marginTop = 0;
+//             if (title.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) < 0) {
+//                 title.classList.add(`${CLASSES.COLLAPSIBLE.OPEN}`);
+//             }
+//         } else {
+//             content.style.marginTop = `${-content.offsetHeight  -25}px`;
+//             if (title.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) > -1) {
+//                 title.classList.remove(`${CLASSES.COLLAPSIBLE.OPEN}`);
+//             }
+//         }
+//     }
+// }
+
+/**
+ * Collapse handler on click Cookiebar
  * @param media
  * @param event
  */
-function collapseClickHandler(media, event) {
+function collapseClickHandlerCookiebar(media, event) {
     event.preventDefault();
     if (media.matches) {
         const title = event.currentTarget.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.TITLE}`);
@@ -241,6 +319,31 @@ function collapseClickHandler(media, event) {
             content.style.marginTop = `${-content.offsetHeight  -25}px`;
             if (title.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) > -1) {
                 title.classList.remove(`${CLASSES.COLLAPSIBLE.OPEN}`);
+            }
+        }
+    }
+}
+
+/**
+ * Collapse handler on click cookie popup
+ * @param media
+ * @param event
+ */
+function collapseClickHandlerCookiePopup(media, event) {
+    event.preventDefault();
+    if (media.matches) {
+        const title = event.currentTarget.parentElement.querySelector(`.${CLASSES.MODAL.COLLAPSIBLE.TITLE}`);
+        const content = event.currentTarget.parentElement.querySelector(`.${CLASSES.MODAL.COLLAPSIBLE.CONTENT}`);
+
+        if (parseInt(content.style.marginTop) < 0) {
+            content.style.marginTop = 0;
+            if (title.className.indexOf(`${CLASSES.MODAL.COLLAPSIBLE.OPEN}`) < 0) {
+                title.classList.add(`${CLASSES.MODAL.COLLAPSIBLE.OPEN}`);
+            }
+        } else {
+            content.style.marginTop = `${-content.offsetHeight  -25}px`;
+            if (title.className.indexOf(`${CLASSES.MODAL.COLLAPSIBLE.OPEN}`) > -1) {
+                title.classList.remove(`${CLASSES.MODAL.COLLAPSIBLE.OPEN}`);
             }
         }
     }

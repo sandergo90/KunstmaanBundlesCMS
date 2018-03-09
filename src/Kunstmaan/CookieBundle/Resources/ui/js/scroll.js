@@ -67,7 +67,6 @@ function scrollHandler() {
             footer.classList.remove("normal");
         });
         console.log('NO: ' + (content.scrollTop + screen.height) + ' / ' + (document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 100));
-
     }
 }
 

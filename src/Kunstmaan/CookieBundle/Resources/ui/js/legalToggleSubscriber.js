@@ -126,6 +126,9 @@ function toggleAllCookiesHandler(event) {
             return triggerCookieEvent();
         });
     }
+
+    //TODO: remove it !!!
+    document.querySelector('.kumacookiebar').classList.remove('kumacookiebar--show')
 }
 
 export default legalToggleSubscriber;
