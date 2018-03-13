@@ -12,7 +12,7 @@
 /* Toggle
    ========================================================================== */
 
-.toggle-container {
+.legal-toggle-container {
     display: flex;
 
     padding: 10px 20px 10px 10px;
@@ -25,7 +25,7 @@
     border-radius: 25px;
 }
 
-.toggle__always {
+.legal-toggle__always {
     display: flex;
 
     margin-left: 5px;
@@ -33,7 +33,7 @@
     align-items: center;
 }
 
-.toggle-name {
+.legal-toggle-name {
     display: block;
 
     margin-bottom: 5px;
@@ -49,11 +49,11 @@
     }
 }
 
-.toggle {
+.legal-toggle {
     position: relative;
 
     display: inline-flex;
-    height: 27px;
+    height: calc(#{$legal-toggle-size} - #{floor($legal-toggle-size * .2)});
     margin: 0 10px;
 
     cursor: pointer;
@@ -61,38 +61,38 @@
     align-items: center;
 }
 
-.toggle__text {
+.legal-toggle__text {
     margin: 0 5px;
 }
 
-.toggle__link {
+.legal-toggle__link {
     text-decoration: none;
 }
 
-.toggle__link__desktop {
+.legal-toggle__link__desktop {
     display: none;
     
-    @media (min-width: $legal_screen-xss) {
+    @media (min-width: $legal_screen-xs) {
         display: block;
     }
 }
 
-.toggle__link__mobile {
+.legal-toggle__link__mobile {
     display: block;
     
-    @media (min-width: $legal_screen-xss) {
+    @media (min-width: $legal_screen-xs) {
         display: none;
     }
 }
 
-.toggle__input {
+.legal-toggle__input {
     display: none;
 
-    + .toggle__slider {
+    + .legal-toggle__slider {
         position: relative;
 
-        width: 50px;
-        height: 27px;
+        width: $legal-toggle-slider-range;
+        height: calc(#{$legal-toggle-size} - #{floor($legal-toggle-size * .2)});
 
         background-color: $legal_grey;
         border-radius: 25px;
@@ -101,14 +101,14 @@
         &:before {
             content: url(../../frontend/img/legal/svg/toggle--cross.svg);
 
-            padding: 1px 12px;
+            padding: 0 (($legal-toggle-size / 2) - 4);
 
             position: absolute;
-            top: -3px;
-            left: -3px;
+            top: ceil(-$legal-toggle-size * .1);
+            left: ceil(-$legal-toggle-size * .1);
 
-            width: 33px;
-            height: 33px;
+            width: $legal-toggle-size;
+            height: $legal-toggle-size;
 
             border-radius: 25px;
 
@@ -116,40 +116,42 @@
 
             transition: all .2s ease;
 
+            line-height: $legal-toggle-size;
+
             box-shadow: 1px 1px 1px rgba($legal_true-black, .13);
         }
     }
 
-    ~ .toggle__text {
+    ~ .legal-toggle__text {
         margin: 0 0 0 10px;
 
-        .toggle__text--true {
+        .legal-toggle__text--true {
             display: none;
         }
 
-        .toggle__text--false {
+        .legal-toggle__text--false {
             display: inline-block;
         }
     }
     &:checked {
-        + .toggle__slider {
+        + .legal-toggle__slider {
             &:before {
                 content: url(../../frontend/img/legal/svg/toggle--check.svg);
 
-                left: calc(100% - 30px);
+                left: calc(100% - (#{$legal-toggle-size} - #{floor($legal-toggle-size * .1)}));
 
-                padding: 1px 10px;
+                padding: 0 (($legal-toggle-size / 2) - 5);
 
                 background-color: $legal_secondary-color;
             }
         }
 
-        ~ .toggle__text {
-            .toggle__text--true {
+        ~ .legal-toggle__text {
+            .legal-toggle__text--true {
                 display: inline-block;
             }
 
-            .toggle__text--false {
+            .legal-toggle__text--false {
                 display: none;
             }
         }

@@ -6,7 +6,8 @@ import toggles from './legalToggleSubscriber';
 import utils from './utils';
 
 const legalCookieBar = {
-    init
+    init,
+    toggleCookieBar
 };
 
 const KEYCODE_ESCAPE = 27;
@@ -123,7 +124,6 @@ function clickHandler(event) {
 /**
  * Keyboard handler closing modals
  * @param event
- * @returns Promise
  */
 function keyboardHandler(event) {
     if (event.keyCode === KEYCODE_ESCAPE) {
@@ -146,7 +146,7 @@ function modalHandler() {
             const wrapper = querySelectorAll(`.${CLASSES.CONTENT_WRAPPER}`)[0];
 
             if (typeof wrapper !== 'undefined') {
-                wrapper.outerHTML = response;
+                wrapper.innerHTML = response;
 
             }
         }).then(() => {
@@ -190,6 +190,20 @@ function modalHandler() {
 }
 
 /**
+ * Modal Init
+ */
+function modalInit() {
+    // Init modal scroll handlers
+    scroll.init();
+
+    // Init modal sidebar handlers
+    sidebar.init();
+
+    // Init single Cookie Toggles
+    toggles.initSingleCookieToggles();
+}
+
+/**
  * Resize handler
  */
 function resizeHandler() {
@@ -202,29 +216,6 @@ function resizeHandler() {
         }
     }, 250);
 }
-
-// /**
-//  * Collapse handler on resize
-//  * @param media
-//  * @param collection
-//  */
-// function collapseResizeHandler(media, collection) {
-//     if (collection) {
-//         collection.forEach((handle) => {
-//             const content = handle.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.CONTENT}`);
-//
-//             if (media.matches) {
-//                 if (handle.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) > -1) {
-//                     content.style.marginTop = 0;
-//                 } else {
-//                     content.style.marginTop = `${-content.offsetHeight -25}px`;
-//                 }
-//             } else {
-//                 content.style.marginTop = 0;
-//             }
-//         });
-//     }
-// }
 
 /**
  * Collapse handler on resize for the cookiebar
@@ -256,11 +247,10 @@ function collapseResizeHandlerCookiebar(media, collection) {
  * @param collection
  */
 function collapseResizeHandlerCookiePopup(media, collection) {
-    console.log(collection);
     if (collection) {
         collection.forEach((handle) => {
             const content = handle.parentElement.querySelector(`.${CLASSES.MODAL.COLLAPSIBLE.CONTENT}`);
-            console.log(handle);
+            
             if (media.matches) {
                 if (handle.className.indexOf(`${CLASSES.MODAL.COLLAPSIBLE.OPEN}`) > -1) {
                     content.style.marginTop = 0;
@@ -273,31 +263,6 @@ function collapseResizeHandlerCookiePopup(media, collection) {
         });
     }
 }
-
-// /**
-//  * Collapse handler on click
-//  * @param media
-//  * @param event
-//  */
-// function collapseClickHandler(media, event) {
-//     event.preventDefault();
-//     if (media.matches) {
-//         const title = event.currentTarget.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.TITLE}`);
-//         const content = event.currentTarget.parentElement.querySelector(`.${CLASSES.COLLAPSIBLE.CONTENT}`);
-//
-//         if (parseInt(content.style.marginTop) < 0) {
-//             content.style.marginTop = 0;
-//             if (title.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) < 0) {
-//                 title.classList.add(`${CLASSES.COLLAPSIBLE.OPEN}`);
-//             }
-//         } else {
-//             content.style.marginTop = `${-content.offsetHeight  -25}px`;
-//             if (title.className.indexOf(`${CLASSES.COLLAPSIBLE.OPEN}`) > -1) {
-//                 title.classList.remove(`${CLASSES.COLLAPSIBLE.OPEN}`);
-//             }
-//         }
-//     }
-// }
 
 /**
  * Collapse handler on click Cookiebar
@@ -363,8 +328,6 @@ function toggleLinkHandler(event) {
     targetModal.classList.add(`${CLASSES.MODAL.DETAIL}`);
 
     modalHandler();
-
-
 }
 
 /**

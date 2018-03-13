@@ -4,6 +4,7 @@
 
 /* General
    ========================================================================== */
+$legal-fact__figure-width: 150px;
 
 .legal-fact {
     display: flex;
@@ -16,23 +17,23 @@
 
     background-color: $legal_grey;
 
-    @media (min-width: $legal_screen-xs) {
+    @media (min-width: $legal_screen-sm) {
         position: relative;
 
-        padding-right: 150px;
+        padding-right: $legal-fact__figure-width;
     }
 }
 
 .legal-fact__header {
-    max-width: auto;
+    max-width: none;
 
     flex: 1 1 auto;
 
-    @media (min-width: $legal_screen-xss) {
-        max-width: calc(100% - 150px);
+    @media (min-width: $legal_screen-xs) {
+        max-width: calc(100% - #{$legal-fact__figure-width});
     }
 
-    @media (min-width: $legal_screen-xs) {
+    @media (min-width: $legal_screen-sm) {
         max-width: 100%;
     }
 }
@@ -61,16 +62,16 @@
 
 .legal-fact__figure {
     display: none;
-    width: 150px;
+    width: $legal-fact__figure-width;
     margin: 0;
 
-    flex: 0 0 150px;
+    flex: 0 0 $legal-fact__figure-width;
 
-    @media (min-width: $legal_screen-xss) {
+    @media (min-width: $legal_screen-xs) {
         display: block;
     }
 
-    @media (min-width: $legal_screen-xs) {
+    @media (min-width: $legal_screen-sm) {
         position: absolute;
         top: 50%;
         right: 0;
@@ -81,8 +82,8 @@
 
 .legal-fact__figure__image {
     display: block;
-    width: 150px;
-    height: 150px;
+    width: $legal-fact__figure-width;
+    height: $legal-fact__figure-width;
 }
 
 .legal-fact__content {

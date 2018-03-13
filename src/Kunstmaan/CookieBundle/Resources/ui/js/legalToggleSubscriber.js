@@ -1,6 +1,7 @@
 import xhr from './Xhr';
 import querySelectorAll from './querySelectorAll';
 import notifications from './notification';
+import legalCookieBar from './legalCookieBar';
 
 const legalToggleSubscriber = {
     init,
@@ -113,7 +114,6 @@ function toggleCookiesHandler(event) {
  * @param event
  */
 function toggleAllCookiesHandler(event) {
-
     event.preventDefault();
 
     const element = event.target;
@@ -127,8 +127,7 @@ function toggleAllCookiesHandler(event) {
         });
     }
 
-    //TODO: remove it !!!
-    document.querySelector('.kumacookiebar').classList.remove('kumacookiebar--show')
+    legalCookieBar.toggleCookieBar();
 }
 
 export default legalToggleSubscriber;

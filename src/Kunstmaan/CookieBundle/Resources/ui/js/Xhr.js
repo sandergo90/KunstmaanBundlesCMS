@@ -1,23 +1,32 @@
+export default {
+    get,
+    post
+};
+
 /**
  * GET Wrapper
  * @param url
  * @returns Promise
  */
 function get(url) {
-    return new Promise((resolve, reject) => {
-        const req = new XMLHttpRequest();
+    if (url && typeof url === 'string' && url !== "") {
+        return new Promise((resolve, reject) => {
+            const req = new XMLHttpRequest();
 
-        req.onload = () => (
-            (req.status >= 200 && req.status < 400) ? resolve(req) : reject(Error(req.statusText))
-        );
+            req.onload = () => (
+                (req.status >= 200 && req.status < 400) ? resolve(req) : reject(Error(req.statusText))
+            );
 
-        req.onerror = (e) => {
-            reject(Error(`Network Error: ${e}`));
-        };
+            req.onerror = (e) => {
+                reject(Error(`Network Error: ${e}`));
+            };
 
-        req.open('GET', url);
-        req.send();
-    });
+            req.open('GET', url);
+            req.send();
+        });
+    } else {
+        throw new Error('url parameter cannot be empty and must be of type string');
+    }
 }
 
 /**
@@ -27,25 +36,24 @@ function get(url) {
  * @returns Promise
  */
 function post(url, data) {
-    return new Promise((resolve, reject) => {
-        const req = new XMLHttpRequest();
+    if (url && typeof url === 'string' && url !== "") {
+        return new Promise((resolve, reject) => {
+            const req = new XMLHttpRequest();
 
-        req.onload = () => (
-            req.status === 200 ? resolve(req) : reject(Error(req.statusText))
-        );
+            req.onload = () => (
+                req.status === 200 ? resolve(req) : reject(Error(req.statusText))
+            );
 
-        req.onerror = (e) => {
-            reject(Error(`Network Error: ${e}`));
-        };
+            req.onerror = (e) => {
+                reject(Error(`Network Error: ${e}`));
+            };
 
-        req.open('POST', url);
-        req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        req.send(data);
-    });
+            req.open('POST', url);
+            req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            req.send(data);
+        });
+    } else {
+        throw new Error('url parameter cannot be empty and must be of type string');
+    }
 }
-
-export default {
-    get,
-    post
-};

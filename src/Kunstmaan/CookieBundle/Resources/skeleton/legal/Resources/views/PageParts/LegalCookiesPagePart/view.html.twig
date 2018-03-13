@@ -2,34 +2,34 @@
 
 <div class="legal-cookies">
     {% for type in get_cookie_types() %}
-        <strong class="toggle-name">
+        <strong class="legal-toggle-name">
             {{ type.name }}
         </strong>
-        <div class="toggle-container">
+        <div class="legal-toggle-container">
             {% if type.alwaysOn %}
-                <div class="toggle__always">
+                <div class="legal-toggle__always">
                     <img src="/frontend/img/legal/svg/check.svg"/>
-                    <span class="toggle__text">
+                    <span class="legal-toggle__text">
                         {{ 'kuma.cookie.cookie_preferences.always_on' | trans }}
                     </span>
                 </div>
             {% else %}
                 {% set checked = false %}
                 {% if attribute(cookie, type.internalName) is defined and attribute(cookie, type.internalName) == "true" %} {% set checked = true %} {% endif %}
-                <label for="legal_cookie_{{ type.internalName }}" class="toggle">
-                    <input type="checkbox" id="legal_cookie_{{ type.internalName }}" class="toggle__input js-legal-toggle" rel="{{ type.internalName }}"{% if checked %} checked{% endif %}/>
-                    <div class="toggle__slider"></div>
-                    <div class="toggle__text">
-                        <span class="toggle__text--true">{{ 'kuma.cookie.cookie_preferences.on' | trans }}</span>
-                        <span class="toggle__text--false">{{ 'kuma.cookie.cookie_preferences.off' | trans }}</span>
+                <label for="legal_cookie_{{ type.internalName }}" class="legal-toggle">
+                    <input type="checkbox" id="legal_cookie_{{ type.internalName }}" class="legal-toggle__input js-legal-toggle" rel="{{ type.internalName }}"{% if checked %} checked{% endif %}/>
+                    <div class="legal-toggle__slider"></div>
+                    <div class="legal-toggle__text">
+                        <span class="legal-toggle__text--true">{{ 'kuma.cookie.cookie_preferences.on' | trans }}</span>
+                        <span class="legal-toggle__text--false">{{ 'kuma.cookie.cookie_preferences.off' | trans }}</span>
                     </div>
                 </label>
             {% endif %}
-            <a href="{{ path('kunstmaancookiebundle_legal_detail', {'internalName': type.internalName}) }}" class="toggle__link js-toggle__link">
-                <span class="toggle__link__desktop">
+            <a href="{{ path('kunstmaancookiebundle_legal_detail', {'internalName': type.internalName}) }}" class="legal-toggle__link js-toggle__link">
+                <span class="legal-toggle__link__desktop">
                     {{ 'kuma.cookie.cookie_preferences.detail.desktop' | trans }}
                 </span>
-                <span class="toggle__link__mobile">
+                <span class="legal-toggle__link__mobile">
                     {{ 'kuma.cookie.cookie_preferences.detail.mobile' | trans }}
                 </span>
             </a>

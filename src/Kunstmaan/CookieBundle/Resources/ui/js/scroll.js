@@ -49,7 +49,7 @@ function init() {
  * Scroll handler
  */
 function scrollHandler() {
-    if (content.scrollTop >= document.querySelector('.legal-container').offsetTop) {
+    if (content.scrollTop >= document.documentElement.clientHeight) {
         totop.classList.add(`${CLASSES.TOTOPVISIBLE}`);
     } else {
         totop.classList.remove(`${CLASSES.TOTOPVISIBLE}`);
@@ -57,7 +57,6 @@ function scrollHandler() {
     const footers = querySelectorAll('.legal-footer--sticky');
 
     if (parseInt(content.scrollTop + document.documentElement.clientHeight) >= parseInt(document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 200)) {
-        console.log('YES: ' + (content.scrollTop + screen.height) + ' / ' + (document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 100));
         footers.forEach((footer) => {
             footer.classList.add("normal");
         });
@@ -66,7 +65,6 @@ function scrollHandler() {
         footers.forEach((footer) => {
             footer.classList.remove("normal");
         });
-        console.log('NO: ' + (content.scrollTop + screen.height) + ' / ' + (document.querySelector('.legal-tabs-wrapper').offsetHeight + document.querySelector('.legal-tabs-wrapper').scrollTop + 100));
     }
 }
 

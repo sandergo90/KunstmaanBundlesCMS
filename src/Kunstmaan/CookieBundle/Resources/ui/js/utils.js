@@ -11,31 +11,45 @@ const utils = {
  */
 function hasClass(identifier, className) {
     if (identifier instanceof HTMLElement) {
-        if (identifier) {
-            return identifier.classList.contains(className);
-        }
-        return false;
+        return identifier.classList.contains(className);
     } else {
-        if (document.querySelector(identifier)) {
-            return document.querySelector(identifier).classList.contains(className);
+        try {
+            return  document.querySelector(identifier).classList.contains(className);
+        } catch (err) {
+            throw Error('Identifier "' + identifier + '" has an invalid format');
         }
-        return false;
     }
 }
 
 /**
  * Get ancestor with ancestorClass of element
- * @param element
+ * @param identifier
  * @param ancestorClass
  * @returns HTMLElement
  */
-function getAncestor(element, ancestorClass) {
-    while (element.parentElement) {
-        if (hasClass(element, ancestorClass)) {
-            return element;
+function getAncestor(identifier, ancestorClass) {
+    let element = identifier;
+
+    if (!(identifier instanceof HTMLElement)) {
+        try {
+            element = document.querySelector(identifier);
+        } catch (err) {
+            throw Error('Identifier "' + identifier + '" has an invalid format');
         }
-        element = element.parentElement;
     }
+
+    let target = element;
+
+    if (element instanceof HTMLElement) {
+        while (element.parentElement) {
+            if (hasClass(element, ancestorClass)) {
+                target = element;
+            }
+            element = element.parentElement;
+        }
+    }
+
+    return target;
 }
 
 export default utils;
