@@ -58,3 +58,7 @@ toolbar:
     translations:
         title: Vertalingen
         count: Aantal
+
+    inline_translations:
+        title: Bewerk vertalingen
+        save: Sla vertalingen op

@@ -63,3 +63,7 @@ toolbar:
     translations:
         title: Translations
         count: Count
+
+    inline_translations:
+        title: Edit translations
+        save: Save translations

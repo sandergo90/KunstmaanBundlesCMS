@@ -38,6 +38,7 @@ class TranslatorController extends AdminListController
      * @Template("KunstmaanTranslatorBundle:Translator:list.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return array
      */
     public function indexAction(Request $request)
@@ -66,9 +67,10 @@ class TranslatorController extends AdminListController
 
     /**
      * @param Request $request
-     * @param string $keyword
-     * @param string $domain
-     * @param string $locale
+     * @param string  $keyword
+     * @param string  $domain
+     * @param string  $locale
+     *
      * @return array|RedirectResponse
      * @throws \Doctrine\ORM\OptimisticLockException
      *
@@ -113,10 +115,12 @@ class TranslatorController extends AdminListController
 
                 $indexUrl = $configurator->getIndexUrl();
 
-                return new RedirectResponse($this->generateUrl(
-                    $indexUrl['path'],
-                    isset($indexUrl['params']) ? $indexUrl['params'] : []
-                ));
+                return new RedirectResponse(
+                    $this->generateUrl(
+                        $indexUrl['path'],
+                        isset($indexUrl['params']) ? $indexUrl['params'] : []
+                    )
+                );
             }
         }
 
@@ -134,7 +138,8 @@ class TranslatorController extends AdminListController
      * @Template("KunstmaanTranslatorBundle:Translator:editTranslation.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param $id
+     * @param                                           $id
+     *
      * @throws \InvalidArgumentException
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -142,7 +147,6 @@ class TranslatorController extends AdminListController
     {
         $em = $this->getDoctrine()->getManager();
         $configurator = $this->getAdminListConfigurator();
-
 
         $translations = $em->getRepository('KunstmaanTranslatorBundle:Translation')->findBy(['translationId' => $id]);
         if (count($translations) < 1) {
@@ -183,10 +187,12 @@ class TranslatorController extends AdminListController
 
                 $indexUrl = $configurator->getIndexUrl();
 
-                return new RedirectResponse($this->generateUrl(
-                    $indexUrl['path'],
-                    isset($indexUrl['params']) ? $indexUrl['params'] : []
-                ));
+                return new RedirectResponse(
+                    $this->generateUrl(
+                        $indexUrl['path'],
+                        isset($indexUrl['params']) ? $indexUrl['params'] : []
+                    )
+                );
             }
         }
 
@@ -203,6 +209,7 @@ class TranslatorController extends AdminListController
      * @Template("KunstmaanTranslatorBundle:Translator:addTranslation.html.twig")
      *
      * @param Request $request
+     *
      * @return array
      */
     public function uploadFileAction(Request $request)
@@ -233,6 +240,7 @@ class TranslatorController extends AdminListController
      * @param $domain
      * @param $locale
      * @param $keyword
+     *
      * @return RedirectResponse
      *
      * @Method({"GET"})
@@ -260,6 +268,7 @@ class TranslatorController extends AdminListController
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws NotFoundHttpException
      *
@@ -301,9 +310,9 @@ class TranslatorController extends AdminListController
         return $this->adminListConfigurator;
     }
 
-
     /**
      * @param Request $request
+     *
      * @return JsonResponse|Response
      *
      * @Route("/inline-edit", name="KunstmaanTranslatorBundle_settings_translations_inline_edit")
@@ -318,7 +327,7 @@ class TranslatorController extends AdminListController
             throw $this->createAccessDeniedException('Not allowed to edit this translation');
         }
 
-        $id = isset($values['pk']) ? (int)$values['pk'] : 0;
+        $id = isset($values['pk']) ? (int) $values['pk'] : 0;
         $em = $this->getDoctrine()->getManager();
         /**
          * @var TranslatorInterface $translator
@@ -345,12 +354,47 @@ class TranslatorController extends AdminListController
             $em->persist($translation);
             $em->flush();
 
-            return new JsonResponse([
-                'success' => true,
-                'uid' => $translation->getId(),
-            ], 200);
+            return new JsonResponse(
+                [
+                    'success' => true,
+                    'uid' => $translation->getId(),
+                ], 200
+            );
         } catch (\Exception $e) {
             return new Response($translator->trans('translator.translator.fatal_error_occurred'), 500);
         }
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse|Response
+     *
+     * @Route("/inline-bulk-translate", name="KunstmaanTranslatorBundle_settings_translations_inline_bulk_translate")
+     * @Method({"POST"})
+     */
+    public function inlineBulkTranslateAction(Request $request)
+    {
+        $values = json_decode($request->request->get('translations'));
+        $em = $this->getDoctrine()->getManager();
+        /** @var TranslatorInterface $translator */
+        $translator = $this->container->get('translator');
+
+        foreach ($values as $keyword => $value) {
+            try {
+                $qb = $em->getRepository('KunstmaanTranslatorBundle:Translation')->updateTranslation($keyword, $value);
+            } catch (\Exception $e) {
+                return new Response($translator->trans('translator.translator.fatal_error_occurred'), 500);
+            }
+        }
+
+        // Clear translation cache.
+        $this->get('kunstmaan_translator.service.translator.resource_cacher')->flushCache();
+
+        return new JsonResponse(
+            [
+                'success' => true,
+            ], 200
+        );
     }
 }

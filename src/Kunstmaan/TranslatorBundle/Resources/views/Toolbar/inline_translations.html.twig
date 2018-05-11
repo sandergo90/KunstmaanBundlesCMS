@@ -1,0 +1,19 @@
+{% block toolbar %}
+    {% set status_color = "#9400a4" %}
+    {% set class = "js-inline-trans-edit-wrapper" %}
+    {% if collector is defined and collector.getTemplateData() %}
+        {% set data = collector.getTemplateData().data %}
+    {% endif %}
+
+    {% if data is defined %}
+        {% set icon %}
+            {% if data.inlineTransEnabled %}
+                <span data-href="{{ path('KunstmaanTranslatorBundle_settings_translations_inline_bulk_translate') }}" class="sf-toolbar-value js-inline-trans-btn">{{ 'toolbar.inline_translations.save' | trans }}</span>
+            {% else %}
+                <span class="sf-toolbar-value js-inline-trans-btn">{{ 'toolbar.inline_translations.title' | trans }}</span>
+            {% endif %}
+        {% endset %}
+
+        {% include '@KunstmaanAdmin/Toolbar/toolbar_item.html.twig' with {'link': data.route} %}
+    {% endif %}
+{% endblock %}

@@ -2,90 +2,161 @@
 
 namespace Kunstmaan\TranslatorBundle\Twig\Extension;
 
-use Symfony\Bridge\Twig\Extension\TranslationExtension as BaseTranslationExtension;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use Symfony\Component\Templating\EngineInterface;
+use Kunstmaan\TranslatorBundle\Twig\KunstmaanTwigLexer;
+use Symfony\Bridge\Twig\NodeVisitor\TranslationDefaultDomainNodeVisitor;
+use Symfony\Bridge\Twig\NodeVisitor\TranslationNodeVisitor;
+use Symfony\Bridge\Twig\TokenParser\TransChoiceTokenParser;
+use Symfony\Bridge\Twig\TokenParser\TransDefaultDomainTokenParser;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\TranslatorInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\Extensions\TokenParser\TransTokenParser;
 use Twig\NodeVisitor\NodeVisitorInterface;
 use Twig\TwigFilter;
 
 /**
  * Class TranslationExtension
  */
-class TranslationExtension extends BaseTranslationExtension
+class TranslationExtension extends AbstractExtension
 {
+    /** @var Request */
+    private $request;
+
     /** @var null|TranslatorInterface */
     private $translator;
 
     /** @var null|NodeVisitorInterface */
     private $translationNodeVisitor;
 
-    /** @var EngineInterface */
-    private $twigEngine;
-
     /**
      * TranslationExtension constructor.
      *
-     * @param EngineInterface           $engineInterface
-     * @param TranslatorInterface|null  $translator
-     * @param NodeVisitorInterface|null $translationNodeVisitor
+     * @param RequestStack              $requestStack
+     * @param null|TranslatorInterface  $translator
+     * @param null|NodeVisitorInterface $translationNodeVisitor
      */
     public function __construct(
-        EngineInterface $twigEngine,
+        RequestStack $requestStack,
         TranslatorInterface $translator = null,
         NodeVisitorInterface $translationNodeVisitor = null
     ) {
-        parent::__construct($translator, $translationNodeVisitor);
-
+        $this->request = $requestStack->getMasterRequest();
         $this->translator = $translator;
         $this->translationNodeVisitor = $translationNodeVisitor;
-        $this->twigEngine = $twigEngine;
+    }
+
+
+    /**
+     * @return null|TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the token parser instance to add to the existing list.
+     *
+     * @return AbstractTokenParser[]
      */
-    public function getFilters()
+    public function getTokenParsers()
     {
         return [
-            new TwigFilter('trans', [$this, 'trans']),
-            new TwigFilter('transchoice', [$this, 'transchoice']),
+            // {% trans %}Symfony is great!{% endtrans %}
+            new TransTokenParser(),
+
+            // {% transchoice count %}
+            //     {0} There is no apples|{1} There is one apple|]1,Inf] There is {{ count }} apples
+            // {% endtranschoice %}
+            new TransChoiceTokenParser(),
+
+            // {% trans_default_domain "foobar" %}
+            new TransDefaultDomainTokenParser(),
         ];
     }
 
     /**
-     * @inheritdoc
+     * @return array|\Twig_NodeVisitorInterface[]
      */
-    public function trans($message, array $arguments = [], $domain = null, $locale = null)
+    public function getNodeVisitors()
     {
-        $translator = $this->translator;
-
-        if (null === $this->translator) {
-            return strtr($message, $arguments);
-        }
-
-        $translation = $this->translator->trans($message, $arguments, $domain, $locale);
-        $content = sprintf('<inline-trans data-keyword="%s">%s</inline-trans>', $message, $translation);
-
-        return new \Twig_Markup(
-            $content,
-            'UTF-8'
-        );
+        return [$this->getTranslationNodeVisitor(), new TranslationDefaultDomainNodeVisitor()];
     }
 
     /**
-     * @inheritdoc
+     * @return TranslationNodeVisitor
      */
-    public function transchoice($message, $count, array $arguments = [], $domain = null, $locale = null)
+    public function getTranslationNodeVisitor()
     {
+        return $this->translationNodeVisitor ?: $this->translationNodeVisitor = new TranslationNodeVisitor();
+    }
+
+    /**
+     * @return array|\Twig_Filter[]
+     */
+    public function getFilters()
+    {
+        return [
+            new TwigFilter(
+                'trans', [$this, 'trans'],
+                [
+                    'needs_environment' => true,
+                ]
+            ),
+            new TwigFilter(
+                'transchoice', [$this, 'transchoice'],
+                [
+                    'needs_environment' => true,
+                ]
+            ),
+        ];
+    }
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param string            $message
+     * @param array             $arguments
+     * @param null              $domain
+     * @param null              $locale
+     *
+     * @return string
+     */
+    public function trans(\Twig_Environment $environment, $message, array $arguments = [], $domain = null, $locale = null)
+    {
+        $lexer = new KunstmaanTwigLexer($environment);
+        $environment->setLexer($lexer);
+
         if (null === $this->translator) {
             return strtr($message, $arguments);
         }
 
-        return new \Twig_Markup(
-            '<inline-trans>'.$this->translator->trans($message, $arguments, $domain, $locale).'</inline-trans>',
-            'UTF-8'
-        );
+        $inlineMode = $this->request->query->getBoolean('inline-trans', false);
+
+        return $this->translator->trans($message, $inlineMode ? [] : $arguments, $domain, $locale);
+    }
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param string            $message
+     * @param integer           $count
+     * @param array             $arguments
+     * @param null              $domain
+     * @param null              $locale
+     *
+     * @return string
+     */
+    public function transchoice(\Twig_Environment $environment, $message, $count, array $arguments = [], $domain = null, $locale = null)
+    {
+        $lexer = new KunstmaanTwigLexer($environment);
+        $environment->setLexer($lexer);
+
+        if (null === $this->translator) {
+            return strtr($message, $arguments);
+        }
+
+        $inlineMode = $this->request->query->get('inline-trans', false);
+
+        return $this->translator->transChoice($message, $count, $inlineMode ? [] : array_merge(['%count%' => $count], $arguments), $domain, $locale);
     }
 
     /**
@@ -93,6 +164,6 @@ class TranslationExtension extends BaseTranslationExtension
      */
     public function getName()
     {
-        return 'kuma_translator';
+        return 'kunstmaan_translator';
     }
 }
